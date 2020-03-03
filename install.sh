@@ -77,6 +77,11 @@ create_safe_symlink "/bin" ~/".local/user_bin"
 for executable in `ls -A ~/.local/user_bin/*.sh`; do
     chmod +x "${executable}"
 done
+
+########
+### FONTS
+create_safe_symlink "/fonts/Hack Regular Nerd Font Complete.ttf" ~/".local/share/fonts/Hack Regular Nerd Font Complete.ttf"
+fc-cache
 #===================================
 
 #=================
