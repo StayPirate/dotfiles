@@ -58,6 +58,10 @@ if ! create_safe_symlink "" "${_dotfiles_dir}"; then
         exit 1
     fi
 fi
+########
+### ZSH
+create_safe_symlink "/zsh/.zprofile" ~/".zprofile"
+create_safe_symlink "/zsh" ~/".config/zsh"
 #===================================
 
 #=================
