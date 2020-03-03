@@ -62,6 +62,21 @@ fi
 ### ZSH
 create_safe_symlink "/zsh/.zprofile" ~/".zprofile"
 create_safe_symlink "/zsh" ~/".config/zsh"
+
+########
+### SYSTEMD USER UNITS
+create_safe_symlink "/systemd/user" ~/".config/systemd/user"
+echo "The following units are NOT enabled/started yet, do it manually."
+for unit in `ls -A ~/.config/systemd/user`; do
+    echo -e "\t${unit}"
+done
+
+########
+### BIN
+create_safe_symlink "/bin" ~/".local/user_bin"
+for executable in `ls -A ~/.local/user_bin/*.sh`; do
+    chmod +x "${executable}"
+done
 #===================================
 
 #=================

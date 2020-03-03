@@ -1,0 +1,17 @@
+## Add the following rule to udev (/etc/udev/rules.d/99-scrcpy.rules)
+## One Plus 3t
+# ACTION=="add", SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ENV{PRODUCT}=="2a70/4ee7/318", TAG+="systemd", ENV{SYSTEMD_USER_WANTS}="scrcpy.service"
+
+[Unit]
+Description=Start scrcpy when correct usb device is plugged
+
+[Service]
+Type=simple
+Environment=XAUTHORITY=/run/user/1000/gdm/Xauthority
+Environment=DISPLAY=:0
+ExecStartPre=/bin/sleep 3
+ExecStart=/bin/bash -c '${HOME}/.dotfiles/bin/scrcpy_autosize.sh'
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
