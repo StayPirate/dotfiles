@@ -19,8 +19,7 @@
 
 #==============
 # Variables
-
-_dotfiles_dir=~/.dotfiles
+source zsh/vars.zsh
 #===================================
 
 #==============
@@ -58,6 +57,7 @@ if ! create_safe_symlink "" "${_dotfiles_dir}"; then
         exit 1
     fi
 fi
+
 ########
 ### ZSH
 create_safe_symlink "/zsh/.zprofile" ~/".zprofile"
