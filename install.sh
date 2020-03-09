@@ -46,10 +46,17 @@ function create_safe_symlink {
 # Main
 
 # Initialize submodules
-git submodule update --init --recursive
+echo "### Inizializing submodules ###"
+echo "DECOMMENTARE LA RIGA SEGUENTE. RIMOSSA PER FARE LE PROVE SU install.sh"
+#git submodule update --init --recursive
+# controllare se l'inizializzazione e' andata a buon fine
+echo "### Inizialied submodules ###"
+# oppure
+#   echo "Aborting: Inizialization submodules failed."
+#   exit 1
 
-# Create a symlink pointing to the local
-# copy of the repo at _dotfiles_dir
+# Create a symlink `_dotfiles_dir` pointing
+# to the local copy of the repo
 if ! create_safe_symlink "" "${_dotfiles_dir}"; then
     if [ $(readlink "${_dotfiles_dir}") == $(pwd) ]; then
         echo "${_dotfiles_dir} is already pointing to this repository."
@@ -63,6 +70,8 @@ fi
 
 ########
 ### ZSH
+# controllare che la stringa di seguito non esista gia'
+# altrimenti continuera' ad appenderla
 echo "export DOTFILES_DIR=\"${_dotfiles_dir}\"" >> zsh/.zprofile
 create_safe_symlink "/zsh/.zprofile" ~/".zprofile"
 create_safe_symlink "/zsh" $_zsh_dir
@@ -70,11 +79,15 @@ create_safe_symlink "/zsh" $_zsh_dir
 
 ########
 ### SYSTEMD USER UNITS
+# dovrei controllare se $_systemd_user_dir esiste, e se esiste creare i link simbolici
+# per ogni unit. Se non esiste creare $_systemd_user_dir e poi creare i link comunque.
+# Inoltre, se creo links per ogni units, eventuali nuovi units non diventeranno automaticamente
+# parte del repository locale.
 [ -d $_systemd_user_dir ] || mkdir -p $_systemd_user_dir
 create_safe_symlink "/systemd/user" "${_systemd_user_dir}/user"
 systemctl --user daemon-reload
 echo "The following units are NOT enabled/started yet, do it manually."
-for unit in `ls -A $_systemd_user_dir`; do
+for unit in `ls -A $_systemd_user_dir/user`; do
     echo -e "\t${unit}"
 done
 
@@ -124,4 +137,7 @@ declare -a tools=(
 for tool in "${tools[@]}"; do
     type "$tool" >/dev/null 2>&1 || echo -e "\t${tool} is not installed"
 done
+
+# controllare se la shell dell'utente e' impostata con zsh, se no stampare un
+# messaggio per ricordare di cambiare shell 
 #===================================
