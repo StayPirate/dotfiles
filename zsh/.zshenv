@@ -5,7 +5,7 @@
 # attached to a tty.
 
 # Loading variable shared with the instalation script
-source zsh/vars.zsh
+source $DOTFILES_DIR/vars
 
 # $ZDOTDIR is specified in $HOME/.zprofile
 typeset -U PATH path

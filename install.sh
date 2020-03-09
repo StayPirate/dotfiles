@@ -19,7 +19,7 @@
 
 #==============
 # Variables
-source zsh/vars.zsh
+source ./vars
 #===================================
 
 #==============
@@ -45,6 +45,9 @@ function create_safe_symlink {
 #==============
 # Main
 
+# Initialize submodules
+git submodule update --init --recursive
+
 # Create a symlink pointing to the local
 # copy of the repo at _dotfiles_dir
 if ! create_safe_symlink "" "${_dotfiles_dir}"; then
@@ -60,13 +63,15 @@ fi
 
 ########
 ### ZSH
+echo "export DOTFILES_DIR=\"${_dotfiles_dir}\"" >> zsh/.zprofile
 create_safe_symlink "/zsh/.zprofile" ~/".zprofile"
 create_safe_symlink "/zsh" $_zsh_dir
 [ -d $_zsh_cache_dir ] || mkdir -p $_zsh_cache_dir
 
 ########
 ### SYSTEMD USER UNITS
-create_safe_symlink "/systemd/user" $_systemd_user_dir
+[ -d $_systemd_user_dir ] || mkdir -p $_systemd_user_dir
+create_safe_symlink "/systemd/user" "${_systemd_user_dir}/user"
 systemctl --user daemon-reload
 echo "The following units are NOT enabled/started yet, do it manually."
 for unit in `ls -A $_systemd_user_dir`; do

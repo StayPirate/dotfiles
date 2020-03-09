@@ -1,7 +1,7 @@
 # .zshrc is sourced in interactive shells.
 
 # Loading variable shared with the instalation script
-source zsh/vars.zsh
+source $DOTFILES_DIR/vars
 
 ### HISTORY ###
 HISTFILE=~/.cache/zsh/history
@@ -52,10 +52,21 @@ alias -g NOERR='2>/dev/null'
 ### FZF ###
 if type fzf >/dev/null ; then
 
+  # Potrei creare un array di paths di dove i vari OS salvano questi due scripts
+  # ed iterare cercando di fare il source di uno, se no e' possibile fare
+  # il source di alcuno, allora fare il source di quelli locali a questo repo.
   # Fuzzy completion
-  source /usr/share/fzf/completion.zsh 2>/dev/null
+  if [ -f "/usr/share/fzf/completion.zsh" ]; then
+    source /usr/share/fzf/completion.zsh
+  else
+     source $_dotfiles_dir/zsh/plugins/completion.zsh
+  fi
   # Key bindings
-  source /usr/share/fzf/key-bindings.zsh 2>/dev/null
+  if [ -f "/usr/share/fzf/key-bindings.zsh" ]; then
+    source /usr/share/fzf/key-bindings.zsh
+  else
+     source $_dotfiles_dir/zsh/plugins/key-bindings.zsh
+  fi
 
   # CTRL-R - Paste the selected command from history into the command line
   # Ensure to define this widget after you sourced `/usr/share/fzf/key-bindings.zsh`
