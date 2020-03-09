@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Nvidia Shield
+Comment=Screencast Nvidia Shield via network using scrcpy
+Icon=shield
+Exec=sh -c "adb connect shield.home:5555 && scrcpy -s shield.home:5555 --window-borderles"
+Terminal=false
+Categories=Utility;

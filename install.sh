@@ -61,31 +61,62 @@ fi
 ########
 ### ZSH
 create_safe_symlink "/zsh/.zprofile" ~/".zprofile"
-create_safe_symlink "/zsh" ~/".config/zsh"
+create_safe_symlink "/zsh" $_zsh_dir
+[ -d $_zsh_cache_dir ] || mkdir -p $_zsh_cache_dir
 
 ########
 ### SYSTEMD USER UNITS
-create_safe_symlink "/systemd/user" ~/".config/systemd/user"
+create_safe_symlink "/systemd/user" $_systemd_user_dir
+systemctl --user daemon-reload
 echo "The following units are NOT enabled/started yet, do it manually."
-for unit in `ls -A ~/.config/systemd/user`; do
+for unit in `ls -A $_systemd_user_dir`; do
     echo -e "\t${unit}"
 done
 
 ########
 ### BIN
-create_safe_symlink "/bin" ~/".local/user_bin"
-for executable in `ls -A ~/.local/user_bin/*.sh`; do
+create_safe_symlink "/bin" $_bin_dir
+for executable in `ls -A $_bin_dir/*.sh`; do
     chmod +x "${executable}"
 done
 
 ########
 ### FONTS
-create_safe_symlink "/fonts/Hack Regular Nerd Font Complete.ttf" ~/".local/share/fonts/Hack Regular Nerd Font Complete.ttf"
+[ -d $_fonts_dir ] || mkdir -p $_fonts_dir
+create_safe_symlink "/fonts/Hack Regular Nerd Font Complete.ttf" "${_fonts_dir}/Hack Regular Nerd Font Complete.ttf"
 fc-cache
+
+########
+### LAUNCHERS
+[ -d $_launchers_dir ] || mkdir -p $_launchers_dir
+create_safe_symlink "/launchers/shield.desktop" "${_launchers_dir}/shield.desktop"
+
+########
+### ICONS
+[ -d "${_icons_dir}/256x256/apps" ] || mkdir -p "${_icons_dir}/256x256/apps"
+create_safe_symlink "/icons/shield.png" "${_icons_dir}/256x256/apps/shield.png"
+
+########
+### OTHERS
+[ -d $_less_cache_dir ] || mkdir -p $_less_cache_dir
 #===================================
 
-#=================
-# Variables unset
 
-unset _dotfiles_dir
+#==============
+# Check missing packages
+
+declare -a tools=(
+    "zsh"
+    "fzf"
+    "fc-cache"
+    "less"
+    "dircolors"
+    "tmux"
+    "vim"
+    "git"
+)
+
+for tool in "${tools[@]}"; do
+    type "$tool" >/dev/null 2>&1 || echo -e "\t${tool} is not installed"
+done
 #===================================
