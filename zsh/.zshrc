@@ -22,21 +22,17 @@ setopt AUTO_CD
 setopt EXTENDED_GLOB
 # Simple correction of commands
 setopt CORRECT
+# On an ambiguous completion insert the first match immediately.
+setopt MENU_COMPLETE
 ######
 
 bindkey -e
 
-# End of lines configured by zsh-newuser-install
-# The following lines were added by compinstall
-zstyle :compinstall filename "${ZDOTDIR}/.zshrc"
-
-autoload -Uz compinit promptinit
-compinit
-promptinit
-# End of lines added by compinstall
-
-# This will set the default prompt to the walters theme
-prompt walters
+# Do menu-driven completion.
+zstyle ':completion:*' menu select
+# Show commands in groups
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' format '%B---- %d%b'
 
 ### ALIASES ###
 alias cp="cp -i" # confirm before overwriting something
@@ -46,6 +42,17 @@ alias ls='ls --color=auto'
 alias grep='grep --colour=auto'
 alias egrep='egrep --colour=auto'
 alias fgrep='fgrep --colour=auto'
+alias pacman-search="pacman -Slq | fzf -m --preview 'cat <(pacman -Si {1}) <(pacman -Fl {1} | awk \"{print \$2}\")' | xargs -ro sudo pacman -S --needed"
+# Suffix aliases
+alias -s txt=$EDITOR
+# Global aliases
+alias -g NOERR='2>/dev/null'
+######
+
+### Load custom shell functions
+autoload -Uz extract
+autoload -Uz compinit
+compinit -d "${_zsh_cache_dir}/zcompdump"
 ######
 
 ### Load custom colors
