@@ -1,7 +1,7 @@
 # .zshrc is sourced in interactive shells.
 
 # Loading variable shared with the instalation script
-source $DOTFILES_DIR/vars
+source $DOTFILES/vars
 
 ### HISTORY ###
 HISTFILE=~/.cache/zsh/history
@@ -59,13 +59,13 @@ if type fzf >/dev/null ; then
   if [ -f "/usr/share/fzf/completion.zsh" ]; then
     source /usr/share/fzf/completion.zsh
   else
-     source $_dotfiles_dir/zsh/plugins/fzf/completion.zsh
+     source $_dotfiles_link/zsh/plugins/fzf/completion.zsh
   fi
   # Key bindings
   if [ -f "/usr/share/fzf/key-bindings.zsh" ]; then
     source /usr/share/fzf/key-bindings.zsh
   else
-     source $_dotfiles_dir/zsh/plugins/fzf/key-bindings.zsh
+     source $_dotfiles_link/zsh/plugins/fzf/key-bindings.zsh
   fi
 
   # CTRL-R - Paste the selected command from history into the command line

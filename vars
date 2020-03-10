@@ -5,7 +5,7 @@
 # When you run the installation script you cannot consider zsh
 # configured, hence it cannot inherit these variables.
 
-_dotfiles_dir=~/.dotfiles
+_dotfiles_link=~/.dotfiles
 _zsh_dir=~/.config/zsh
 _zsh_cache_dir=~/.cache/zsh
 _less_cache_dir=~/.cache/less

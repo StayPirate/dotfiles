@@ -6,7 +6,7 @@
 #   It first creates the symlink `~/.dotfiles` pointing to the local copy of 
 #   the dotfiles' repo, so you can clone this repo wherever you prefer on your
 #   filesystem.
-#   You can customize this folder changing the _dotfiles_dir var. 
+#   You can customize this folder changing the _dotfiles_link var. 
 #   Default: ~/.dotfiles
 #
 #   Then, it proceeds to create symlinks for all the contained dotfiles.
@@ -46,23 +46,22 @@ function create_safe_symlink {
 # Main
 
 # Initialize submodules
-echo "### Inizializing submodules ###"
-echo "DECOMMENTARE LA RIGA SEGUENTE. RIMOSSA PER FARE LE PROVE SU install.sh"
-#git submodule update --init --recursive
-# controllare se l'inizializzazione e' andata a buon fine
-echo "### Inizialied submodules ###"
-# oppure
-#   echo "Aborting: Inizialization submodules failed."
-#   exit 1
+echo "### Initializing submodules ###"
+if ! git submodule update --init --recursive; then
+    echo "### Aborting: Submodules initialization FAILED ###"
+    exit 1
+else
+    echo "### Submodules initialied ###"
+fi
 
-# Create a symlink `_dotfiles_dir` pointing
+# Create a symlink `_dotfiles_link` pointing
 # to the local copy of the repo
-if ! create_safe_symlink "" "${_dotfiles_dir}"; then
-    if [ $(readlink "${_dotfiles_dir}") == $(pwd) ]; then
-        echo "${_dotfiles_dir} is already pointing to this repository."
+if ! create_safe_symlink "" "${_dotfiles_link}"; then
+    if [ $(readlink "${_dotfiles_link}") == $(pwd) ]; then
+        echo "${_dotfiles_link} is already pointing to this repository."
         echo "Continue the installation..."
     else
-        echo "${_dotfiles_dir} is not pointing to this repository."
+        echo "${_dotfiles_link} is not pointing to this repository."
         echo "Aborting installation."
         exit 1
     fi
@@ -70,9 +69,7 @@ fi
 
 ########
 ### ZSH
-# controllare che la stringa di seguito non esista gia'
-# altrimenti continuera' ad appenderla
-echo "export DOTFILES_DIR=\"${_dotfiles_dir}\"" >> zsh/.zprofile
+grep "DOTFILES" zsh/.zprofile >/dev/null 2>&1 || echo "export DOTFILES=\"${_dotfiles_link}\"" >> zsh/.zprofile
 create_safe_symlink "/zsh/.zprofile" ~/".zprofile"
 create_safe_symlink "/zsh" $_zsh_dir
 [ -d $_zsh_cache_dir ] || mkdir -p $_zsh_cache_dir
@@ -80,7 +77,7 @@ create_safe_symlink "/zsh" $_zsh_dir
 ########
 ### SYSTEMD USER UNITS
 # dovrei controllare se $_systemd_user_dir esiste, e se esiste creare i link simbolici
-# per ogni unit. Se non esiste creare $_systemd_user_dir e poi creare i link comunque.
+# per ogni unit. Se non esiste creare $_systemd_user_dir/user e poi creare i link comunque.
 # Inoltre, se creo links per ogni units, eventuali nuovi units non diventeranno automaticamente
 # parte del repository locale.
 [ -d $_systemd_user_dir ] || mkdir -p $_systemd_user_dir
@@ -135,9 +132,8 @@ declare -a tools=(
 )
 
 for tool in "${tools[@]}"; do
-    type "$tool" >/dev/null 2>&1 || echo -e "\t${tool} is not installed"
+    type "$tool" >/dev/null 2>&1 || echo -e "${tool} is not installed"
 done
 
-# controllare se la shell dell'utente e' impostata con zsh, se no stampare un
-# messaggio per ricordare di cambiare shell 
+grep "$USER.*zsh.*" /etc/passwd >/dev/null 2>&1 || echo "The default shell for the user '${USER}' is not zsh. Run: sudo chsh -s \$(which zsh) ${USER}"
 #===================================

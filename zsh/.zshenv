@@ -5,11 +5,11 @@
 # attached to a tty.
 
 # Loading variable shared with the instalation script
-source $DOTFILES_DIR/vars
+source $DOTFILES/vars
 
 # $ZDOTDIR is specified in $HOME/.zprofile
 typeset -U PATH path
-path=("${HOME}/.local/bin" "${HOME}/${_bin_dir}" "$path[@]")
+path=("${HOME}/.local/bin" "${_bin_dir}" "$path[@]")
 export PATH
 
 typeset -U FPATH fpath
