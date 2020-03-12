@@ -52,31 +52,44 @@ alias -g NOERR='2>/dev/null'
 ### FZF ###
 if type fzf >/dev/null ; then
 
-  # Potrei creare un array di paths di dove i vari OS salvano questi due scripts
-  # ed iterare cercando di fare il source di uno, se no e' possibile fare
-  # il source di alcuno, allora fare il source di quelli locali a questo repo.
+  # First, try to load system-wide zsh widgets. If not available, then load local repository ones.
   # Fuzzy completion
-  if [ -f "/usr/share/fzf/completion.zsh" ]; then
-    source /usr/share/fzf/completion.zsh
-  else
-     source $_dotfiles_link/zsh/plugins/fzf/completion.zsh
+  declare -a completion_scripts=(
+    "/usr/share/fzf/completion.zsh"           # Archlinux
+    "/usr/share/zsh/site-functions/fzf"       # Fedora
+    "/usr/share/zsh/vendor-completions/_fzf"  # Debian
+  )
+  local _fzf_completion=0
+  for completion_script in "${completion_scripts[@]}"; do
+      source $completion_script >/dev/null 2>&1 && _fzf_completion=1
+  done
+  if [ $_fzf_completion -eq 0 ]; then
+    source $_dotfiles_link/zsh/plugins/fzf/completion.zsh >/dev/null 2>&1
   fi
+  unset _fzf_completion
+
   # Key bindings
-  if [ -f "/usr/share/fzf/key-bindings.zsh" ]; then
-    source /usr/share/fzf/key-bindings.zsh
-  else
-     source $_dotfiles_link/zsh/plugins/fzf/key-bindings.zsh
+  declare -a keybindings_scripts=(
+    "/usr/share/fzf/key-bindings.zsh"         # Archlinux
+    "/usr/share/fzf/shell/key-bindings.zsh"   # Fedora
+  )
+  local _fzf_keybindings=0
+  for keybindings_script in "${keybindings_scripts[@]}"; do
+    source $keybindings_script >/dev/null 2>&1 && _fzf_keybindings=1
+  done
+  if [ $_fzf_keybindings -eq 0 ]; then
+    source $_dotfiles_link/zsh/plugins/fzf/key-bindings.zsh >/dev/null 2>&1
   fi
+  unset _fzf_keybindings
 
   # CTRL-R - Paste the selected command from history into the command line
-  # Ensure to define this widget after you sourced `/usr/share/fzf/key-bindings.zsh`
+  # Ensure to define this widget after you sourced `key-bindings.zsh`
   # It overrides the official history widget and substitute `fc` with `history` command.
   # It prints extra information while looping into the history.
   # `fc -rl 1` output:
   #     847  vim ~/.config/Code\ -\ OSS/User/settings.json
   # `history -Df 1` output:
   #     847  3/4/2020 12:35  0:15  vim ~/.config/Code\ -\ OSS/User/settings.json
-
   fzf-custom-history-widget() {
     local selected num
     setopt localoptions noglobsubst noposixbuiltins pipefail no_aliases 2> /dev/null
