@@ -73,19 +73,23 @@ grep "DOTFILES" zsh/.zprofile >/dev/null 2>&1 || echo "export DOTFILES=\"${_dotf
 create_safe_symlink "/zsh/.zprofile" ~/".zprofile"
 create_safe_symlink "/zsh" $_zsh_dir
 [ -d $_zsh_cache_dir ] || mkdir -p $_zsh_cache_dir
+# GDM on Xorg does not spin a login shell, it manually source system and user .profile and .xprofile.
+# As workaround we source ~/.zprofile from ~/.profile. GDM on Wayland works properly.
+if pgrep -i Xorg >/dev/null 2>&1; then
+    if pgrep -i gdm >/dev/null 2>&1; then
+        grep "zprofile" ~/.profile >/dev/null 2>&1 || echo "source ~/.zprofile" >> ~/.profile
+    fi
+fi
 
 ########
 ### SYSTEMD USER UNITS
-# dovrei controllare se $_systemd_user_dir esiste, e se esiste creare i link simbolici
-# per ogni unit. Se non esiste creare $_systemd_user_dir/user e poi creare i link comunque.
-# Inoltre, se creo links per ogni units, eventuali nuovi units non diventeranno automaticamente
-# parte del repository locale.
 [ -d $_systemd_user_dir ] || mkdir -p $_systemd_user_dir
-create_safe_symlink "/systemd/user" "${_systemd_user_dir}/user"
+for unit in `ls -A systemd/user`; do
+    create_safe_symlink "systemd/user/${unit}" $_systemd_user_dir
+done
 systemctl --user daemon-reload
-echo "The following units are NOT enabled/started yet, do it manually."
-for unit in `ls -A $_systemd_user_dir/user`; do
-    echo -e "\t${unit}"
+for unit in `ls -A $_systemd_user_dir`; do
+    systemctl --user is-enabled --quiet $unit || echo -e "\tService ${unit} is not enabled"
 done
 
 ########
@@ -129,11 +133,15 @@ declare -a tools=(
     "tmux"
     "vim"
     "git"
+    "scrcpy"
 )
 
 for tool in "${tools[@]}"; do
     type "$tool" >/dev/null 2>&1 || echo -e "${tool} is not installed"
 done
 
-grep "$USER.*zsh.*" /etc/passwd >/dev/null 2>&1 || echo "The default shell for the user '${USER}' is not zsh. Run: sudo chsh -s \$(which zsh) ${USER}"
+echo "### NOTES ###"
+echo -e "\t * Do not forget to change the font on your favorite terminal emulator."
+echo -e "\t * In order to keep the dotfiles updated use: dotfiles-update"
+grep "$USER.*zsh.*" /etc/passwd >/dev/null 2>&1 || echo -e "\t * Zsh is not the default shell for '${USER}'. Run: sudo chsh -s \$(which zsh) ${USER}"
 #===================================
