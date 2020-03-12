@@ -57,7 +57,7 @@ fi
 # Create a symlink `_dotfiles_link` pointing
 # to the local copy of the repo
 if ! create_safe_symlink "" "${_dotfiles_link}"; then
-    if [ $(readlink "${_dotfiles_link}") == $(pwd) ]; then
+    if [ $(readlink "${_dotfiles_link}") == $(pwd) ] || [ ${_dotfiles_link} == $(pwd) ]; then
         echo "${_dotfiles_link} is already pointing to this repository."
         echo "Continue the installation..."
     else
@@ -85,7 +85,7 @@ fi
 ### SYSTEMD USER UNITS
 [ -d $_systemd_user_dir ] || mkdir -p $_systemd_user_dir
 for unit in `ls -A systemd/user`; do
-    create_safe_symlink "systemd/user/${unit}" $_systemd_user_dir
+    create_safe_symlink "/systemd/user/${unit}" "${_systemd_user_dir}/${unit}"
 done
 systemctl --user daemon-reload
 for unit in `ls -A $_systemd_user_dir`; do
@@ -125,23 +125,50 @@ create_safe_symlink "/icons/shield.png" "${_icons_dir}/256x256/apps/shield.png"
 # Check missing packages
 
 declare -a tools=(
+    # Essential
     "zsh"
     "fzf"
-    "fc-cache"
-    "less"
-    "dircolors"
     "tmux"
     "vim"
     "git"
+    # Utility
+    "fc-cache"
+    "less"
+    "dircolors"
+    "htop"
+    # Extra
     "scrcpy"
 )
 
+declare -A pkgmngr_cmd
+pkgmngr_cmd[archlinux]="sudo pacman --noconfirm --needed -Sy"
+pkgmngr_cmd[debian]="sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install"
+
+_distro=""
+if grep -i "arch" /etc/*-release >/dev/null 2>&1; then
+    _distro="archlinux"
+elif grep -i "debian" /etc/*-release >/dev/null 2>&1; then
+    _distro="debian"
+fi
+
+if [ -n $_distro ]; then
+    echo "Packages installation:"
+    for tool in "${tools[@]}"; do
+        type "$tool" >/dev/null 2>&1 || sh -c "${pkgmngr_cmd[$_distro]} $tool" >/dev/null 2>&1
+    done
+else
+    echo "Operative System not detected."
+fi
+unset _distro
+
 for tool in "${tools[@]}"; do
-    type "$tool" >/dev/null 2>&1 || echo -e "${tool} is not installed"
+    type "$tool" >/dev/null 2>&1 || echo -e "\t${tool} is missing"
 done
+
+# Set zsh as default shell for the user
+grep "$USER.*zsh.*" /etc/passwd >/dev/null 2>&1 || echo "Change shell to $(which zsh) for user ${USER}." && sudo chsh -s $(which zsh) $USER
 
 echo "### NOTES ###"
 echo -e "\t * Do not forget to change the font on your favorite terminal emulator."
 echo -e "\t * In order to keep the dotfiles updated use: dotfiles-update"
-grep "$USER.*zsh.*" /etc/passwd >/dev/null 2>&1 || echo -e "\t * Zsh is not the default shell for '${USER}'. Run: sudo chsh -s \$(which zsh) ${USER}"
 #===================================
