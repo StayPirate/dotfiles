@@ -53,6 +53,9 @@ if ! git submodule update --init --recursive; then
 else
     echo "### Submodules initialied ###"
 fi
+# Override origin/push to push it via ssh
+# while fetching via HTTPS
+git remote set-url --push origin git@github.com:StayPirate/dotfiles.git
 
 # Create a symlink `_dotfiles_link` pointing
 # to the local copy of the repo
@@ -96,7 +99,7 @@ done
 ########
 ### BIN
 create_safe_symlink "/bin" $_bin_dir
-for executable in `ls -A $_bin_dir/*.sh`; do
+for executable in `ls -A $_bin_dir/*`; do
     chmod +x "${executable}"
 done
 
