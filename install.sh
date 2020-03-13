@@ -73,6 +73,7 @@ grep "DOTFILES" zsh/.zprofile >/dev/null 2>&1 || echo "export DOTFILES=\"${_dotf
 create_safe_symlink "/zsh/.zprofile" ~/".zprofile"
 create_safe_symlink "/zsh" $_zsh_dir
 [ -d $_zsh_cache_dir ] || mkdir -p $_zsh_cache_dir
+[ -f "${_zsh_cache_dir}/zcompdump" ] && rm -f "${_zsh_cache_dir}/zcompdump"
 # GDM on Xorg does not spin a login shell, it manually source system and user .profile and .xprofile.
 # As workaround we source ~/.zprofile from ~/.profile. GDM on Wayland works properly.
 if pgrep -i Xorg >/dev/null 2>&1; then
