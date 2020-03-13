@@ -127,8 +127,8 @@ fi
 #### HOW TO INSTALL PLGUINS & THEMES ####
 #                                       #
 #       !!! Use git submodules !!!      #
-#                                       #
-# git submodule add -b master <repo>    #
+#                                       # # Example:
+# git submodule add -b master <repo>    # # cd $DOTFILES && git submodule add -b master https://github.com/zsh-users/zsh-completions.git zsh/plugins/zsh-completions
 # So, it could all be udpated with:     #
 # git submodule update --remote         #
 #########################################

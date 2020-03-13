@@ -12,8 +12,9 @@ typeset -U PATH path
 path=("${HOME}/.local/bin" "${_bin_dir}" "$path[@]")
 export PATH
 
+ fpath=(path/to/zsh-completions/src $fpath)
 typeset -U FPATH fpath
-fpath=( "${_zsh_dir}/functions" "${fpath[@]}" )
+fpath=( "${_zsh_dir}/plugins/zsh-completions/src" "${_zsh_dir}/functions" "${fpath[@]}" )
 export FPATH
 
 export SHELL="/usr/bin/zsh"

@@ -10,3 +10,7 @@
 	path = zsh/themes/powerlevel9k
 	url = https://github.com/Powerlevel9k/powerlevel9k.git
 	branch = master
+[submodule "zsh/plugins/zsh-completions"]
+	path = zsh/plugins/zsh-completions
+	url = https://github.com/zsh-users/zsh-completions.git
+	branch = master
