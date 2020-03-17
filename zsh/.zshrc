@@ -115,14 +115,9 @@ fi
 autoload -Uz extract
 autoload -Uz compinit
 compinit -d "${_zsh_cache_dir}/zcompdump"
+autoload -Uz custom_colors
+custom_colors
 ######
-
-### Load custom colors
-if type dircolors >/dev/null ; then
-  if [[ -f ${ZDOTDIR}/dir_colors ]] ; then
-    eval $(dircolors -b ${ZDOTDIR}/dir_colors)
-  fi
-fi
 
 #### HOW TO INSTALL PLGUINS & THEMES ####
 #                                       #
