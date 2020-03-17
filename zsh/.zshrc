@@ -59,6 +59,12 @@ if type fzf >/dev/null ; then
     "/usr/share/zsh/site-functions/fzf"       # Fedora
     "/usr/share/zsh/vendor-completions/_fzf"  # Debian
   )
+  # Key bindings
+  declare -a keybindings_scripts=(
+    "/usr/share/fzf/key-bindings.zsh"         # Archlinux
+    "/usr/share/fzf/shell/key-bindings.zsh"   # Fedora
+  )
+
   local _fzf_completion=0
   for completion_script in "${completion_scripts[@]}"; do
       source $completion_script >/dev/null 2>&1 && _fzf_completion=1
@@ -68,11 +74,6 @@ if type fzf >/dev/null ; then
   fi
   unset _fzf_completion
 
-  # Key bindings
-  declare -a keybindings_scripts=(
-    "/usr/share/fzf/key-bindings.zsh"         # Archlinux
-    "/usr/share/fzf/shell/key-bindings.zsh"   # Fedora
-  )
   local _fzf_keybindings=0
   for keybindings_script in "${keybindings_scripts[@]}"; do
     source $keybindings_script >/dev/null 2>&1 && _fzf_keybindings=1
@@ -82,32 +83,8 @@ if type fzf >/dev/null ; then
   fi
   unset _fzf_keybindings
 
-  # CTRL-R - Paste the selected command from history into the command line
-  # Ensure to define this widget after you sourced `key-bindings.zsh`
-  # It overrides the official history widget and substitute `fc` with `history` command.
-  # It prints extra information while looping into the history.
-  # `fc -rl 1` output:
-  #     847  vim ~/.config/Code\ -\ OSS/User/settings.json
-  # `history -Df 1` output:
-  #     847  3/4/2020 12:35  0:15  vim ~/.config/Code\ -\ OSS/User/settings.json
-  fzf-custom-history-widget() {
-    local selected num
-    setopt localoptions noglobsubst noposixbuiltins pipefail no_aliases 2> /dev/null
-    selected=( $(history -Df 1 |
-      FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS -n2..,.. --tiebreak=index --bind=ctrl-r:toggle-sort $FZF_CTRL_R_OPTS --query=${(qqq)LBUFFER} +m" $(__fzfcmd)) )
-    local ret=$?
-    if [ -n "$selected" ]; then
-      num=$selected[1]
-      if [ -n "$num" ]; then
-        zle vi-fetch-history -n $num
-      fi
-    fi
-    zle reset-prompt
-    return $ret
-  }
-  zle     -N   fzf-custom-history-widget
-  bindkey '^R' fzf-custom-history-widget
-
+  # Override key-bindings with a custom one which uses `history` instead of `fc`
+  source $_dotfiles_link/zsh/plugins/fzf/key-bindings-custom.zsh >/dev/null 2>&1
 fi
 ######
 
