@@ -49,6 +49,12 @@ alias -s txt=$EDITOR
 alias -g NOERR='2>/dev/null'
 ######
 
+### Hook Functions ###
+# http://zsh.sourceforge.net/Doc/Release/Functions.html#Hook-Functions
+# Executed whenever the current working directory is changed.
+chpwd() ls
+######
+
 ### FZF ###
 if type fzf >/dev/null ; then
 
