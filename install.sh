@@ -144,33 +144,42 @@ declare -a tools=(
     "scrcpy"
 )
 
-declare -A pkgmngr_cmd
-pkgmngr_cmd[archlinux]="sudo pacman --noconfirm --needed -Sy"
-pkgmngr_cmd[debian]="sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install"
+read -p "Do you want to install missing packages? [y/N] " -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    declare -A pkgmngr_cmd
+    pkgmngr_cmd[archlinux]="sudo pacman --noconfirm --needed -Sy"
+    pkgmngr_cmd[debian]="sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install"
 
-_distro=""
-if grep -i "arch" /etc/*-release >/dev/null 2>&1; then
-    _distro="archlinux"
-elif grep -i "debian" /etc/*-release >/dev/null 2>&1; then
-    _distro="debian"
-fi
+    _distro=""
+    if grep -i "arch" /etc/*-release >/dev/null 2>&1; then
+        _distro="archlinux"
+    elif grep -i "debian" /etc/*-release >/dev/null 2>&1; then
+        _distro="debian"
+    fi
 
-if [ -n $_distro ]; then
-    echo "Packages installation (wait):"
-    for tool in "${tools[@]}"; do
-        type "$tool" >/dev/null 2>&1 || sh -c "${pkgmngr_cmd[$_distro]} $tool" >/dev/null 2>&1
-    done
-else
-    echo "Operative System not detected."
+    if [ -n $_distro ]; then
+        echo "Packages installation (wait):"
+        for tool in "${tools[@]}"; do
+            type "$tool" >/dev/null 2>&1 || sh -c "${pkgmngr_cmd[$_distro]} $tool" >/dev/null 2>&1
+        done
+    else
+        echo "Operative System not detected."
+    fi
+    unset _distro
 fi
-unset _distro
 
 for tool in "${tools[@]}"; do
     type "$tool" >/dev/null 2>&1 || echo -e "\t${tool} is missing"
 done
 
 # Set zsh as default shell for the user
-grep "$USER.*zsh.*" /etc/passwd >/dev/null 2>&1 || echo "Change shell to $(which zsh) for user ${USER}." && sudo chsh -s $(which zsh) $USER
+echo "Check if $(which zsh) is the default shell for user ${USER}..."
+if ! grep "$USER.*zsh.*" /etc/passwd >/dev/null 2>&1; then
+    sudo chsh -s $(which zsh) $USER
+else
+    echo "Zsh is the default shell."
+fi
 
 echo "### Notes ###"
 echo -e "\t * Do not forget to change the font on your favorite terminal emulator."
