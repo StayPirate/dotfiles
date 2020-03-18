@@ -32,7 +32,9 @@ function create_safe_symlink {
     if [ ! -e "$_dst" ]; then
         ln -s "$_src" "$_dst"
         return 0
-    else
+    elif [[ $(readlink "$_dst") == "$_src" ]] || [[ $(readlink "$_dst") == "${_dotfiles_link}${1}" ]]; then
+        return 0
+    else        
         echo "${_dst} exists, symlink not created."
         return 1
     fi
@@ -46,12 +48,9 @@ function create_safe_symlink {
 # Main
 
 # Initialize submodules
-echo "### Initializing submodules ###"
 if ! git submodule update --init --recursive; then
     echo "### Aborting: Submodules initialization FAILED ###"
     exit 1
-else
-    echo "### Submodules initialied ###"
 fi
 # Override origin/push to push it via ssh
 # while fetching via HTTPS
@@ -93,7 +92,7 @@ for unit in `ls -A systemd/user`; do
 done
 systemctl --user daemon-reload
 for unit in `ls -A $_systemd_user_dir`; do
-    systemctl --user is-enabled --quiet $unit || echo -e "\tService ${unit} is not enabled"
+    systemctl --user is-enabled --quiet $unit || echo -e "[Service] ${unit} is not enabled"
 done
 
 ########
@@ -144,29 +143,36 @@ declare -a tools=(
     "scrcpy"
 )
 
-read -p "Do you want to install missing packages? [y/N] " -n 1 -r
-echo
-if [[ $REPLY =~ ^[Yy]$ ]]; then
-    declare -A pkgmngr_cmd
-    pkgmngr_cmd[archlinux]="sudo pacman --noconfirm --needed -Sy"
-    pkgmngr_cmd[debian]="sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install"
+_missing_pkgs=false
+for tool in "${tools[@]}"; do
+    type "$tool" >/dev/null 2>&1 || _missing_pkgs=true
+done
 
-    _distro=""
-    if grep -i "arch" /etc/*-release >/dev/null 2>&1; then
-        _distro="archlinux"
-    elif grep -i "debian" /etc/*-release >/dev/null 2>&1; then
-        _distro="debian"
-    fi
+if [ "$_missing_pkgs" = true ]; then
+    read -p "Do you want to install missing packages? [y/N] " -n 1 -r
+    echo
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        declare -A pkgmngr_cmd
+        pkgmngr_cmd[archlinux]="sudo pacman --noconfirm --needed -Sy"
+        pkgmngr_cmd[debian]="sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install"
 
-    if [ -n $_distro ]; then
-        echo "Packages installation (wait):"
-        for tool in "${tools[@]}"; do
-            type "$tool" >/dev/null 2>&1 || sh -c "${pkgmngr_cmd[$_distro]} $tool" >/dev/null 2>&1
-        done
-    else
-        echo "Operative System not detected."
+        _distro=""
+        if grep -i "arch" /etc/*-release >/dev/null 2>&1; then
+            _distro="archlinux"
+        elif grep -i "debian" /etc/*-release >/dev/null 2>&1; then
+            _distro="debian"
+        fi
+
+        if [ -n $_distro ]; then
+            echo "Packages installation (wait):"
+            for tool in "${tools[@]}"; do
+                type "$tool" >/dev/null 2>&1 || sh -c "${pkgmngr_cmd[$_distro]} $tool" >/dev/null 2>&1
+            done
+        else
+            echo "Operative System not detected."
+        fi
+        unset _distro
     fi
-    unset _distro
 fi
 
 for tool in "${tools[@]}"; do
@@ -174,12 +180,7 @@ for tool in "${tools[@]}"; do
 done
 
 # Set zsh as default shell for the user
-echo "Check if $(which zsh) is the default shell for user ${USER}..."
-if ! grep "$USER.*zsh.*" /etc/passwd >/dev/null 2>&1; then
-    sudo chsh -s $(which zsh) $USER
-else
-    echo "Zsh is the default shell."
-fi
+grep "$USER.*zsh.*" /etc/passwd >/dev/null 2>&1 || chsh -s $(which zsh) $USER
 
 echo "### Notes ###"
 echo -e "\t * Do not forget to change the font on your favorite terminal emulator."
