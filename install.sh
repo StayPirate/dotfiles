@@ -29,18 +29,25 @@ function create_safe_symlink {
     _src=$(pwd)${1}
     _dst=${2}
 
+    _dot="NOTEXIST"
+    if [ -L ${_dotfiles_link} ]; then
+        _dot=$(readlink $_dotfiles_link)
+    fi
+
     if [ ! -e "$_dst" ]; then
         ln -s "$_src" "$_dst"
-        return 0
-    elif [[ $(readlink "$_dst") == "$_src" ]] || [[ $(readlink "$_dst") == "${_dotfiles_link}${1}" ]]; then
-        return 0
+    elif [[ $(readlink "$_dst") == "$_src" ]] || [[ $(readlink "$_dst") == "${_dot}${1}" ]]; then
+        : # Do nothing
     else        
-        echo "${_dst} exists, symlink not created."
+        echo "\"${_dst}\" exists and is not pointing to \"${_src}\": Left untouched."
+        unset _src
+        unset _dst
         return 1
     fi
 
     unset _src
     unset _dst
+    return 0
 }
 #===================================
 
