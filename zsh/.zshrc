@@ -33,6 +33,7 @@ bindkey -e
 bindkey '\e[1;5C' forward-word;     # CTRL+[right]
 bindkey '\e[1;5D' backward-word;    # CTRL+[left]
 bindkey '^W' vi-backward-kill-word  # Delete the previous word but stop at [^a-zA-Z0-9]. Useful with pathname.
+bindkey " " magic-space             # do history expansion on space
 
 # create a zkbd compatible hash;
 # to add other keys to this hash, see: man 5 terminfo
@@ -141,6 +142,14 @@ if type fzf >/dev/null ; then
 
   # Override key-bindings with a custom one which uses `history` instead of `fc`
   source $_dotfiles_link/zsh/plugins/fzf/key-bindings-custom.zsh >/dev/null 2>&1
+fi
+######
+
+### PKGFILE ###
+# http://zsh.sourceforge.net/Doc/Release/Command-Execution.html
+# https://wiki.archlinux.org/index.php/zsh#The_%22command_not_found%22_handler
+if type pkgfile >/dev/null ; then
+  source "/usr/share/doc/pkgfile/command-not-found.zsh" >/dev/null 2>&1 || source $_dotfiles_link/zsh/plugins/pkgfile/command-not-found.zsh >/dev/null 2>&1
 fi
 ######
 

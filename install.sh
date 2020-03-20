@@ -146,6 +146,7 @@ declare -a tools=(
     "less"
     "dircolors"
     "htop"
+    "pkgfile"
     # Extra
     "scrcpy"
 )
