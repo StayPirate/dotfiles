@@ -9,12 +9,11 @@ source $DOTFILES/vars
 
 # $ZDOTDIR is specified in $HOME/.zprofile
 typeset -U PATH path
-path=("${HOME}/.local/bin" "${_bin_dir}" "$path[@]")
+path=("${HOME}/.local/bin" "${_bin_dir}" "${DOTFILES}/tmux/powerline/scripts" "$path[@]")
 export PATH
 
- fpath=(path/to/zsh-completions/src $fpath)
 typeset -U FPATH fpath
-fpath=( "${_zsh_dir}/plugins/zsh-completions/src" "${_zsh_dir}/functions" "${fpath[@]}" )
+fpath=("${_zsh_dir}/plugins/zsh-completions/src" "${_zsh_dir}/functions" "${fpath[@]}")
 export FPATH
 
 export SHELL="/usr/bin/zsh"
@@ -27,3 +26,14 @@ export YAOURT_COLORS="nb=1:pkg=1:ver=1;32:lver=1;45:installed=1;42:grp=1;34:od=1
 # less history
 export LESSHISTFILE="${HOME}/${_less_cache_dir}/history"
 export LESSHISTSIZE=10000
+
+# Powerline
+# Load powerline python module
+if [[ -z $PYTHONPATH ]]; then
+    export PYTHONPATH="${DOTFILES}/tmux/powerline"
+elif echo $PYTHONPATH | grep "${DOTFILES}/tmux/powerline" 1&>2 2>/dev/null; then
+    :
+else
+    export PYTHONPATH="${DOTFILES}/tmux/powerline":${PYTHONPATH}
+fi
+export POWERLINE_CONFIG_COMMAND="${DOTFILES}/tmux/powerline/scripts/powerline-config"

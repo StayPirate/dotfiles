@@ -14,3 +14,7 @@
 	path = zsh/plugins/zsh-completions
 	url = https://github.com/zsh-users/zsh-completions.git
 	branch = master
+[submodule "tmux/powerline"]
+	path = tmux/powerline
+	url = https://github.com/powerline/powerline.git
+	branch = master

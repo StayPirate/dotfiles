@@ -126,6 +126,10 @@ create_safe_symlink "/launchers/shield.desktop" "${_launchers_dir}/shield.deskto
 create_safe_symlink "/icons/shield.png" "${_icons_dir}/256x256/apps/shield.png"
 
 ########
+### TMUX
+create_safe_symlink "/tmux/tmux.conf" ~/".tmux.conf"
+
+########
 ### OTHERS
 [ -d $_less_cache_dir ] || mkdir -p $_less_cache_dir
 #===================================
@@ -147,6 +151,7 @@ declare -a tools=(
     "dircolors"
     "htop"
     "pkgfile"
+    "socat"
     # Extra
     "scrcpy"
 )
