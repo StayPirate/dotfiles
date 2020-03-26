@@ -127,6 +127,7 @@ create_safe_symlink "/icons/shield.png" "${_icons_dir}/256x256/apps/shield.png"
 
 ########
 ### TMUX
+create_safe_symlink "/tmux/powerline-custom" "${_xdg_config_home}/powerline"
 create_safe_symlink "/tmux/tmux.conf" ~/".tmux.conf"
 
 ########

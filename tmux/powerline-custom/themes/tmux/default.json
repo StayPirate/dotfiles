@@ -1,0 +1,62 @@
+{
+	"segments": {
+		"right": [
+			{
+				"function": "powerline.segments.common.players.spotify",
+				"name": "player"
+			},
+			{
+				"function": "powerline.segments.common.net.network_load",
+				"args": {
+					"si_prefix": true,
+					"recv_format": "{value:>8}",
+					"sent_format": " {value:>8}"
+				}
+			},
+			{
+				"function": "powerline.segments.common.net.external_ip",
+				"args": {
+					"query_url": "http://ipv4.icanhazip.com/"
+				}
+			},
+			{
+				"function": "powerline.segments.common.bat.battery",
+				"args": {
+					"gamify": true,
+					"full_heart": "\u25a0",
+					"empty_heart": "\u25a1",
+					"steps": 5
+				}
+			},
+			{
+				"function": "powerline.segments.common.time.date",
+				"name": "date",
+				"args": {
+					"format": "%a %d %b"
+				}
+			},
+			{
+				"function": "powerline.segments.common.time.date",
+				"name": "time",
+				"args": {
+					"format": "%H:%M",
+					"istime": true
+				}
+			},
+			{
+				"function": "powerline.segments.common.net.hostname",
+				"before": "",
+				"args": {
+					"only_if_ssh": true,
+					"exclude_domain": true
+				}
+			},
+			{
+				"function": "powerline.segments.tmux.attached_clients",
+				"args": {
+					"minimum": 2
+				}
+			}
+		]
+	}
+}

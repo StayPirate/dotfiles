@@ -7,6 +7,8 @@
 # Loading variable shared with the instalation script
 source $DOTFILES/vars
 
+export XDG_CONFIG_HOME=${_xdg_config_home}
+
 # $ZDOTDIR is specified in $HOME/.zprofile
 typeset -U PATH path
 path=("${HOME}/.local/bin" "${_bin_dir}" "${DOTFILES}/tmux/powerline/scripts" "$path[@]")
