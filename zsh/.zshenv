@@ -33,7 +33,7 @@ export LESSHISTSIZE=10000
 # Load powerline python module
 if [[ -z $PYTHONPATH ]]; then
     export PYTHONPATH="${DOTFILES}/tmux/powerline"
-elif echo $PYTHONPATH | grep "${DOTFILES}/tmux/powerline" 1&>2 2>/dev/null; then
+elif echo $PYTHONPATH | grep "${DOTFILES}/tmux/powerline" >/dev/null 2>&1; then
     :
 else
     export PYTHONPATH="${DOTFILES}/tmux/powerline":${PYTHONPATH}
