@@ -10,9 +10,17 @@
 		"window_name":          { "fg": "solarized:base3",  "bg": "solarized:base01", "attrs": ["bold"] },
 		"session":              { "fg": "solarized:base3",  "bg": "solarized:base01", "attrs": [] },
 		"session:prefix":       { "fg": "solarized:base01", "bg": "solarized:base3",  "attrs": [] },
-		"external_ip": 	        {"fg": "gray0",             "bg": "red",              "attrs": []},
-		"player":               {"fg": "gray0",             "bg": "red",              "attrs": []},
+		"date":                 {"fg": "gray9",             "bg": "gray0",            "attrs": []},		
+		"time":                 {"fg": "gray9",             "bg": "black",            "attrs": []},
+		"external_ip": 	        {"fg": "gray9",             "bg": "gray0",            "attrs": []},
+		"player":               {"fg": "gray0",             "bg": "gray0",            "attrs": []},
 		"attached_clients":     {"fg": "gray0",             "bg": "red",              "attrs": ["bold"]},
-		"hostname":             {"fg": "gray0",             "bg": "green",            "attrs": ["bold"]}
+		"hostname":             {"fg": "gray0",             "bg": "green",            "attrs": ["bold"]},
+		"network_load":         {"fg": "gray9",             "bg": "gray1",            "attrs": []},
+		"network_load_sent":    {"fg": "gray9",             "bg": "gray1",            "attrs": []},
+		"network_load_recv":    {"fg": "gray9",             "bg": "gray1",            "attrs": []},
+		"battery":              {"fg": "gray6",             "bg": "gray0",            "attrs": []},
+		"battery_ac_state":     {"fg": "gray6",             "bg": "gray0",            "attrs": []},
+		"battery_offline":      {"fg": "gray6",             "bg": "gray0",            "attrs": []}
 	}
 }

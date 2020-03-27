@@ -3,10 +3,21 @@
 		"right": [
 			{
 				"function": "powerline.segments.common.players.spotify",
-				"name": "player"
+				"after": " \uf1bc",
+				"name": "player",
+				"args": {
+					"state_symbols": {
+						"play": "\ue602",
+						"pause": "\uf8e3",
+						"stop": "\uf9da",
+						"fallback": ""
+					},
+				"format": "{state_symbol} {artist} - {title}"
+				}
 			},
 			{
 				"function": "powerline.segments.common.net.network_load",
+				"after": " \uf6ff",
 				"args": {
 					"si_prefix": true,
 					"recv_format": "{value:>8}",
@@ -23,29 +34,24 @@
 				"function": "powerline.segments.common.bat.battery",
 				"args": {
 					"gamify": true,
-					"full_heart": "\u25a0",
-					"empty_heart": "\u25a1",
+					"full_heart": "\uf578",
+					"empty_heart": "\uf579",
+					"online": "\uf1e6 ",
+					"offline": "",
 					"steps": 5
-				}
-			},
-			{
-				"function": "powerline.segments.common.time.date",
-				"name": "date",
-				"args": {
-					"format": "%a %d %b"
 				}
 			},
 			{
 				"function": "powerline.segments.common.time.date",
 				"name": "time",
 				"args": {
-					"format": "%H:%M",
+					"format": "%a %d %b %H:%M",
 					"istime": true
 				}
 			},
 			{
 				"function": "powerline.segments.common.net.hostname",
-				"before": "",
+				"before": "\uf805 (SSH) ",
 				"args": {
 					"only_if_ssh": true,
 					"exclude_domain": true
