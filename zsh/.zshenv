@@ -31,11 +31,7 @@ export LESSHISTSIZE=10000
 
 # Powerline
 # Load powerline python module
-if [[ -z $PYTHONPATH ]]; then
-    export PYTHONPATH="${DOTFILES}/tmux/powerline"
-elif echo $PYTHONPATH | grep "${DOTFILES}/tmux/powerline" >/dev/null 2>&1; then
-    :
-else
-    export PYTHONPATH="${DOTFILES}/tmux/powerline":${PYTHONPATH}
-fi
+typeset -aTU PYTHONPATH pythonpath
+pythonpath=("${DOTFILES}/tmux/powerline")
+export PYTHONPATH
 export POWERLINE_CONFIG_COMMAND="${DOTFILES}/tmux/powerline/scripts/powerline-config"
