@@ -140,21 +140,24 @@ create_safe_symlink "/tmux/tmux.conf" ~/".tmux.conf"
 # Check missing packages
 
 declare -a tools=(
-    # Essential
+    ### Essential
     "zsh"
     "fzf"
     "tmux"
     "vim"
     "git"
-    # Utility
+    ### Utility
     "fc-cache"
     "less"
     "dircolors"
     "htop"
     "pkgfile"
     "socat"
-    # Extra
+    ### Extra
     "scrcpy"
+    ### Dependecies
+    # Required by powerline's spotify segment
+    "python-dbus"
 )
 
 _missing_pkgs=false
