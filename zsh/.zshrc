@@ -165,6 +165,8 @@ autoload -Uz compinit
 compinit -d "${_zsh_cache_dir}/zcompdump"
 autoload -Uz custom_colors
 custom_colors
+# SARS-CoV-2 stats
+autoload -Uz corona
 ######
 
 #### HOW TO INSTALL PLGUINS & THEMES ####
