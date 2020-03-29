@@ -26,6 +26,8 @@ setopt GLOBDOTS
 setopt CORRECT
 # On an ambiguous completion insert the first match immediately.
 setopt MENU_COMPLETE
+# Turns on interactive comments
+setopt INTERACTIVECOMMENTS
 ######
 
 ### KEY BINDING
