@@ -153,6 +153,7 @@ declare -a tools=(
     "htop"
     "pkgfile"
     "socat"
+    "curl"
     ### Extra
     "scrcpy"
     ### Dependecies

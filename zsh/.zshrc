@@ -20,6 +20,8 @@ setopt NO_BEEP
 setopt AUTO_CD
 # Extended globbing
 setopt EXTENDED_GLOB
+# lets files beginning with a . be matched without explicitly specifying the dot
+setopt GLOBDOTS
 # Simple correction of commands
 setopt CORRECT
 # On an ambiguous completion insert the first match immediately.
@@ -90,6 +92,10 @@ alias cp="cp -i" # confirm before overwriting something
 alias docker='sudo docker'
 alias docker-compose='sudo docker-compose'
 alias ls='ls --color=auto'
+alias ll='ls -lh --color=auto'
+alias la='ls -Alh --color=auto'
+alias root="sudo su -"
+alias myip="curl https://ipinfo.io/ip"
 alias grep='grep --colour=auto'
 alias egrep='egrep --colour=auto'
 alias fgrep='fgrep --colour=auto'
