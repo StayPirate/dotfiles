@@ -22,6 +22,15 @@ export SHELL="/usr/bin/zsh"
 export TERM="xterm-256color"
 export EDITOR="vim"
 
+# Uniform QT and GTK GUI
+# Install adwaita-qt from AUR
+export QT_STYLE_OVERRIDE=adwaita-dark
+# The two following variables are used to run QT apps
+# on Wayland. I've disabled them because keepassxc
+# supports the auto-type feature only on Xorg.
+#export QT_QPA_PLATFORM=wayland
+#export XCURSOR_SIZE=10
+
 # better yaourt colors
 export YAOURT_COLORS="nb=1:pkg=1:ver=1;32:lver=1;45:installed=1;42:grp=1;34:od=1;41;5:votes=1;44:dsc=0:other=1;35"
 
