@@ -29,24 +29,25 @@ function create_safe_symlink {
     _src=$(pwd)${1}
     _dst=${2}
 
-    _dot="NOTEXIST"
-    if [ -L ${_dotfiles_link} ]; then
-        _dot=$(readlink $_dotfiles_link)
-    fi
+    [ -L $_dotfiles_link ] || _dotfiles_link=NOTEXIST
 
     if [ ! -e "$_dst" ]; then
         ln -s "$_src" "$_dst"
-    elif [[ $(readlink "$_dst") == "$_src" ]] || [[ $(readlink "$_dst") == "${_dot}${1}" ]]; then
-        : # Do nothing
-    else        
-        echo "\"${_dst}\" exists and is not pointing to \"${_src}\": Left untouched."
-        unset _src
-        unset _dst
-        return 1
+    elif [ -L "$_dst" ]; then
+        if [[ ! $(readlink "$_dst") == "$_src" ]] && [[ ! $(readlink "$_dst") == "${_dotfiles_link}${1}" ]]; then
+            echo "\"${_dst}\" exists and is not pointing to \"${_src}\" or \"${_dotfiles_link}${1}\": Left untouched."
+            unset _src
+            unset _dst
+            unset _dot
+            return 1
+        fi
+    else
+        echo "\"${_dst}\" exists and is not a symbolic link: Left untouched."
     fi
 
     unset _src
     unset _dst
+    unset _dot
     return 0
 }
 #===================================
@@ -88,7 +89,7 @@ create_safe_symlink "/zsh" $_zsh_dir
 [ -f "${_zsh_cache_dir}/zcompdump" ] && rm -f "${_zsh_cache_dir}/zcompdump"
 
 ########
-### SYSTEMD USER UNITS
+### SYSTEMD ENVIRONMENT VARIABLES
 [ -d $_systemd_environmentd ] || mkdir -p $_systemd_environmentd
 for conf in `ls -A systemd/environment.d`; do
     create_safe_symlink "/systemd/environment.d/${conf}" "${_systemd_environmentd}/${conf}"
@@ -157,6 +158,7 @@ declare -a tools=(
     "pkgfile"
     "socat"
     "curl"
+    "xclip"
     ### Extra
     "scrcpy"
     ### Dependecies
