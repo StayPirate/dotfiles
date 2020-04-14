@@ -83,7 +83,7 @@ fi
 grep "DOTFILES" zsh/.zprofile >/dev/null 2>&1 || echo "export DOTFILES=\"${_dotfiles_link}\"" >> zsh/.zprofile
 # Lightdm compatibility
 # https://superuser.com/questions/597291/xfce-lightdm-startup-configuration-files#comment1478463_687401
-grep "zprofile" ~/.xsessionrc >/dev/null 2>&1 || echo "source \$HOME/.zprofile" >> ~/.xsessionrc
+grep "zprofile" ~/.xsessionrc >/dev/null 2>&1 || echo ". \$HOME/.zprofile" >> ~/.xsessionrc
 # Wayland compatibility (check below #SYSTEMD_ENVIRONMENT_VARIABLES)
 grep "DOTFILES" systemd/environment.d/00-dotfiles.conf >/dev/null 2>&1 || echo "DOTFILES=\"${_dotfiles_link}\"" >> systemd/environment.d/00-dotfiles.conf
 
