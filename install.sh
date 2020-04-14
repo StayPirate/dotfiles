@@ -78,18 +78,28 @@ if ! create_safe_symlink "" "${_dotfiles_link}"; then
 fi
 
 ########
-### ZSH
+### ENVIRONMENT VARIABLES
 # Xorg compatibility
 grep "DOTFILES" zsh/.zprofile >/dev/null 2>&1 || echo "export DOTFILES=\"${_dotfiles_link}\"" >> zsh/.zprofile
-create_safe_symlink "/zsh/.zprofile" ~/".zprofile"
-# Wayland compatibility
+# Lightdm compatibility
+# https://superuser.com/questions/597291/xfce-lightdm-startup-configuration-files#comment1478463_687401
+grep "zprofile" ~/.xsessionrc >/dev/null 2>&1 || echo "source \$HOME/.zprofile" >> ~/.xsessionrc
+# Wayland compatibility (check below #SYSTEMD_ENVIRONMENT_VARIABLES)
 grep "DOTFILES" systemd/environment.d/00-dotfiles.conf >/dev/null 2>&1 || echo "DOTFILES=\"${_dotfiles_link}\"" >> systemd/environment.d/00-dotfiles.conf
+
+########
+### ZSH
+create_safe_symlink "/zsh/.zprofile" ~/".zprofile"
 create_safe_symlink "/zsh" $_zsh_dir
 [ -d $_zsh_cache_dir ] || mkdir -p $_zsh_cache_dir
 [ -f "${_zsh_cache_dir}/zcompdump" ] && rm -f "${_zsh_cache_dir}/zcompdump"
 
 ########
 ### SYSTEMD ENVIRONMENT VARIABLES
+# That works for GNOME on Wayland since the graphical terminal emulator runs as 
+# the gnome-terminal-server.service user unit, which in turn runs the user shell, 
+# so that shell will inherit environment variables exported by the user manager.
+# https://jlk.fjfi.cvut.cz/arch/manpages/man/environment.d.5#APPLICABILITY
 [ -d $_systemd_environmentd ] || mkdir -p $_systemd_environmentd
 for conf in `ls -A systemd/environment.d`; do
     create_safe_symlink "/systemd/environment.d/${conf}" "${_systemd_environmentd}/${conf}"
