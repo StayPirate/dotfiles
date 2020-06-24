@@ -101,6 +101,7 @@ alias myip="curl https://ipinfo.io/ip"
 alias grep='grep --colour=auto'
 alias egrep='egrep --colour=auto'
 alias fgrep='fgrep --colour=auto'
+alias gpgh='gpg --homedir .'
 alias pacman-search="pacman -Slq | fzf -m --preview 'cat <(pacman -Si {1}) <(pacman -Fl {1} | awk \"{print \$2}\")' | xargs -ro sudo pacman -S --needed"
 # Suffix aliases
 alias -s txt=$EDITOR
