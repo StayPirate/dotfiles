@@ -1,0 +1,12 @@
+[Unit]
+Description=Start scrcpy when correct usb device is plugged
+
+[Service]
+Type=simple
+Environment=XAUTHORITY=/run/user/1000/gdm/Xauthority
+Environment=DISPLAY=:0
+ExecStart=/bin/bash -c '${HOME}/.dotfiles/bin/mouse_jigler'
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
