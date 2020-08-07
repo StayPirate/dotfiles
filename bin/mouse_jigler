@@ -1,0 +1,17 @@
+#!/bin/bash
+#
+# Script to keep mouse pointer moving while audio is playing so that, for example, Suspend to RAM timeout
+# does not occur while listening to music or watching a video (with sound).
+# 
+# The mouse pointer will move around its current position on the screen, i.e. around any position
+# on the screen where you place the pointer. However, if you prefer it to move around the centre
+# of the screen then change mousemove_relative to mousemove in the xdotool command below.
+#
+# Set DELAY to the desired number of seconds between each move of the mouse pointer.
+DELAY=60
+#
+while true
+do
+    xdotool mousemove_relative 0 1
+    sleep $DELAY
+done
