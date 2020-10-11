@@ -29,13 +29,14 @@ function create_safe_symlink {
     _src=$(pwd)${1}
     _dst=${2}
 
-    [ -L $_dotfiles_link ] || _dotfiles_link=NOTEXIST
+    _local_dotfiles_link=NOTEXIST
+    [ -L $_dotfiles_link ] && _local_dotfiles_link=$_dotfiles_link
 
     if [ ! -e "$_dst" ]; then
         ln -s "$_src" "$_dst"
     elif [ -L "$_dst" ]; then
-        if [[ ! $(readlink "$_dst") == "$_src" ]] && [[ ! $(readlink "$_dst") == "${_dotfiles_link}${1}" ]]; then
-            echo "\"${_dst}\" exists and is not pointing to \"${_src}\" or \"${_dotfiles_link}${1}\": Left untouched."
+        if [[ ! $(readlink "$_dst") == "$_src" ]] && [[ ! $(readlink "$_dst") == "${_local_dotfiles_link}${1}" ]]; then
+            echo "\"${_dst}\" exists and is not pointing to \"${_src}\" or \"${_local_dotfiles_link}${1}\": Left untouched."
             unset _src
             unset _dst
             unset _dot
