@@ -16,3 +16,4 @@ _bin_dir=~/.local/user_bin
 _fonts_dir=~/.local/share/fonts
 _launchers_dir=~/.local/share/applications
 _icons_dir=~/.local/share/icons/custom_icons
+_keepassxc_dir=~/.config/keepassxc
