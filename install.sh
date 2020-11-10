@@ -146,6 +146,11 @@ create_safe_symlink "/tmux/powerline-custom" "${_xdg_config_home}/powerline"
 create_safe_symlink "/tmux/tmux.conf" ~/".tmux.conf"
 
 ########
+### Keepassxc
+[ -d $_keepassxc_dir ] || mkdir -p $_keepassxc_dir
+create_safe_symlink "/keepassxc/keepassxc.ini" "${_keepassxc_dir}/keepassxc.ini"
+
+########
 ### OTHERS
 [ -d $_less_cache_dir ] || mkdir -p $_less_cache_dir
 #===================================
@@ -172,6 +177,7 @@ declare -a tools=(
     "xclip"
     ### Extra
     "scrcpy"
+    "keepassxc"
     ### Dependecies
     # Required by powerline's spotify segment
     "python-dbus"
