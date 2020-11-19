@@ -162,6 +162,17 @@ if type pkgfile >/dev/null ; then
 fi
 ######
 
+### Pyenv ###
+# pyenv: https://github.com/pyenv/pyenv#basic-github-checkout
+# pyenv-virtualenv: https://github.com/pyenv/pyenv-virtualenv#installing-as-a-pyenv-plugin
+# ZSH autocompletion: https://github.com/pyenv/pyenv#advanced-configuration
+if type pyenv >/dev/null ; then
+  eval "$(pyenv init -)"
+  eval "$(pyenv virtualenv-init -)"
+  source $_dotfiles_link/pyenv/pyenv/completions/pyenv.zsh >/dev/null 2>&1
+fi
+######
+
 ### Load custom shell functions
 autoload -Uz extract
 autoload -Uz compinit

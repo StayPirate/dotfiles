@@ -11,7 +11,7 @@ export XDG_CONFIG_HOME=${_xdg_config_home}
 
 # $ZDOTDIR is specified in $HOME/.zprofile
 typeset -U PATH path
-path=("${_pyenv_dir}/bin" "${_pyenv_dir}/shims" "${_bin_dir}" "${HOME}/.local/bin" "${DOTFILES}/tmux/powerline/scripts" "$path[@]")
+path=("${_pyenv_installation_dir}/bin" "${_bin_dir}" "${HOME}/.local/bin" "${DOTFILES}/tmux/powerline/scripts" "$path[@]")
 export PATH
 
 typeset -U FPATH fpath
@@ -39,6 +39,6 @@ export POWERLINE_CONFIG_COMMAND="${DOTFILES}/tmux/powerline/scripts/powerline-co
 # Pyenv
 # https://github.com/pyenv/pyenv#environment-variables
 # https://github.com/pyenv/pyenv-virtualenv#special-environment-variables
-export PYENV_ROOT="${_pyenv_dir}"
+export PYENV_ROOT="${_pyenv_root_dir}"
 export PYTHON_BUILD_ARIA2_OPTS="-x 10 -k 1M"
 export PYENV_VIRTUALENV_CACHE_PATH="${_pyenv_virtualenv_cache_dir}"

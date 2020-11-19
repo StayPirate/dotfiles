@@ -17,5 +17,6 @@ _fonts_dir=~/.local/share/fonts
 _launchers_dir=~/.local/share/applications
 _icons_dir=~/.local/share/icons/custom_icons
 _keepassxc_dir=~/.config/keepassxc
-_pyenv_dir="${_dotfiles_link}/pyenv/pyenv"
+_pyenv_installation_dir="${_dotfiles_link}/pyenv/pyenv"
+_pyenv_root_dir=~/.config/pyenv
 _pyenv_virtualenv_cache_dir=~/.cache/pyenv-virtualenv
