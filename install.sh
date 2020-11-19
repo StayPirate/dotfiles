@@ -152,7 +152,8 @@ create_safe_symlink "/keepassxc/keepassxc.ini" "${_keepassxc_dir}/keepassxc.ini"
 
 ########
 ### Pyenv / Pyenv-Virtualenv
-create_safe_symlink "/pyenv/pyenv-virtualenv" "${_pyenv_dir}/plugins/pyenv-virtualenv"
+[ -d "${_pyenv_root_dir}/plugins" ] || mkdir -p "${_pyenv_root_dir}/plugins"
+create_safe_symlink "/pyenv/pyenv-virtualenv" "${_pyenv_root_dir}/plugins/pyenv-virtualenv"
 [ -d $_pyenv_virtualenv_cache_dir ] || mkdir -p $_pyenv_virtualenv_cache_dir
 
 ########
