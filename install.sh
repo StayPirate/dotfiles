@@ -113,7 +113,7 @@ for unit in `ls -A systemd/user`; do
     create_safe_symlink "/systemd/user/${unit}" "${_systemd_user_dir}/${unit}"
 done
 systemctl --user daemon-reload
-for unit in `ls -A $_systemd_user_dir`; do
+for unit in `ls -A systemd/user`; do
     systemctl --user is-enabled --quiet $unit || echo -e "[Service] ${unit} is not enabled"
 done
 
@@ -149,6 +149,11 @@ create_safe_symlink "/tmux/tmux.conf" ~/".tmux.conf"
 ### Keepassxc
 [ -d $_keepassxc_dir ] || mkdir -p $_keepassxc_dir
 create_safe_symlink "/keepassxc/keepassxc.ini" "${_keepassxc_dir}/keepassxc.ini"
+
+########
+### Pyenv / Pyenv-Virtualenv
+create_safe_symlink "/pyenv/pyenv-virtualenv" "${_pyenv_dir}/plugins/pyenv-virtualenv"
+[ -d $_pyenv_virtualenv_cache_dir ] || mkdir -p $_pyenv_virtualenv_cache_dir
 
 ########
 ### OTHERS

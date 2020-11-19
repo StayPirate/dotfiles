@@ -18,3 +18,11 @@
 	path = tmux/powerline
 	url = https://github.com/powerline/powerline.git
 	branch = master
+[submodule "pyenv/pyenv"]
+	path = pyenv/pyenv
+	url = https://github.com/pyenv/pyenv.git
+	branch = master
+[submodule "pyenv/pyenv-virtualenv"]
+	path = pyenv/pyenv-virtualenv
+	url = https://github.com/pyenv/pyenv-virtualenv.git
+	branch = master
