@@ -232,9 +232,3 @@ source "${ZDOTDIR}/themes/powerlevel9k/powerlevel9k.zsh-theme"
 if [ -z "$TMUX" ]; then
   tmux new-session -A -s workspace
 fi
-
-if [[ $PATH != *powerline* ]]; then
-  echo "Attention."
-  echo "It seems that \$PATH has been wrongly overridden by the system. This misbehavior was noticed in debian<-based> distros."
-  echo "Please follow this link for more information: https://github.com/staypirate/dotfiles/blob/master/zsh/path_override"
-fi
