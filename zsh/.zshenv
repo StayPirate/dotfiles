@@ -19,7 +19,6 @@ fpath=("${_zsh_dir}/plugins/zsh-completions/src" "${_zsh_dir}/functions" "${fpat
 export FPATH
 
 export SHELL="/usr/bin/zsh"
-export TERM="xterm-256color"
 export EDITOR="vim"
 
 # better yaourt colors
