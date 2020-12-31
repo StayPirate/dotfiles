@@ -185,6 +185,11 @@ declare -a tools=(
     "scrcpy"
     "keepassxc"
     ### Dependecies
+    # Debian python build deps
+    "libsqlite3-dev"
+    "libbz2-dev"
+    "libreadline-dev"
+    "libssl-dev"
     # Required by powerline's spotify segment
     "python-dbus"
 )
