@@ -7,4 +7,4 @@
 # at all. Rather, it should be used to set the terminal type and run a series
 # of external commands (fortune, msgs, etc). 
 
-export ZDOTDIR="$HOME/.config/zsh"
+export ZDOTDIR="${HOME}/.config/zsh"

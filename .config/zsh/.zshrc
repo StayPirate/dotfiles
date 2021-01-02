@@ -12,7 +12,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # Loading variable shared with the instalation script
-source $DOTFILES/vars
+source ~/.config/dotfiles/vars
 
 ### HISTORY ###
 HISTFILE=~/.cache/zsh/history
@@ -114,6 +114,8 @@ alias egrep='egrep --colour=auto'
 alias fgrep='fgrep --colour=auto'
 alias gpgh='gpg --homedir .'
 alias pacman-search="pacman -Slq | fzf -m --preview 'cat <(pacman -Si {1}) <(pacman -Fl {1} | awk \"{print \$2}\")' | xargs -ro sudo pacman -S --needed"
+alias homegit="git --git-dir=\"${HOME}/.config/dotfiles_repo\" --work-tree=\"${HOME}\""
+alias gitgraph="git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all"
 # Suffix aliases
 alias -s txt=$EDITOR
 # Global aliases
@@ -147,7 +149,7 @@ if type fzf >/dev/null ; then
       source $completion_script >/dev/null 2>&1 && _fzf_completion=1
   done
   if [ $_fzf_completion -eq 0 ]; then
-    source $_dotfiles_link/zsh/plugins/fzf/completion.zsh >/dev/null 2>&1
+    source ~/.config/zsh/plugins/fzf/completion.zsh >/dev/null 2>&1
   fi
   unset _fzf_completion
 
@@ -156,12 +158,12 @@ if type fzf >/dev/null ; then
     source $keybindings_script >/dev/null 2>&1 && _fzf_keybindings=1
   done
   if [ $_fzf_keybindings -eq 0 ]; then
-    source $_dotfiles_link/zsh/plugins/fzf/key-bindings.zsh >/dev/null 2>&1
+    source ~/.config/zsh/plugins/fzf/key-bindings.zsh >/dev/null 2>&1
   fi
   unset _fzf_keybindings
 
   # Override key-bindings with a custom one which uses `history` instead of `fc`
-  source $_dotfiles_link/zsh/plugins/fzf/key-bindings-custom.zsh >/dev/null 2>&1
+  source ~/.config/zsh/plugins/fzf/key-bindings-custom.zsh >/dev/null 2>&1
 fi
 ######
 
@@ -169,7 +171,7 @@ fi
 # http://zsh.sourceforge.net/Doc/Release/Command-Execution.html
 # https://wiki.archlinux.org/index.php/zsh#The_%22command_not_found%22_handler
 if type pkgfile >/dev/null ; then
-  source "/usr/share/doc/pkgfile/command-not-found.zsh" >/dev/null 2>&1 || source $_dotfiles_link/zsh/plugins/pkgfile/command-not-found.zsh >/dev/null 2>&1
+  source "/usr/share/doc/pkgfile/command-not-found.zsh" >/dev/null 2>&1 || source ~/.config/zsh/plugins/pkgfile/command-not-found.zsh >/dev/null 2>&1
 fi
 ######
 
@@ -180,7 +182,7 @@ fi
 if type pyenv >/dev/null ; then
   eval "$(pyenv init -)"
   eval "$(pyenv virtualenv-init -)"
-  source $_dotfiles_link/pyenv/pyenv/completions/pyenv.zsh >/dev/null 2>&1
+  source ~/.config/pyenv/pyenv/completions/pyenv.zsh >/dev/null 2>&1
 fi
 ######
 
@@ -198,7 +200,7 @@ autoload -Uz corona
 #                                       #
 #       !!! Use git submodules !!!      #
 #                                       # # Example:
-# git submodule add -b master <repo>    # # cd $DOTFILES && git submodule add -b master https://github.com/zsh-users/zsh-completions.git zsh/plugins/zsh-completions
+# git submodule add -b master <repo>    # # cd ~ && git submodule add -b master https://github.com/zsh-users/zsh-completions.git zsh/plugins/zsh-completions
 # So, it could all be udpated with:     #
 # git submodule update --remote         #
 #########################################

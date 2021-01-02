@@ -10,7 +10,7 @@ Type=simple
 Environment=XAUTHORITY=/run/user/1000/gdm/Xauthority
 Environment=DISPLAY=:0
 ExecStartPre=/bin/sleep 3
-ExecStart=/bin/bash -c '${HOME}/.dotfiles/bin/scrcpy_autosize'
+ExecStart=/bin/bash -c '${HOME}/.local/user_bin/scrcpy_autosize'
 Restart=on-failure
 
 [Install]

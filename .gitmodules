@@ -1,32 +1,32 @@
 [submodule "zsh/plugins/zsh-syntax-highlighting"]
-	path = zsh/plugins/zsh-syntax-highlighting
+	path = .config/zsh/plugins/zsh-syntax-highlighting
 	url = https://github.com/zsh-users/zsh-syntax-highlighting.git
 	branch = master
 [submodule "zsh/plugins/zsh-autosuggestions"]
-	path = zsh/plugins/zsh-autosuggestions
+	path = .config/zsh/plugins/zsh-autosuggestions
 	url = https://github.com/zsh-users/zsh-autosuggestions.git
 	branch = master
 [submodule "zsh/themes/powerlevel9k"]
-	path = zsh/themes/powerlevel9k
+	path = .config/zsh/themes/powerlevel9k
 	url = https://github.com/Powerlevel9k/powerlevel9k.git
 	branch = master
 [submodule "zsh/plugins/zsh-completions"]
-	path = zsh/plugins/zsh-completions
+	path = .config/zsh/plugins/zsh-completions
 	url = https://github.com/zsh-users/zsh-completions.git
 	branch = master
 [submodule "tmux/powerline"]
-	path = tmux/powerline
+	path = .config/tmux/powerline
 	url = https://github.com/powerline/powerline.git
 	branch = master
 [submodule "pyenv/pyenv"]
-	path = pyenv/pyenv
+	path = .config/pyenv/pyenv
 	url = https://github.com/pyenv/pyenv.git
 	branch = master
 [submodule "pyenv/pyenv-virtualenv"]
-	path = pyenv/pyenv-virtualenv
+	path = .config/pyenv/pyenv-virtualenv
 	url = https://github.com/pyenv/pyenv-virtualenv.git
 	branch = master
 [submodule "zsh/themes/powerlevel10k"]
-	path = zsh/themes/powerlevel10k
+	path = .config/zsh/themes/powerlevel10k
 	url = https://github.com/romkatv/powerlevel10k.git
 	branch = master
