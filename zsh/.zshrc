@@ -1,5 +1,9 @@
 # .zshrc is sourced in interactive shells.
 
+if [ -z "$TMUX" ]; then
+  exec tmux new-session -A -s workspace
+fi
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -239,6 +243,6 @@ OWERLEVEL9K_INSTANT_PROMPT=verbose
 source "${ZDOTDIR}/themes/powerlevel10k/powerlevel10k.zsh-theme"
 
 ### Start tmux
-if [ -z "$TMUX" ]; then
-  tmux new-session -A -s workspace
-fi
+#if [ -z "$TMUX" ]; then
+#  tmux new-session -A -s workspace
+#fi
