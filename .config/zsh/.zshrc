@@ -116,6 +116,8 @@ alias gpgh='gpg --homedir .'
 alias pacman-search="pacman -Slq | fzf -m --preview 'cat <(pacman -Si {1}) <(pacman -Fl {1} | awk \"{print \$2}\")' | xargs -ro sudo pacman -S --needed"
 alias homegit="git --git-dir=\"${HOME}/.config/dotfiles_repo\" --work-tree=\"${HOME}\""
 alias gitgraph="git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all"
+alias obs="${HOME}/.config/osc/osc/osc-wrapper.py"
+alias ibs="obs -A ibs"
 # Suffix aliases
 alias -s txt=$EDITOR
 # Global aliases
@@ -244,7 +246,6 @@ ZLE_RPROMPT_INDENT=0
 OWERLEVEL9K_INSTANT_PROMPT=verbose
 source "${ZDOTDIR}/themes/powerlevel10k/powerlevel10k.zsh-theme"
 
-### Start tmux
-#if [ -z "$TMUX" ]; then
-#  tmux new-session -A -s workspace
-#fi
+### CONFIGURE GIT SUBMODULES ###
+# pyenv-virtualenv
+if [[ -L "${HOME}/.config/pyenv/pyenv/plugins/pyenv-virtualenv" ]] || ln -s "${HOME}/.config/pyenv/pyenv-virtualenv" "${HOME}/.config/pyenv/pyenv/plugins"

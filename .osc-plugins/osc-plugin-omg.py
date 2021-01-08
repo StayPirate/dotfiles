@@ -1,0 +1,1 @@
+../.config/osc/osc-plugins/osc-plugin-omg.py

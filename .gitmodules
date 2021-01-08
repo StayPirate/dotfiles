@@ -38,3 +38,13 @@
 	url = https://github.com/romkatv/powerlevel10k.git
 	branch = master
 	shallow = true
+[submodule ".config/osc/osc"]
+	path = .config/osc/osc
+	url = https://github.com/openSUSE/osc.git
+	branch = master
+	shallow = true
+[submodule ".config/osc/osc-plugins"]
+	path = .config/osc/osc-plugins
+	url = gitlab@gitlab.suse.de:tools/osc-plugins.git
+	branch = master
+	shallow = true
