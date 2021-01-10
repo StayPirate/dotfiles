@@ -1,50 +1,56 @@
-[submodule "zsh/plugins/zsh-syntax-highlighting"]
+### ZSH PLUGINS/THEMES ###
+[submodule "zsh-syntax-highlighting"]
 	path = .config/zsh/plugins/zsh-syntax-highlighting
 	url = https://github.com/zsh-users/zsh-syntax-highlighting.git
 	branch = master
 	shallow = true
-[submodule "zsh/plugins/zsh-autosuggestions"]
+[submodule "zsh-autosuggestions"]
 	path = .config/zsh/plugins/zsh-autosuggestions
 	url = https://github.com/zsh-users/zsh-autosuggestions.git
 	branch = master
 	shallow = true
-[submodule "zsh/themes/powerlevel9k"]
+[submodule "powerlevel9k"]
 	path = .config/zsh/themes/powerlevel9k
 	url = https://github.com/Powerlevel9k/powerlevel9k.git
 	branch = master
 	shallow = true
-[submodule "zsh/plugins/zsh-completions"]
+[submodule "zsh-completions"]
 	path = .config/zsh/plugins/zsh-completions
 	url = https://github.com/zsh-users/zsh-completions.git
 	branch = master
 	shallow = true
-[submodule "tmux/powerline"]
-	path = .config/tmux/powerline
-	url = https://github.com/powerline/powerline.git
-	branch = master
-	shallow = true
-[submodule "pyenv/pyenv"]
-	path = .config/pyenv/pyenv
-	url = https://github.com/pyenv/pyenv.git
-	branch = master
-	shallow = true
-[submodule "pyenv/pyenv-virtualenv"]
-	path = .config/pyenv/pyenv-virtualenv
-	url = https://github.com/pyenv/pyenv-virtualenv.git
-	branch = master
-	shallow = true
-[submodule "zsh/themes/powerlevel10k"]
+[submodule "powerlevel10k"]
 	path = .config/zsh/themes/powerlevel10k
 	url = https://github.com/romkatv/powerlevel10k.git
 	branch = master
 	shallow = true
-[submodule ".config/osc/osc"]
+### TMUX ###
+[submodule "powerline"]
+	path = .config/tmux/powerline
+	url = https://github.com/powerline/powerline.git
+	branch = master
+	shallow = true
+### PYTHON PYENV ###
+[submodule "pyenv"]
+	path = .config/pyenv/pyenv
+	url = https://github.com/pyenv/pyenv.git
+	branch = master
+	shallow = true
+[submodule "pyenv-virtualenv"]
+	path = .config/pyenv/pyenv-virtualenv
+	url = https://github.com/pyenv/pyenv-virtualenv.git
+	branch = master
+	shallow = true
+### OSC - OPEN BUILD SERVICE ###
+[submodule "osc"]
 	path = .config/osc/osc
 	url = https://github.com/openSUSE/osc.git
 	branch = master
 	shallow = true
-[submodule ".config/osc/osc-plugins"]
+[submodule "osc-plugins"]
 	path = .config/osc/osc-plugins
 	url = gitlab@gitlab.suse.de:tools/osc-plugins.git
 	branch = master
 	shallow = true
+	# Enable only if VPN access is provided
+	update = none

@@ -114,7 +114,8 @@ alias egrep='egrep --colour=auto'
 alias fgrep='fgrep --colour=auto'
 alias gpgh='gpg --homedir .'
 alias pacman-search="pacman -Slq | fzf -m --preview 'cat <(pacman -Si {1}) <(pacman -Fl {1} | awk \"{print \$2}\")' | xargs -ro sudo pacman -S --needed"
-alias homegit="git --git-dir=\"${HOME}/.config/dotfiles_repo\" --work-tree=\"${HOME}\""
+alias dotfiles="git --git-dir=\"${HOME}/.config/dotfiles/public\" --work-tree=\"${HOME}\""
+alias dotfiles-pvt="git --git-dir=\"${HOME}/.config/dotfiles/private\" --work-tree=\"${HOME}\""
 alias gitgraph="git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all"
 alias obs="${HOME}/.config/osc/osc/osc-wrapper.py"
 alias ibs="obs -A ibs"
@@ -248,4 +249,4 @@ source "${ZDOTDIR}/themes/powerlevel10k/powerlevel10k.zsh-theme"
 
 ### CONFIGURE GIT SUBMODULES ###
 # pyenv-virtualenv
-if [[ -L "${HOME}/.config/pyenv/pyenv/plugins/pyenv-virtualenv" ]] || ln -s "${HOME}/.config/pyenv/pyenv-virtualenv" "${HOME}/.config/pyenv/pyenv/plugins"
+#if [[ -L "${HOME}/.config/pyenv/pyenv/plugins/pyenv-virtualenv" ]] || ln -s "${HOME}/.config/pyenv/pyenv-virtualenv" "${HOME}/.config/pyenv/pyenv/plugins"
