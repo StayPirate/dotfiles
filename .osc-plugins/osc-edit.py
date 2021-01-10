@@ -1,1 +1,0 @@
-../.config/osc/osc-plugins/osc-edit.py
