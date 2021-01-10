@@ -85,8 +85,8 @@ for unit in `find $HOME/.config/systemd/user -maxdepth 1 -type f -printf "%f\n"`
     systemctl --user is-enabled --quiet $unit
     if [[ $? -ne 0 ]]; then
         read -p "[systemd] do you want enable ${unit}? [y/N] " -n 1 -r
+        echo
         if [[ $REPLY =~ ^[Yy]$ ]]; then
-            echo
             systemctl --user enable --quiet $unit
             systemctl --user start $unit
         fi
