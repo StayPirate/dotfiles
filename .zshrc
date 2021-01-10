@@ -193,7 +193,7 @@ fi
 autoload -Uz extract
 autoload -Uz compinit
 compinit -d "${_zsh_cache_dir}/zcompdump"
-autoload -Uz custom_colors
+autoload -Uz custom_colors # load ~/.config/zsh/dir_colors
 custom_colors
 # SARS-CoV-2 stats
 autoload -Uz corona
@@ -212,10 +212,10 @@ autoload -Uz corona
 ### LOAD PLUGINS ###
 # zsh-syntax-highlighting
 # https://github.com/zsh-users/zsh-syntax-highlighting
-source "${ZDOTDIR}/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+source "${HOME}/.config/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 # zsh-autosuggestions
 # https://github.com/zsh-users/zsh-autosuggestions
-source "${ZDOTDIR}/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
+source "${HOME}/.config/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
 
 ### LOAD THEMES ###
 # Powerlevel9k
@@ -245,7 +245,7 @@ POWERLEVEL9K_RIGHT_SEGMENT_SEPARATOR='\uE0B2'
 POWERLEVEL9K_LEGACY_ICON_SPACING=true
 ZLE_RPROMPT_INDENT=0
 OWERLEVEL9K_INSTANT_PROMPT=verbose
-source "${ZDOTDIR}/themes/powerlevel10k/powerlevel10k.zsh-theme"
+source "${HOME}/.config/zsh/themes/powerlevel10k/powerlevel10k.zsh-theme"
 
 ### CONFIGURE GIT SUBMODULES ###
 # pyenv-virtualenv

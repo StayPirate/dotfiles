@@ -1,6 +1,6 @@
 ### Load custom colors
 if type dircolors >/dev/null ; then
-  if [[ -f ${ZDOTDIR}/dir_colors ]] ; then
-    eval $(dircolors -b ${ZDOTDIR}/dir_colors)
+  if [[ -f ${HOME}/.config/zsh/dir_colors ]] ; then
+    eval $(dircolors -b ${HOME}/.config/zsh/dir_colors)
   fi
 fi
