@@ -1,5 +1,12 @@
 # .zshrc is sourced in interactive shells.
 
+# Initialize dotfiles the first time zsh is ran from $USER
+if [[ ! -f "${HOME}/.config/dotfiles/first_run" ]]; then
+  _now=$(date +"%d.%m.%Y_%H.%M.%S")
+  ${HOME}/.config/dotfiles/initialize.sh 2>/tmp/dotfiles_init_$_now.log
+  echo "Dotfile initializzation complete, log at /tmp/dotfiles_init_${_now}.log"
+fi
+
 if [ -z "$TMUX" ]; then
   exec tmux new-session -A -s workspace
 fi
@@ -246,7 +253,3 @@ POWERLEVEL9K_LEGACY_ICON_SPACING=true
 ZLE_RPROMPT_INDENT=0
 OWERLEVEL9K_INSTANT_PROMPT=verbose
 source "${HOME}/.config/zsh/themes/powerlevel10k/powerlevel10k.zsh-theme"
-
-### CONFIGURE GIT SUBMODULES ###
-# pyenv-virtualenv
-#if [[ -L "${HOME}/.config/pyenv/pyenv/plugins/pyenv-virtualenv" ]] || ln -s "${HOME}/.config/pyenv/pyenv-virtualenv" "${HOME}/.config/pyenv/pyenv/plugins"

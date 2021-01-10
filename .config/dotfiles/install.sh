@@ -192,6 +192,8 @@ declare -a tools=(
     "libssl-dev"
     # Required by powerline's spotify segment
     "python-dbus"
+    # OCS
+    "python-keyring"
 )
 
 _missing_pkgs=false
