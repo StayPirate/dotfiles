@@ -1,0 +1,13 @@
+[user]
+	name = Gianluca Gabrielli
+	email = gianluca.gabrielli@suse.com
+	signingkey = 78CA2FAA
+[filter "lfs"]
+	smudge = git-lfs smudge --skip -- %f
+	process = git-lfs filter-process --skip
+	required = true
+	clean = git-lfs clean -- %f
+[commit]
+	gpgsign = true
+[http "https://gitlab.suse.de"]
+	sslCAInfo = ~/.ca-certificates/SUSE/SUSE_CA_suse.de_chain.crt
