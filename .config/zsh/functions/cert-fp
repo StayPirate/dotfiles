@@ -1,0 +1,30 @@
+cert-fp_usage () {
+    echo "Usage: cert-fp <domain> [port] [algorithm]"
+    echo "Port default value is 443"
+    echo "Algorithm default value is sha256"
+    echo "Supported algorithms are:"
+    echo -e "\tblake2b512 blake2s256 md2 md4 md5 mdc2 rmd160 sha1 sha224 sha256 sha384 sha512 sha3-224 sha3-256 sha3-384 sha3-512 shake128 shake256 sm3"
+    echo ""
+    echo "Examples:"
+    echo -e "\tcert-fp chat.freenode.net 6697 sha256"
+    echo -e "\tcert-fp crazybyte.me"
+}
+
+cert-fp () {
+    if [[ -z $1 ]]; then 
+        cert-fp_usage
+        return 0
+    fi
+    _port=$2
+    _hash_alg=$3
+    [[ -z $_port ]] && _port=443
+    [[ -z $_hash_alg ]] && _hash_alg=sha256
+    echo "Domain: $1 - Port:$_port - Digest:$_hash_alg"
+    echo -n | openssl s_client -connect $1:$_port 2>/dev/null | \
+    sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | \
+    openssl x509 -noout -fingerprint -$_hash_alg | \
+    sed "s/${_hash_alg} Fingerprint=//i" | \
+    sed 's/://g'
+}
+
+cert-fp "$@"

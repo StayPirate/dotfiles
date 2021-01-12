@@ -199,6 +199,7 @@ fi
 ### Load custom shell functions
 autoload -Uz extract
 autoload -Uz compinit
+autoload -Uz cert-fp
 compinit -d "${_zsh_cache_dir}/zcompdump"
 autoload -Uz custom_colors # load ~/.config/zsh/dir_colors
 custom_colors
