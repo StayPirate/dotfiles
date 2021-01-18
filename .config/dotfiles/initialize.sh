@@ -13,6 +13,11 @@ dotfiles remote set-url --push origin git@github.com:StayPirate/dotfiles.git
 # Stop dotfiles to show untracked files in $HOME
 dotfiles config --local status.showUntrackedFiles no
 
+# Enabling pyenv-virtualenv plugin in pyenv
+if [[ -d "${HOME}/.config/pyenv/pyenv/plugins" && ! -L "${HOME}/.config/pyenv/pyenv/plugins/pyenv-virtualenv" ]]; then
+    ln -s "${HOME}/.config/pyenv/pyenv-virtualenv" "${HOME}/.config/pyenv/pyenv/plugins"
+fi
+
 # Check disabled submodules
 IFS=$'\n'
 _disabled_submodules=($(dotfiles config -f .gitmodules --get-regexp update | grep none | awk '{print $1}' | cut -d '.' -f2))
@@ -32,49 +37,6 @@ for _disabled_submodule in "${_disabled_submodules[@]}"; do
         fi
     fi
 done
-
-# Enabling OMG plugin for OSC (osc maintenance plugin)
-dotfiles config -f .gitmodules --get-regexp osc-plugins.\*update | grep -q none
-if [[ $? -ne 0 ]]; then
-    echo "[.] Installing OMG plugin for OSC"
-    # Install dependecies
-    echo -e "\t[*] Install dependecies"
-    type pip >/dev/null 2>&1
-    if [[ $? -ne 0 ]]; then 
-        echo -e "\t[!] Cannot install python dependencies: pip is missing"
-    else
-        pip install git+https://gitlab.suse.de/tools/maintenance-toolkit.git >/dev/stderr
-        [[ $? -ne 0 ]] || echo -e "\t[.] Maintenance ToolKit (MTK) installed" && echo -e "\t[!] Maintenance ToolKit (MTK) installation failed"
-        pip install git+https://gitlab.suse.de/tools/checkers.git >/dev/stderr
-        [[ $? -ne 0 ]] || echo -e "\t[.] Checkers installed" && echo -e "\t[!] Checkers installation failed"
-    fi
-    if [[ -f "${HOME}/.osc-plugins/osc-plugin-omg.py" ]]; then
-        ln -s "${HOME}/.config/osc/osc-plugins/osc-plugin-omg.py" "${HOME}/.osc-plugins"
-    fi
-    if [[ -f "${HOME}/.osc-plugins/osc-edit.py" ]]; then
-        ln -s "${HOME}/.config/osc/osc-plugins/osc-edit.py" "${HOME}/.osc-plugins"
-    fi
-    if [[ -d "${HOME}/.osc-plugins/omg" ]]; then
-        ln -s "${HOME}/.config/osc/osc-plugins/omg" "${HOME}/.osc-plugins"
-    fi
-    echo "[.] OMG plugin installed"
-else
-    # If osc-plugins submodule is disable, ensure symlinks don't exist
-    if [[ -L "${HOME}/.osc-plugins/osc-plugin-omg.py" ]]; then
-        rm "${HOME}/.osc-plugins/osc-plugin-omg.py"
-    fi
-    if [[ -L "${HOME}/.osc-plugins/osc-edit.py" ]]; then
-        rm "${HOME}/.osc-plugins/osc-edit.py"
-    fi
-    if [[ -L "${HOME}/.osc-plugins/omg" ]]; then
-        rm "${HOME}/.osc-plugins/omg"
-    fi
-fi
-
-# Enabling pyenv-virtualenv plugin in pyenv
-if [[ -d "${HOME}/.config/pyenv/pyenv/plugins" && ! -L "${HOME}/.config/pyenv/pyenv/plugins/pyenv-virtualenv" ]]; then
-    ln -s "${HOME}/.config/pyenv/pyenv-virtualenv" "${HOME}/.config/pyenv/pyenv/plugins"
-fi
 
 # Remove .zcompdump in the home, new cache location is "${_zsh_cache_dir}/zcompdump"
 [[ -f $HOME/.zcompdump ]] && rm $HOME/.zcompdump
