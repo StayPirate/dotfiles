@@ -124,8 +124,9 @@ alias pacman-search="pacman -Slq | fzf -m --preview 'cat <(pacman -Si {1}) <(pac
 alias dotfiles="git --git-dir=\"${HOME}/.config/dotfiles/public\" --work-tree=\"${HOME}\""
 alias dotfiles-pvt="git --git-dir=\"${HOME}/.config/dotfiles/private\" --work-tree=\"${HOME}\""
 alias gitgraph="git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all"
-alias obs="${HOME}/.config/osc/osc/osc-wrapper.py"
-alias ibs="obs -A ibs"
+alias obs="suse-cmd osc"
+alias ibs="suse-cmd osc -A ibs"
+alias is_maintained="suse-cmd is_maintained"
 # Suffix aliases
 alias -s txt=$EDITOR
 # Global aliases
@@ -205,6 +206,8 @@ autoload -Uz custom_colors # load ~/.config/zsh/dir_colors
 custom_colors
 # SARS-CoV-2 stats
 autoload -Uz corona
+# SUSE Dev env
+autoload -Uz suse-cmd
 ######
 
 #### HOW TO INSTALL PLGUINS & THEMES ####

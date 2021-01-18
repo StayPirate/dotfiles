@@ -1,0 +1,27 @@
+FROM opensuse/leap:15.2
+
+LABEL maintainer="Gianluca Gabrielli" mail="crazybyte@protonmail.com"
+LABEL description="Portable OBS developing environment for OpenSUSE and SUSE open build services."
+LABEL version="0.8"
+
+ARG UID=1000
+
+RUN zypper addrepo http://download.suse.de/ibs/SUSE:/CA/openSUSE_Leap_15.2/SUSE:CA.repo && \
+    zypper --non-interactive install -y \
+        git \
+        ruby \
+        ca-certificates-suse && \
+    zypper addrepo https://download.suse.de/ibs/NON_Public:/maintenance:/tools/openSUSE_Leap_15.2/NON_Public:maintenance:tools.repo && \
+    zypper --non-interactive --gpg-auto-import-keys refresh && \
+    zypper --non-interactive install --recommends -y \
+        osc \
+        osc-plugin* \
+        openSUSE-release-tools && \
+    zypper clean --all
+RUN useradd -m -U -u $UID osc && \
+    su - osc -c "git clone  https://gitlab.suse.de/security/tools.git /home/osc/sec-tools"
+
+ENV PATH "$PATH:/home/osc/sec-tools"
+USER osc
+
+ENTRYPOINT ["/bin/sleep", "infinity"]
