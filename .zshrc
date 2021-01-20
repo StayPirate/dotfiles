@@ -124,9 +124,13 @@ alias pacman-search="pacman -Slq | fzf -m --preview 'cat <(pacman -Si {1}) <(pac
 alias dotfiles="git --git-dir=\"${HOME}/.config/dotfiles/public\" --work-tree=\"${HOME}\""
 alias dotfiles-pvt="git --git-dir=\"${HOME}/.config/dotfiles/private\" --work-tree=\"${HOME}\""
 alias gitgraph="git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all"
+# SUSE Aliases
+source ~/.config/zsh/alias/suse
 alias obs="suse-cmd osc"
 alias ibs="suse-cmd osc -A ibs"
 alias is_maintained="suse-cmd is_maintained"
+alias quilt="suse-cmd quilt"
+
 # Suffix aliases
 alias -s txt=$EDITOR
 # Global aliases

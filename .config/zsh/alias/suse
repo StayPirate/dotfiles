@@ -1,0 +1,167 @@
+alias sles15='podman run --rm -ti \
+-v $HOME/SUSE/.secret/SCCcredentials:/etc/zypp/credentials.d/SCCcredentials \
+-e ADDITIONAL_MODULES="\
+sle-module-basesystem,\
+sle-module-desktop-applications,\
+sle-module-development-tools,\
+sle-module-server-applications,\
+sle-module-legacy,\
+sle-module-public-cloud,\
+sle-module-web-scripting,\
+sle-module-containers,\
+sle-module-cap-tools,\
+sle-module-live-patching,\
+SLES-LTSS" \
+registry.suse.com/suse/sle15:15.0 \
+/bin/bash'
+
+alias sles15sp1='podman run --rm -ti \
+-v $HOME/SUSE/.secret/SCCcredentials:/etc/zypp/credentials.d/SCCcredentials \
+-e ADDITIONAL_MODULES="\
+sle-module-basesystem,\
+sle-module-desktop-applications,\
+sle-module-development-tools,\
+sle-module-server-applications,\
+sle-module-legacy,\
+sle-module-public-cloud,\
+sle-module-web-scripting,\
+sle-module-containers,\
+sle-module-cap-tools,\
+sle-module-live-patching,\
+SLES-LTSS" \
+registry.suse.com/suse/sle15:15.1 \
+/bin/bash'
+
+alias sles15sp2='podman run --rm -ti \
+-v $HOME/SUSE/.secret/SCCcredentials:/etc/zypp/credentials.d/SCCcredentials \
+-e ADDITIONAL_MODULES="\
+sle-module-basesystem,\
+sle-module-desktop-applications,\
+sle-module-development-tools,\
+sle-module-server-applications,\
+sle-module-legacy,\
+sle-module-public-cloud,\
+sle-module-web-scripting,\
+sle-module-containers,\
+sle-module-cap-tools,\
+sle-module-live-patching,\
+SLES-LTSS" \
+registry.suse.com/suse/sle15:15.2 \
+/bin/bash'
+	
+alias sles12sp3='podman run --rm -ti \
+-v $HOME/SUSE/.secret/SCCcredentials:/etc/zypp/credentials.d/SCCcredentials \
+-e ADDITIONAL_MODULES="\
+sle-module-basesystem,\
+sle-module-adv-systems-management,\
+sle-module-desktop-applications,\
+sle-module-development-tools,\
+sle-module-server-applications,\
+sle-module-legacy,\
+sle-module-public-cloud,\
+sle-module-web-scripting,\
+sle-module-containers,\
+sle-module-cap-tools,\
+sle-module-toolchain,\
+sle-module-hpc,\
+sle-module-live-patching,\
+SLES-LTSS,\
+PackageHub,\
+SLES,\
+SLES-BCL,\
+SUSE-Linux-Enterprise-RT,\
+SUSE-Manager-Proxy,\
+SUSE-Manager-Retail-Branch-Server,\
+SUSE-Manager-Server,\
+hpe-helion-openstack,\
+ses,\
+sle-ha,\
+sle-ha-geo,\
+sle-live-patching,\
+sle-module-adv-systems-management,\
+sle-pos,\
+sle-sdk,\
+sle-we,\
+suse-manager-retail,\
+suse-openstack-cloud,\
+suse-openstack-cloud-crowbar" \
+registry.suse.com/suse/sles12sp3 \
+/bin/bash'
+
+alias sles12sp4='podman run --rm -ti \
+-v $HOME/SUSE/.secret/SCCcredentials:/etc/zypp/credentials.d/SCCcredentials \
+-e ADDITIONAL_MODULES="\
+sle-module-basesystem,\
+sle-module-adv-systems-management,\
+sle-module-desktop-applications,\
+sle-module-development-tools,\
+sle-module-server-applications,\
+sle-module-legacy,\
+sle-module-public-cloud,\
+sle-module-web-scripting,\
+sle-module-containers,\
+sle-module-cap-tools,\
+sle-module-toolchain,\
+sle-module-hpc,\
+sle-module-live-patching,\
+SLES-LTSS,\
+PackageHub,\
+SLES,\
+SLES-BCL,\
+SUSE-Linux-Enterprise-RT,\
+SUSE-Manager-Proxy,\
+SUSE-Manager-Retail-Branch-Server,\
+SUSE-Manager-Server,\
+hpe-helion-openstack,\
+ses,\
+sle-ha,\
+sle-ha-geo,\
+sle-live-patching,\
+sle-module-adv-systems-management,\
+sle-pos,\
+sle-sdk,\
+sle-we,\
+suse-manager-retail,\
+suse-openstack-cloud,\
+suse-openstack-cloud-crowbar" \
+registry.suse.com/suse/sles12sp4 \
+/bin/bash'
+
+alias sles12sp5='podman run --rm -ti \
+-v $HOME/SUSE/.secret/SCCcredentials:/etc/zypp/credentials.d/SCCcredentials \
+-e ADDITIONAL_MODULES="\
+sle-module-basesystem,\
+sle-module-adv-systems-management,\
+sle-module-desktop-applications,\
+sle-module-development-tools,\
+sle-module-server-applications,\
+sle-module-legacy,\
+sle-module-public-cloud,\
+sle-module-web-scripting,\
+sle-module-containers,\
+sle-module-cap-tools,\
+sle-module-toolchain,\
+sle-module-hpc,\
+sle-module-live-patching,\
+SLES-LTSS,\
+PackageHub,\
+SLES,\
+SLES-BCL,\
+SUSE-Linux-Enterprise-RT,\
+SUSE-Manager-Proxy,\
+SUSE-Manager-Retail-Branch-Server,\
+SUSE-Manager-Server,\
+hpe-helion-openstack,\
+ses,\
+sle-ha,\
+sle-ha-geo,\
+sle-live-patching,\
+sle-module-adv-systems-management,\
+sle-pos,\
+sle-sdk,\
+sle-we,\
+suse-manager-retail,\
+suse-openstack-cloud,\
+suse-openstack-cloud-crowbar" \
+registry.suse.com/suse/sles12sp5 \
+/bin/bash'
