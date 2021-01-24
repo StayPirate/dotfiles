@@ -2,9 +2,9 @@
 
 # Initialize dotfiles the first time zsh is ran from $USER
 if [[ ! -f "${HOME}/.config/dotfiles/first_run" ]]; then
-  _now=$(date +"%d.%m.%Y_%H.%M.%S")
-  ${HOME}/.config/dotfiles/initialize.sh 2>/tmp/dotfiles_init_$_now.log
-  echo "Dotfile initializzation complete, log at /tmp/dotfiles_init_${_now}.log"
+  _tmp_log=$(mktemp)
+  echo "Inizialization dotfiles, log at ${_tmp_log}"
+  ${HOME}/.config/dotfiles/initialize.sh 2>$_tmp_log
 fi
 
 # Powerline Daemon: Fast and lightweight, with daemon support for even better performance.

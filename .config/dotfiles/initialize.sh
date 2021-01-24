@@ -25,7 +25,7 @@ unset IFS
 
 [ ${#_disabled_submodules[@]} -eq 0 ] || echo "The following submodules are disabled:"
 for _disabled_submodule in "${_disabled_submodules[@]}"; do
-    read -p "${_disabled_submodule}, do you want to enable it? [y/N] " -n 1 -r
+    read -p "${_disabled_submodule}, do you want to enable it? [y/N] " -n 1 -r 2>&1
     echo
     if [[ $REPLY =~ ^[Yy]$ ]]; then
         # Qui non funziona, in quanto anche cambiando to checkout, su 
@@ -46,7 +46,7 @@ systemctl --user daemon-reload
 for unit in `find $HOME/.config/systemd/user -maxdepth 1 -type f -printf "%f\n"`; do
     systemctl --user is-enabled --quiet $unit
     if [[ $? -ne 0 ]]; then
-        read -p "[systemd] do you want enable ${unit}? [y/N] " -n 1 -r
+        read -p "[systemd] do you want enable ${unit}? [y/N] " -n 1 -r 2>&1
         echo
         if [[ $REPLY =~ ^[Yy]$ ]]; then
             systemctl --user enable --quiet $unit
