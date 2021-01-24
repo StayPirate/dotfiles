@@ -7,6 +7,9 @@ if [[ ! -f "${HOME}/.config/dotfiles/first_run" ]]; then
   echo "Dotfile initializzation complete, log at /tmp/dotfiles_init_${_now}.log"
 fi
 
+# Powerline Daemon: Fast and lightweight, with daemon support for even better performance.
+# https://powerline.readthedocs.io/en/latest/usage/shell-prompts.html?#shell-prompts
+powerline-daemon -q
 if [ -z "$TMUX" ]; then
   exec tmux new-session -A -s workspace
 fi
