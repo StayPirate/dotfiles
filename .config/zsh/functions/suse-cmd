@@ -10,7 +10,7 @@ enable_container_service () {
     systemctl --user status container-${_container_name}.service >/dev/null 2>&1
     if [[ $? -ne 0 ]]; then
         podman generate systemd --name $_container_name > ${HOME}/.config/systemd/user/container-$_container_name.service
-        [[ $? -ne 0 ]] && echo "${_orange}[*]${_no_color} Cannot create container-${_container_name}.service"
+        [[ $? -ne 0 ]] && echo -e "${_orange}[*]${_no_color} Cannot create container-${_container_name}.service"
         #####
         # Workaround for bug: https://github.com/containers/podman/issues/8506#issuecomment-735442979
         # FIXME: To be removed once the fix end to the upstream
@@ -32,20 +32,21 @@ create_image () {
     for _domain in ${_required_domains[@]}; do
         nslookup $_domain > /dev/null 2>&1
         if [[ $? -ne 0 ]]; then
-            echo "${_red}[!]${_no_color} ${_domain} cannot be resolved, please access the SUSE VPN first"
+            echo -e "${_red}[!]${_no_color} ${_domain} cannot be resolved, please access the SUSE VPN first"
             return 1
         fi
     done
 
-    _tmp_log=$(mktemp)
+    [ -z $XDG_RUNTIME_DIR ] && XDG_RUNTIME_DIR=/tmp
+    _tmp_log=$(mktemp -t suse-build-XXXX.log -p $XDG_RUNTIME_DIR)
     echo "[.] building ${_container_name} image from ${_containerfile}"
     echo -e "\tThis will take several minutes, you can check logs at ${_tmp_log}"
     podman build --build-arg=UID=$(id -u) -t $_container_name\:local -f $_containerfile > $_tmp_log 2>&1
     if [[ $? -ne 0 ]]; then
-        echo "${_red}[!]${_no_color} Cannot build the ${_container_name} image"
+        echo -e "${_red}[!]${_no_color} Cannot build the ${_container_name} image"
         return 1
     fi
-    echo "${_green}[.] ${_no_color}building ${_container_name} image complete"
+    echo -e "${_green}[.] ${_no_color}building ${_container_name} image complete"
     return 0
 }
 
@@ -57,7 +58,7 @@ update_image () {
             # Delete not update image
             podman image rm localhost/${_container_name}:local > /dev/null 2>&1
             if [[ $? -ne 0 ]]; then
-                echo "${_orange}[*]${_no_color} Cannot delete ${_container_name} image, check if it is used by a running container."
+                echo -e "${_orange}[*]${_no_color} Cannot delete ${_container_name} image, check if it is used by a running container."
                 return 1
             fi
             create_image
@@ -73,7 +74,7 @@ create_container () {
     podman image ls | grep -qE "$_container_name.*local"
     if [[ $? -ne 0 ]]; then
         # If not, build it
-        echo "${_orange}[*]${_no_color} ${_container_name} image not found"
+        echo -e "${_orange}[*]${_no_color} ${_container_name} image not found"
         read "_reply?[.] Do you want to build the image right now? [y/N] "
         if [[ "$_reply" =~ ^[Yy]$ ]]; then
             create_image || return $?
@@ -93,7 +94,7 @@ create_container () {
             -v $HOME/SUSE/workdir:/home/osc/workdir \
             -w /home/osc/workdir \
             -u $(id -u) --userns=keep-id \
-            $_container_name\:local > /dev/null 2>&1
+            localhost/$_container_name\:local > /dev/null 2>&1
     [[ $? -ne 0 ]] && return $?
     enable_container_service
     return 0
@@ -104,13 +105,13 @@ start_container () {
     podman container exists $_container_name
     if [[ $? -ne 0 ]]; then
         # If not, create it
-        echo "${_orange}[*]${_no_color} ${_container_name} container not found"
+        echo -e "${_orange}[*]${_no_color} ${_container_name} container not found"
         create_container
         if [[ $? -ne 0 ]]; then
-            echo "${_red}[!]${_no_color} Cannot create the ${_container_name} container"
+            echo -e "${_red}[!]${_no_color} Cannot create the ${_container_name} container"
             return 1
         fi
-        echo "${_green}[.] ${_no_color}${_container_name} container created"
+        echo -e "${_green}[.] ${_no_color}${_container_name} container created"
     fi
 
     systemctl --user is-active --quiet container-$_container_name.service >/dev/null 2>&1
@@ -156,7 +157,7 @@ suse_exec () {
     # Is podman installed?
     type podman >/dev/null 2>&1
     if [[ $? -ne 0 ]]; then
-        echo "${_red}[!]${_no_color} Container engine missing: podman is required"
+        echo -e "${_red}[!]${_no_color} Container engine missing: podman is required"
         return 1
     fi
 
@@ -164,7 +165,7 @@ suse_exec () {
 
     is_container_running || start_container
     if [[ $? -ne 0 ]]; then
-        echo "${_red}[!]${_no_color} Cannot start the ${_container_name} container. Check:"
+        echo -e "${_red}[!]${_no_color} Cannot start the ${_container_name} container. Check:"
         echo -e "\tsystemctl --user status container-${_container_name}.service"
         echo -e "\tjournalctl --user -u container-${_container_name}.service -b"
         echo -e "\tpodman container logs ${_container_name}"
@@ -173,7 +174,7 @@ suse_exec () {
 
     is_service_enabled || enable_container_service
     if [[ $? -ne 0 ]]; then
-        "${_orange}[*]${_no_color} Cannot enable ${_container_name} service"
+        echo -e "${_orange}[*]${_no_color} Cannot enable ${_container_name} service"
     fi
 
     podman container exec -ti $_container_name "$@"

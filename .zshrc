@@ -2,7 +2,8 @@
 
 # Initialize dotfiles the first time zsh is ran from $USER
 if [[ ! -f "${HOME}/.config/dotfiles/first_run" ]]; then
-  _tmp_log=$(mktemp)
+  [ -z $XDG_RUNTIME_DIR ] && XDG_RUNTIME_DIR=/tmp
+  _tmp_log=$(mktemp -t dotfiles-XXXX.log -p $XDG_RUNTIME_DIR)
   echo "Inizialization dotfiles, log at ${_tmp_log}"
   ${HOME}/.config/dotfiles/initialize.sh 2>$_tmp_log
 fi
@@ -127,17 +128,22 @@ alias pacman-search="pacman -Slq | fzf -m --preview 'cat <(pacman -Si {1}) <(pac
 alias dotfiles="git --git-dir=\"${HOME}/.config/dotfiles/public\" --work-tree=\"${HOME}\""
 alias dotfiles-pvt="git --git-dir=\"${HOME}/.config/dotfiles/private\" --work-tree=\"${HOME}\""
 alias gitgraph="git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all"
-# SUSE Aliases
-source ~/.config/zsh/alias/suse
-alias obs="suse-cmd osc"
-alias ibs="suse-cmd osc -A ibs"
-alias is_maintained="suse-cmd is_maintained"
-alias quilt="suse-cmd quilt"
-
 # Suffix aliases
 alias -s txt=$EDITOR
 # Global aliases
 alias -g NOERR='2>/dev/null'
+######
+
+### SUSE / openSUSE ###
+# Portable Development Environment
+autoload -Uz suse-cmd
+# Aliases
+source ~/.config/zsh/alias/suse
+alias zypper="suse-cmd sudo zypper"
+alias obs="suse-cmd osc"
+alias ibs="suse-cmd osc -A ibs"
+alias is_maintained="suse-cmd is_maintained"
+alias quilt="suse-cmd quilt"
 ######
 
 ### Hook Functions ###
@@ -213,8 +219,6 @@ autoload -Uz custom_colors # load ~/.config/zsh/dir_colors
 custom_colors
 # SARS-CoV-2 stats
 autoload -Uz corona
-# SUSE Dev env
-autoload -Uz suse-cmd
 ######
 
 #### HOW TO INSTALL PLGUINS & THEMES ####

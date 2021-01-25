@@ -2,7 +2,7 @@ FROM opensuse/leap:15.2
 
 LABEL maintainer="Gianluca Gabrielli" mail="crazybyte@protonmail.com"
 LABEL description="Portable OBS developing environment for OpenSUSE and SUSE open build services."
-LABEL version="0.8"
+LABEL version="0.9"
 
 ARG UID=1000
 
@@ -19,6 +19,18 @@ RUN zypper addrepo http://download.suse.de/ibs/SUSE:/CA/openSUSE_Leap_15.2/SUSE:
         openSUSE-release-tools && \
     zypper clean --all
 RUN useradd -m -U -u $UID osc && \
+    echo -e '\
+        Cmnd_Alias ZYPPER_SAFE = \
+            /usr/bin/zypper search*, \
+            /usr/bin/zypper se*, \
+            /usr/bin/zypper addrepo*, \
+            /usr/bin/zypper ar*, \
+            /usr/bin/zypper repos*, \
+            /usr/bin/zypper lr*, \
+            /usr/bin/zypper refresh*, \
+            /usr/bin/zypper ref* \n \
+        osc ALL=NOPASSWD: ZYPPER_SAFE' \
+    > /etc/sudoers.d/10_osc-zypper && \
     su - osc -c "git clone  https://gitlab.suse.de/security/tools.git /home/osc/sec-tools"
 
 ENV PATH "$PATH:/home/osc/sec-tools"
