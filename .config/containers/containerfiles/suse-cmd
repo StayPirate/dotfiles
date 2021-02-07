@@ -4,11 +4,10 @@ LABEL maintainer="Gianluca Gabrielli" mail="crazybyte@protonmail.com"
 LABEL description="Portable OBS developing environment for OpenSUSE and SUSE open build services."
 LABEL version="0.9"
 
-ARG UID=1000
-
 RUN zypper addrepo http://download.suse.de/ibs/SUSE:/CA/openSUSE_Leap_15.2/SUSE:CA.repo && \
     zypper --non-interactive install -y \
         git \
+        vim \
         ruby \
         ca-certificates-suse && \
     zypper addrepo https://download.suse.de/ibs/NON_Public:/maintenance:/tools/openSUSE_Leap_15.2/NON_Public:maintenance:tools.repo && \
@@ -18,8 +17,7 @@ RUN zypper addrepo http://download.suse.de/ibs/SUSE:/CA/openSUSE_Leap_15.2/SUSE:
         osc-plugin* \
         openSUSE-release-tools && \
     zypper clean --all
-RUN useradd -m -U -u $UID osc && \
-    echo -e '\
+RUN echo -e '\
         Cmnd_Alias ZYPPER_SAFE = \
             /usr/bin/zypper search*, \
             /usr/bin/zypper se*, \
@@ -29,11 +27,10 @@ RUN useradd -m -U -u $UID osc && \
             /usr/bin/zypper lr*, \
             /usr/bin/zypper refresh*, \
             /usr/bin/zypper ref* \n \
-        osc ALL=NOPASSWD: ZYPPER_SAFE' \
-    > /etc/sudoers.d/10_osc-zypper && \
-    su - osc -c "git clone  https://gitlab.suse.de/security/tools.git /home/osc/sec-tools"
+        ALL ALL=NOPASSWD: ZYPPER_SAFE' \
+    > /etc/sudoers.d/10_unpriv-zypper && \
+    git clone  https://gitlab.suse.de/security/tools.git /sec-tools
 
-ENV PATH "$PATH:/home/osc/sec-tools"
-USER osc
+ENV PATH "$PATH:/sec-tools"
 
 ENTRYPOINT ["/bin/sleep", "infinity"]

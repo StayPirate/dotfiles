@@ -41,7 +41,7 @@ create_image () {
     _tmp_log=$(mktemp -t suse-build-XXXX.log -p $XDG_RUNTIME_DIR)
     echo "[.] building ${_container_name} image from ${_containerfile}"
     echo -e "\tThis will take several minutes, you can check logs at ${_tmp_log}"
-    podman build --build-arg=UID=$(id -u) -t $_container_name\:local -f $_containerfile > $_tmp_log 2>&1
+    podman build -t $_container_name\:local -f $_containerfile > $_tmp_log 2>&1
     if [[ $? -ne 0 ]]; then
         echo -e "${_red}[!]${_no_color} Cannot build the ${_container_name} image"
         return 1
@@ -90,9 +90,8 @@ create_container () {
             --name $_container_name \
             -e DBUS_SESSION_BUS_ADDRESS="$DBUS_SESSION_BUS_ADDRESS" \
             -v ${DBUS_SESSION_BUS_ADDRESS#*=}:${DBUS_SESSION_BUS_ADDRESS#*=} \
-            -v $HOME/.config/osc/oscrc:/home/osc/.config/osc/oscrc \
-            -v $HOME/SUSE/workdir:/home/osc/workdir \
-            -w /home/osc/workdir \
+            -v $HOME:$HOME \
+            -w $HOME \
             -u $(id -u) --userns=keep-id \
             localhost/$_container_name\:local > /dev/null 2>&1
     [[ $? -ne 0 ]] && return $?
@@ -177,7 +176,7 @@ suse_exec () {
         echo -e "${_orange}[*]${_no_color} Cannot enable ${_container_name} service"
     fi
 
-    podman container exec -ti $_container_name "$@"
+    podman container exec -ti -w $(pwd) $_container_name "$@"
 }
 
 suse-cmd () {
