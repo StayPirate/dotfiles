@@ -176,7 +176,7 @@ suse_exec () {
         echo -e "${_orange}[*]${_no_color} Cannot enable ${_container_name} service"
     fi
 
-    podman container exec -ti -w $(pwd) $_container_name "$@"
+    podman container exec -w $(pwd) $_container_name "$@"
 }
 
 suse-cmd () {
