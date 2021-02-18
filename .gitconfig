@@ -9,5 +9,13 @@
 	clean = git-lfs clean -- %f
 [commit]
 	gpgsign = true
+[alias]
+	lg = log --graph --abbrev-commit --decorate --all \
+		--format=format:'%C(bold blue)%h%C(reset) - \
+		%C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- \
+		%an%C(reset)%C(bold yellow)%d%C(reset)'
+	ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
+	ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
+	f = "!git ls-files | grep -i"
 [http "https://gitlab.suse.de"]
 	sslCAInfo = ~/.ca-certificates/SUSE/SUSE_CA_suse.de_chain.crt

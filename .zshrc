@@ -127,7 +127,6 @@ alias gpgh='gpg --homedir .'
 alias pacman-search="pacman -Slq | fzf -m --preview 'cat <(pacman -Si {1}) <(pacman -Fl {1} | awk \"{print \$2}\")' | xargs -ro sudo pacman -S --needed"
 alias dotfiles="git --git-dir=\"${HOME}/.config/dotfiles/public\" --work-tree=\"${HOME}\""
 alias dotfiles-pvt="git --git-dir=\"${HOME}/.config/dotfiles/private\" --work-tree=\"${HOME}\""
-alias gitgraph="git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all"
 # The Wolt app (food delivery) provides an in-app game where you can win free delivery tokens.
 # I use the following alias to beat the game
 alias wolt="xdotool click --repeat 300 --delay 10 1"
