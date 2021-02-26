@@ -112,7 +112,10 @@ zstyle ':completion:*' format '%B---- %d%b'
 ######
 
 ### ALIASES ###
-alias cp="cp -i" # confirm before overwriting something
+# confirm before overwriting something
+alias cp="cp -i"
+# create a temporary folder and cd into it
+alias mkcd="cd \$(mktemp -d -t XXXXXX -p ${XDG_RUNTIME_DIR:-/tmp})"
 alias docker='sudo docker'
 alias docker-compose='sudo docker-compose'
 alias ls='ls --color=auto'
