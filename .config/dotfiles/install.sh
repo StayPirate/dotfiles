@@ -34,11 +34,8 @@ if [[ -f $HOME/.config/dotfiles/public/HEAD ]]; then
 fi
 
 echo "[.] Cloning dotfiles repository..."
-git clone --bare --branch homegit https://github.com/StayPirate/dotfiles.git ~/.config/dotfiles/public > "$_log_file" 2>&1
-# FIXME:           ^^^^^^^^^^^^^^ remove after merge to master
+git clone --bare https://github.com/StayPirate/dotfiles.git ~/.config/dotfiles/public > "$_log_file" 2>&1
 if [[ $? -ne 0 ]]; then echo -e "${_red}[!]${_no_color} Abort: cannot clone the dotfiles repository." && exit 1; fi
-dotfiles switch homegit > "$_log_file" 2>&1
-# FIXME: ^^^^^^^^^^^^^^ remove after merge to master
 echo "[.] Branch checkout to ${HOME}"
 cd $HOME && dotfiles checkout > "$_log_file" 2>&1
 if [[ $? -ne 0 ]]; then
