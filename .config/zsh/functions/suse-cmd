@@ -85,13 +85,20 @@ create_container () {
     [[ -f $HOME/.config/systemd/user/container-$_container_name.service ]] && rm $HOME/.config/systemd/user/container-$_container_name.service
     [[ -d $HOME/SUSE/workdir ]] || mkdir -p $HOME/SUSE/workdir
 
+    # Create this folder because I often use it with this command:
+
+    # The mounted volume ${XDG_RUNTIME_DIR:-/tmp}:${XDG_RUNTIME_DIR:-/tmp}
+    # is usefull for many purpose, most used ones (for me) are:
+    #  - Access D-Bus session bus socket
+    #    - Used by osc to access the secret service provider to get creds to log in OBS
+    #  - mkcd (https://github.com/StayPirate/dotfiles/blob/7608e8ad66f8c13dc57fb49ed0ccf2dd7a04ae5a/.zshrc#L118)
     mkdir -p ${XDG_RUNTIME_DIR:-/tmp}/volatile >/dev/null 2>&1
+
     # Access the host D-Bus session-bus to retrieve osc creds via secret service API
     podman container create \
             --name $_container_name \
             -e DBUS_SESSION_BUS_ADDRESS="$DBUS_SESSION_BUS_ADDRESS" \
-            -v ${DBUS_SESSION_BUS_ADDRESS#*=}:${DBUS_SESSION_BUS_ADDRESS#*=} \
-            -v ${XDG_RUNTIME_DIR:-/tmp}/volatile:${XDG_RUNTIME_DIR:-/tmp}/volatile \
+            -v ${XDG_RUNTIME_DIR:-/tmp}:${XDG_RUNTIME_DIR:-/tmp} \
             -v $HOME:$HOME \
             -w $HOME \
             -u $(id -u) --userns=keep-id \
