@@ -41,3 +41,15 @@
 	url = https://github.com/pyenv/pyenv-virtualenv.git
 	branch = master
 	shallow = true
+[submodule "dotfiles-private"]
+	path = .config/dotfiles/private
+	url = git@github.com:StayPirate/dotfiles-private.git
+	branch = master
+	update = none
+	shallow = true
+[submodule "dotfiles-root"]
+	path = .config/dotfiles/root
+	url = git@github.com:StayPirate/dotfiles-root.git
+	branch = master
+	update = none
+	shallow = true
