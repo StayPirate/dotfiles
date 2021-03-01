@@ -28,7 +28,7 @@
 [submodule "powerline"]
 	path = .config/tmux/powerline
 	url = https://github.com/powerline/powerline.git
-	branch = master
+	branch = develop
 	shallow = true
 ### PYTHON PYENV ###
 [submodule "pyenv"]
