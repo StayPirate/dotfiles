@@ -1,4 +1,4 @@
-#!/bin/bash
-cd ~
-git pull --recurse-submodules=yes
-git submodule update --init --remote
+#!/usr/bin/env zsh
+source ~/.zshrc >/dev/null 2>&1
+dotfiles pull --recurse-submodules
+dotfiles submodule update --init --remote --recursive
