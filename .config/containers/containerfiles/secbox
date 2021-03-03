@@ -15,7 +15,8 @@ RUN zypper addrepo http://download.suse.de/ibs/SUSE:/CA/openSUSE_Leap_15.2/SUSE:
     zypper --non-interactive install --recommends -y \
         osc \
         osc-plugin* \
-        openSUSE-release-tools && \
+        openSUSE-release-tools \
+        python3-checkers && \
     zypper clean --all
 RUN echo -e '\
         Cmnd_Alias ZYPPER_SAFE = \

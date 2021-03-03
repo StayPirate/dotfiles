@@ -141,15 +141,14 @@ alias -g NOERR='2>/dev/null'
 ######
 
 ### SUSE / openSUSE ###
-# Portable Development Environment
-autoload -Uz suse-cmd
 # Aliases
 source ~/.config/zsh/alias/suse
-alias zypper="suse-cmd sudo zypper"
-alias obs="suse-cmd osc"
-alias ibs="suse-cmd osc -A ibs"
-alias is_maintained="suse-cmd is_maintained"
-alias quilt="suse-cmd quilt"
+alias secbox="sudo -E secbox"
+alias zypper="sudo -E secbox sudo zypper"
+alias obs="sudo -E secbox osc"
+alias ibs="sudo -E secbox osc -A ibs"
+alias is_maintained="sudo -E secbox is_maintained"
+alias quilt="sudo -E secbox quilt"
 ######
 
 ### Hook Functions ###

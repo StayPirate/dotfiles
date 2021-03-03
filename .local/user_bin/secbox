@@ -1,0 +1,244 @@
+#!/usr/bin/env bash
+
+_container_name='secbox'
+_containerfile_url="https://raw.githubusercontent.com/StayPirate/dotfiles/master/.config/containers/containerfiles/secbox"
+_container_unit="/usr/lib/systemd/system/container-${_container_name}.service"
+XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR:-/tmp}
+_red='\033[0;31m'
+_orange='\033[0;33m'
+_green='\033[0;32m'
+_no_color='\033[0m'
+
+# Configure the container to start at boot
+enable_container_service () {
+    systemctl status container-${_container_name}.service >/dev/null 2>&1
+    if [[ $? -ne 0 ]]; then
+        podman generate systemd --name $_container_name > $_container_unit
+        [[ $? -ne 0 ]] && echo -e "${_orange}[*]${_no_color} Cannot create container-${_container_name}.service"
+        #####
+        # Workaround for bug: https://github.com/containers/podman/issues/8506#issuecomment-735442979
+        # FIXME: To be removed once the fix end to the upstream
+        sed -e '/^PID/s/^/#/' -i $_container_unit
+        #####
+        systemctl daemon-reload
+    fi
+
+    systemctl is-enabled --quiet container-${_container_name}.service || systemctl enable container-${_container_name}.service > /dev/null 2>&1
+    return $?
+}
+
+internal_network_access () {
+    # Check if VPN connection is available
+    declare -a _required_addresses=(
+        "10.160.0.10/111"
+        "gitlab.suse.de/443"
+        "download.suse.de/443"
+        "github.com/443"
+    )
+
+    for _address in ${_required_addresses[@]}; do
+        (echo "" > /dev/tcp/$_address) >/dev/null 2>&1
+        if [[ $? -ne 0 ]]; then
+            echo -e "${_red}[!]${_no_color} ${_address%/*} cannot be reached on port ${_address#*/}, please check your network"
+            return 1
+        fi
+    done
+    return 0
+}
+
+get_containerfile () {
+    curl -Ls $_containerfile_url -o $XDG_RUNTIME_DIR/secbox_containerfile
+    return 0
+}
+
+create_image () {
+    _tmp_log=$(mktemp -t "${_container_name}-build-XXXX.log" -p "$XDG_RUNTIME_DIR")
+    chmod 644 "$_tmp_log"
+    echo "[.] building ${_container_name} image from $XDG_RUNTIME_DIR/secbox_containerfile"
+    echo -e "\tThis will take several minutes, you can check logs at ${_tmp_log}"
+    podman build -t $_container_name\:local -f $XDG_RUNTIME_DIR/secbox_containerfile > $_tmp_log 2>&1
+    if [[ $? -ne 0 ]]; then
+        echo -e "${_red}[!]${_no_color} Cannot build the ${_container_name} image"
+        return 1
+    fi
+    echo -e "${_green}[.] ${_no_color}building ${_container_name} image complete"
+    return 0
+}
+
+update_image () {
+    read -p "[.] An update is available, do you want to rebuild the image? [y/N] " -n 1 -r
+    echo
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        # Stop not updated running container
+        podman container rm -f ${_container_name} > /dev/null 2>&1
+        # Delete not update image
+        podman image rm localhost/${_container_name}:local > /dev/null 2>&1
+        if [[ $? -ne 0 ]]; then
+            echo -e "${_orange}[*]${_no_color} Cannot delete ${_container_name} image, check if it is used by a running container."
+            return 1
+        fi
+        create_image
+        return $?
+    else
+        return 0
+    fi
+    return 1
+}
+
+create_nfs_dist_volume () {
+    # FIXME: Is rw really needed?? Maybe ro is enough to run tests
+    podman volume create \
+            --opt type=nfs \
+            --opt device=10.160.0.10:/work \
+            --opt o=vers=4.2,rw,noatime,proto=tcp,sec=sys,local_lock=none \
+            nfs-dist
+}
+
+nfs_dist_volume_exists () {
+    podman volume inspect nfs-dist >/dev/null 2>&1
+    return $?
+}
+
+create_container () {
+    # Does the image exists?
+    podman image ls | grep -qE "$_container_name.*local"
+    if [[ $? -ne 0 ]]; then
+        # If not, build it
+        echo -e "${_orange}[*]${_no_color} ${_container_name} image not found"
+        read -p "[.] Do you want to build the image right now? [y/N] " -n 1 -r
+        echo
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+            create_image || return $?
+        else
+            return 1
+        fi
+    fi
+    systemctl stop --quiet container-$_container_name.service >/dev/null 2>&1
+    [[ -f $_container_unit ]] && rm $_container_unit
+
+    # The mounted volume ${XDG_RUNTIME_DIR:-/tmp}:${XDG_RUNTIME_DIR:-/tmp}
+    # is usefull for many purpose, most used ones (for me) are:
+    #  - Access D-Bus session bus socket
+    #    - Used by osc to access the secret service provider to get creds to log in OBS
+    #  - mkcd (https://github.com/StayPirate/dotfiles/blob/7608e8ad66f8c13dc57fb49ed0ccf2dd7a04ae5a/.zshrc#L118)
+
+    # nfs-dist is required by `osc omg pi` and it is used to perform tests. It must be mounted at /mounts/dist
+    nfs_dist_volume_exists || create_nfs_dist_volume
+
+    podman container create \
+            --name $_container_name \
+            -e DBUS_SESSION_BUS_ADDRESS="$DBUS_SESSION_BUS_ADDRESS" \
+            -v ${XDG_RUNTIME_DIR:-/tmp}:${XDG_RUNTIME_DIR:-/tmp} \
+            -v nfs-dist:/mounts/dist \
+            -v $HOME:$HOME \
+            -w $HOME \
+            --userns=keep-id \
+            -u ${SUDO_UID:-0} \
+            localhost/$_container_name\:local > /dev/null 2>&1
+    [[ $? -ne 0 ]] && return $?
+    enable_container_service
+    return 0
+}
+
+start_container () {
+    # Does the container exist?
+    podman container exists $_container_name
+    if [[ $? -ne 0 ]]; then
+        # If not, create it
+        echo -e "${_orange}[*]${_no_color} ${_container_name} container not found"
+        create_container
+        if [[ $? -ne 0 ]]; then
+            echo -e "${_red}[!]${_no_color} Cannot create the ${_container_name} container"
+            return 1
+        fi
+        echo -e "${_green}[.] ${_no_color}${_container_name} container created"
+    fi
+
+    systemctl is-active --quiet container-$_container_name.service >/dev/null 2>&1
+    _service_status=$?
+    case $_service_status in
+    0) 
+        return 0
+        ;;
+    3)
+        # FIXME: try the following change.
+        #
+        # systemctl restart container-$_container_name.service >/dev/null 2>&1 \
+        #   && \
+        # systemctl is-active --quiet container-$_container_name.service >/dev/null 2>&1
+        # return $?
+        # ;;
+        
+        # Service not active
+        systemctl restart container-$_container_name.service >/dev/null 2>&1
+        sleep 3
+        systemctl is-active --quiet container-$_container_name.service >/dev/null 2>&1
+        return $?
+        ;;
+    *)
+        return 1
+    esac
+}
+
+is_update_available () {
+    _current_v=$(podman image inspect localhost/$_container_name\:local --format "{{.Config.Labels.version}}" 2>/dev/null)
+    _latest_v=$(cat $XDG_RUNTIME_DIR/secbox_containerfile | grep "LABEL version=" | cut -d "=" -f 2 | sed 's/"//g')
+    if [[ "$_latest_v" =~ ^[0-9.]+$ && "$_current_v" =~ ^[0-9.]+$ ]]; then
+        if [[ $_latest_v > $_current_v ]]; then
+            return 0
+        fi
+    fi
+    return 1
+}
+
+is_service_enabled () {
+    systemctl is-enabled --quiet container-${_container_name}.service
+    return $?
+}
+
+is_container_running () {
+    podman container ls --all | grep -qE "Up.*${_container_name}"
+    return $?
+}
+
+secbox_exec () {
+    # Podman is now used to manage the NFS volume, hence the container engine now requires root priviledges.
+    # Processes within the container will keep running as unpriviledged user.
+    if [[ $EUID -ne 0 ]]; then
+        echo "This script must be run as root"
+        return 1
+    fi
+
+    internal_network_access || return 1
+
+    # Is podman installed?
+    type podman >/dev/null 2>&1
+    if [[ $? -ne 0 ]]; then
+        echo -e "${_red}[!]${_no_color} Container engine missing: podman is required"
+        return 1
+    fi
+
+    get_containerfile
+
+    is_update_available && update_image
+
+    is_container_running || start_container
+    if [[ $? -ne 0 ]]; then
+        echo -e "${_red}[!]${_no_color} Cannot start the ${_container_name} container"
+        return 1
+    fi
+
+    is_service_enabled || enable_container_service
+    if [[ $? -ne 0 ]]; then
+        echo -e "${_orange}[*]${_no_color} Cannot enable ${_container_name} service"
+    fi
+
+    # -t (pseudo-TTY) option prints '\r\n' as EOL line feed to the output, instead a common '\n'.
+    # This makes piping the command output to some other tools act wired some times.
+    # Just keep in mind, in case you run in similar problem, to remove all '\r' occurances, there is
+    # an old GH issue about this: https://github.com/containers/podman/issues/1671
+    podman container exec -ti -w $(pwd) $_container_name "$@"
+}
+
+secbox_exec "$@"
+
