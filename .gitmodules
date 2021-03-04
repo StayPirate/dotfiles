@@ -9,11 +9,6 @@
 	url = https://github.com/zsh-users/zsh-autosuggestions.git
 	branch = master
 	shallow = true
-[submodule "powerlevel9k"]
-	path = .config/zsh/themes/powerlevel9k
-	url = https://github.com/Powerlevel9k/powerlevel9k.git
-	branch = master
-	shallow = true
 [submodule "zsh-completions"]
 	path = .config/zsh/plugins/zsh-completions
 	url = https://github.com/zsh-users/zsh-completions.git
