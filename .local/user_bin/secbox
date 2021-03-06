@@ -30,7 +30,8 @@ enable_container_service () {
 internal_network_access () {
     # Check if VPN connection is available
     declare -a _required_addresses=(
-        "10.160.0.10/111"
+        "10.160.0.100/111"
+        "dist.suse.de/111"
         "gitlab.suse.de/443"
         "download.suse.de/443"
         "github.com/443"
@@ -89,7 +90,7 @@ create_nfs_dist_volume () {
     # FIXME: Is rw really needed?? Maybe ro is enough to run tests
     podman volume create \
             --opt type=nfs \
-            --opt device=10.160.0.10:/work \
+            --opt device=dist.suse.de:/dist \
             --opt o=vers=4.2,rw,noatime,proto=tcp,sec=sys,local_lock=none \
             nfs-dist
 }
