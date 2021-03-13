@@ -67,6 +67,6 @@ for unit in `find $HOME/.config/systemd/user -maxdepth 1 -type f -printf "%f\n"`
 done
 
 # Ensure execution flag is granted to custom executables
-for executable in `ls -A $HOME/.local/user_bin/*`; do
+for executable in `ls -A $HOME/.local/bin/*`; do
     chmod +x "${executable}"
 done

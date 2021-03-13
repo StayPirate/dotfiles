@@ -9,7 +9,6 @@ _zsh_cache_dir=~/.cache/zsh
 _tmux_dir=~/.config/tmux
 _xdg_config_home=~/.config
 _less_cache_dir=~/.cache/less
-_bin_dir=~/.local/user_bin
 _pyenv_installation_dir=~/.config/pyenv/pyenv
 _pyenv_root_dir=~/.config/pyenv
 _pyenv_virtualenv_cache_dir=~/.cache/pyenv-virtualenv
