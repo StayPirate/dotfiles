@@ -4,10 +4,10 @@
 touch $HOME/.config/dotfiles/first_run
 
 dotfiles() { git --git-dir="${HOME}/.config/dotfiles/public" --work-tree="${HOME}" "${@}"; }
-dotfiles-pvt() { git --git-dir="${HOME}/.config/dotfiles/private/.git" --work-tree="${HOME}" "${@}"; }
+dotfiles-private() { git --git-dir="${HOME}/.config/dotfiles/private/.git" --work-tree="${HOME}" "${@}"; }
 dotfiles-root() { sudo git --git-dir="${HOME}/.config/dotfiles/root/.git" --work-tree=/ "${@}"; }
 export -f dotfiles
-export -f dotfiles-pvt
+export -f dotfiles-private
 export -f dotfiles-root
 
 # Enabling pyenv-virtualenv plugin in pyenv
@@ -40,10 +40,10 @@ dotfiles remote set-url --push origin git@github.com:StayPirate/dotfiles.git > /
 
 # Stop dotfiles to show untracked files
 dotfiles config --local status.showUntrackedFiles no > /dev/stderr
-# If dotfiles-pvt doesn't return an error, it means it has been successfully enabled previously
+# If dotfiles-private doesn't return an error, it means it has been successfully enabled previously
 # then the user can proceed with the checkout of the files. Use -f to overwrite existing files
-dotfiles-pvt config --local status.showUntrackedFiles no > /dev/stderr
-[[ $? -eq 0 ]] && dotfiles-pvt checkout -f > /dev/stderr
+dotfiles-private config --local status.showUntrackedFiles no > /dev/stderr
+[[ $? -eq 0 ]] && dotfiles-private checkout -f > /dev/stderr
 # If dotfiles-root doesn't return an error, it means it has been successfully enabled previously
 # then the user can proceed with the checkout of the files. Use -f to overwrite existing files
 dotfiles-root config --local status.showUntrackedFiles no > /dev/stderr
