@@ -241,5 +241,7 @@ secbox_exec () {
     podman container exec -ti -w $(pwd) $_container_name "$@"
 }
 
-secbox_exec "$@"
+# Podman add \r\n at the EOL of its output, even under GNU/Linux
+# Here I force the stript of \r
+secbox_exec "$@" | sed "s/\r$//"
 
