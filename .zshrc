@@ -159,6 +159,8 @@ alias minutes-pro="_wikidir=\$HOME/Workspace/SUSE/wiki; [ -d \$_wikidir/.git ] |
                    _new=\$(date +\"%Y-%m-%d.mdwn\"); \
                    [ ! -f \$_new ] && cp -u \$_last \$_new; \
                    \$EDITOR \$_new"
+# Continus monitoring of an OBS incident via "monitor #incident_number"
+alias monitor='f(){ watch --no-title --color --interval 5 "echo \"Monitoring incident ${@}\" && sudo secbox osc -A ibs r SUSE:Maintenance:\"$@\" | grep -E \"\(.*\)\" | grep -Ev \"[ ]{2}\? buildstatus|[[:space:]]+[.x][[:space:]]+[.x].*(published)\"" }; f'
 ######
 
 ### Hook Functions ###
