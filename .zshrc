@@ -149,6 +149,13 @@ alias obs="sudo -E secbox osc"
 alias ibs="sudo -E secbox osc -A ibs"
 alias is_maintained="sudo -E secbox is_maintained"
 alias quilt="sudo -E secbox quilt"
+alias minutes-pro="_wikidir=\$HOME/Workspace/SUSE/wiki; [ -d \$_wikidir/.git ] || git clone gitlab@gitlab.suse.de:pes/wiki.git \$_wikidir; \
+                   cd \$_wikidir/Maintenance-Security/Minutes/Proactive_Security_Meeting && \
+                   git pull --ff-only && \
+                   _last=\$(ls | sort -nr | head -n 1); \
+                   _new=\$(date +\"%Y-%m-%d.mdwn\"); \
+                   [ ! -f \$_new ] && cp -u \$_last \$_new; \
+                   \$EDITOR \$_new"
 ######
 
 ### Hook Functions ###
