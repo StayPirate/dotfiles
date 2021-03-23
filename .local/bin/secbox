@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 # -----------------------------------------------------------------------------
+#                     One tool to rule them all, one tool to containerize them
+#                   One tool to bring them all, and in the namespace bind them
+#                                  In the Land of Mordor where the shadows lie
 #                                        _
 #                            ___ ___ ___| |_ ___ _ _ 
 #                           |_ -| -_|  _| . | . |_'_|
