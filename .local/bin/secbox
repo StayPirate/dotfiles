@@ -34,16 +34,16 @@ set -euo pipefail
 #
 # -----------------------------------------------------------------------------
 
-print_help () {
+print_help() {
     cat <<EOF
-Usage: ${_script_name} [--debug] [-h] [-v] [--destroy] [--root] \\
+Usage: ${script_name} [--debug] [-h] [-v] [--destroy] [--root] \\
                 [--no-color] command [arg1 arg2...]
 
 A collection of all the needed tools for your daily work in the Security Team
 
 Available options:
 
---destroy [-i]  Destroy ${_container_name} and related components, -i delete the image too
+--destroy [-i]  Destroy ${container} and related components, -i delete the image too
 --root          Enter the running container as root user, container debug mode
 --debug         Script debug mode
 --no-color      Turn off colored output
@@ -52,7 +52,7 @@ Available options:
 EOF
 }
 
-print_logo () {
+print_logo() {
     msg "${red}\
                 _
     ___ ___ ___| |_ ___ _ _ 
@@ -61,44 +61,38 @@ print_logo () {
         ${no_format}"
 }
 
-# TODO: cambiare tutte le variabili locali delle funzioni con local var
-
-# TODO: creare una funzione che crei una cartella temporanea e blocchi l'accesso agli altri utenti
-# _tmp_dir=create_temp_folder
-
-_tmp_dir=${XDG_RUNTIME_DIR:-/tmp}
-_container_name='secbox'
-_script_name=$(basename "${BASH_SOURCE[0]}")
-_containerfile_url="https://raw.githubusercontent.com/StayPirate/dotfiles/master/.config/containers/containerfiles/secbox"
-_containerfile_local="${_tmp_dir}/secbox_containerfile"
-_container_unit="${XDG_CONFIG_HOME:-$HOME/.config}/systemd/user/${_container_name}.service"
-_local_config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/secbox"
-_local_data_dir="${XDG_DATA_HOME:-$HOME/.local/share}/secbox"
-_nfs_volumes_dir="${_local_data_dir}/volumes"
-_VERSION="0.1"
-
-# dist and mirror are required by `osc omg rr` to perform tests.
-declare -a _nfs_shares=(
+declare -r tmp_dir=${XDG_RUNTIME_DIR:-/tmp}
+declare -r container='secbox'
+declare -r script_name=$(basename "${BASH_SOURCE[0]}")
+declare -r containerfile_url="https://raw.githubusercontent.com/StayPirate/dotfiles/master/.config/containers/containerfiles/secbox"
+declare -r containerfile_local="${tmp_dir}/secbox_containerfile"
+declare -r container_unit="${XDG_CONFIG_HOME:-$HOME/.config}/systemd/user/${container}.service"
+declare -r local_config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/secbox"
+declare -r local_data_dir="${XDG_DATA_HOME:-$HOME/.local/share}/secbox"
+declare -r nfs_volumes_dir="${local_data_dir}/volumes"
+declare -r script_version="0.1"
+declare -ar nfs_shares=(
 ### address:/share,mountpoint,nfs_version
+    # dist and mirror are required by `osc omg rr` to perform tests.
     "dist.suse.de:/dist,/mounts/dist,4.2"
     "loki.suse.de:/vol/euklid,/mounts/mirror,3"
     #"hilbert.suse.de:/work,/mounts/work,4.2"
     #"rufus.suse.de:/vol/schnell,/mounts/schnell,3"
     #"rufus.suse.de:/vol/work_users,/mounts/work_users,3"
     #"hilbert.suse.de:/built,/mounts/built,4.2"
-    #"dust.suse.de:/unpacked,/mounts/unpacked,4.2" # access denied here (╯°□°)╯︵ ┻━┻ ### Need to talk with infra!
+    #"dust.suse.de:/unpacked,/mounts/unpacked,4.2" # access denied here (╯°□°)╯︵ ┻━┻ ### Need to talk to infra!
 )
 
-print_version () {
-    _version_str="script\t:\t${_script_name}\tv.${_VERSION}"
-    if podman container exists $_container_name; then
-        _image_name=$(podman container inspect --format '{{.ImageName}}' ${_container_name} 2>/dev/null)
-        _image_version=$(podman container inspect --format '{{.Config.Labels.version}}' ${_container_name} 2>/dev/null)
-        _container_status=$(podman container inspect --format '{{.State.Status}}' ${_container_name} 2>/dev/null)
+print_version() {
+    local _version_str="script\t:\t${script_name}\tv.${script_version}"
+    if podman container exists $container; then
+        local _image_name=$(podman container inspect --format '{{.ImageName}}' ${container} 2>/dev/null)
+        local _image_version=$(podman container inspect --format '{{.Config.Labels.version}}' ${container} 2>/dev/null)
+        local _container_status=$(podman container inspect --format '{{.State.Status}}' ${container} 2>/dev/null)
         _version_str="${_version_str}\nimage\t:\t${_image_name}\tv.${_image_version}"
-        _version_str="${_version_str}\ncontainer\t:\t${_container_name}\t${_container_status}"
+        _version_str="${_version_str}\ncontainer\t:\t${container}\t${_container_status}"
     fi
-    echo -e $_version_str | column -t -s $'\t'
+    echo -e "${_version_str}" | column -t -s $'\t'
 }
 
 setup_colors() {
@@ -127,40 +121,39 @@ die() {
 }
 
 # Configure the container to start at boot
-enable_container_service () {
+enable_container_service() {
     # If systemd unit does not exist, create it
-    systemctl --user status ${_container_name}.service >/dev/null 2>&1 || {
-        podman generate systemd --name $_container_name > $_container_unit
-        if [[ $? -ne 0 ]]; then 
-            msg "${orange}[*]${no_format} Cannot create ${_container_name}.service"
-        else
+    systemctl --user status ${container}.service >/dev/null 2>&1 || {
+        if podman generate systemd --name $container > "$container_unit"; then
             #####
             # Workaround for bug: https://github.com/containers/podman/issues/8506#issuecomment-735442979
             # FIXME: To be removed once the fix end to the upstream
-            sed -e '/^PID/s/^/#/' -i $_container_unit
+            sed -e '/^PID/s/^/#/' -i "$container_unit"
             #####
+        else
+            msg "${orange}[*]${no_format} Cannot create ${container}.service"
         fi
 
         systemctl --user daemon-reload
     }
 
-    systemctl --user is-enabled --quiet ${_container_name}.service || {
-        systemctl --user enable ${_container_name}.service > /dev/null 2>&1
+    systemctl --user is-enabled --quiet ${container}.service || {
+        systemctl --user enable ${container}.service > /dev/null 2>&1
         return $?
     }
 }
 
-internal_network_access () {
-    # Check if VPN connection is available
-    declare -a _required_addresses=(
-        "10.160.0.100/111"
-        "dist.suse.de/111"
-        "gitlab.suse.de/443"
-        "download.suse.de/443"
-        "github.com/443"
+suse_internal_network_access() {
+    # Check if VPN connection is available, fail if any of the following elements is not reachable
+    local -ar _know_internal_addresses=(
+        # Check reachability of wotan's ssh service, since it likely has good uptime
+        "10.160.0.1/22"
+        # Since dns lookup can introduce a long delay when the dns server is not
+        # reachable, then I test domain name resolution only if the above worked
+        "wotan.suse.de/22"
     )
 
-    for _address in ${_required_addresses[@]}; do
+    for _address in "${_know_internal_addresses[@]}"; do
         # Fail if any connection can't be estabilished
         (echo > /dev/tcp/$_address) >/dev/null 2>&1 || {
             msg "${orange}[*]${no_format} ${_address%/*} can't be reached on port ${_address#*/}, please check your network setup"
@@ -170,34 +163,33 @@ internal_network_access () {
     return 0
 }
 
-get_containerfile () {
-    curl -LfsS $_containerfile_url -o $_containerfile_local
+get_containerfile() {
+    curl -LfsS $containerfile_url -o "$containerfile_local"
     return 0
 }
 
-create_image () {
-    internal_network_access || return 1
-    _tmp_log=$(mktemp -t "${_container_name}-build-XXXX.log" -p "$_tmp_dir")
-    chmod 644 "$_tmp_log"
-    msg "[.] building ${_container_name} image from $_containerfile_local"
+create_image() {
+    suse_internal_network_access || return 1
+    local _tmp_log=$(mktemp -t "${container}-build-XXXX.log" -p "$tmp_dir")
+    msg "[.] building ${container} image from ${containerfile_local}"
     msg "\tThis will take several minutes, you can check logs at ${_tmp_log}"
-    podman build -t $_container_name\:local -f $_containerfile_local > $_tmp_log 2>&1 || {
-        msg "${red}[!]${no_format} Cannot build ${_container_name} image"
+    podman build -t $container\:local -f "$containerfile_local" > "$_tmp_log" 2>&1 || {
+        msg "${red}[!]${no_format} Cannot build ${container} image"
         return 1
     }
-    msg "${green}[.] ${no_format}building ${_container_name} image complete"
+    msg "${green}[.] ${no_format}building ${container} image complete"
     return 0
 }
 
-update_image () {
+update_image() {
     read -p "[.] An update is available, do you want to rebuild the image? [y/N] " -n 1 -r
     echo
     if [[ $REPLY =~ ^[Yy]$ ]]; then
         # Stop not updated running container
-        podman container rm -f ${_container_name} > /dev/null 2>&1
+        podman container rm -f ${container} > /dev/null 2>&1
         # Delete not update image
-        podman image rm localhost/${_container_name}:local > /dev/null 2>&1 || {
-            msg "${orange}[*]${no_format} Cannot delete ${_container_name} image, check if it is used by a running container"
+        podman image rm localhost/${container}:local > /dev/null 2>&1 || {
+            msg "${orange}[*]${no_format} Cannot delete ${container} image, check if it is used by a running container"
             return 1
         }
         create_image
@@ -208,58 +200,58 @@ update_image () {
     return 1
 }
 
-sudo_privs () {
+sudo_privs() {
     sudo -nv >/dev/null 2>&1 && return 0 || return 1
 }
 
-_nfs_volume_mount_cmd () {
-    # $1 name - (e.g.: vol_euklid)
-    # $2 address - (e.g.: loki.suse.de:/vol/euklid)
-    # $3 nfs_version - (e.g.: 4.2)
-    [[ -d "${_nfs_volumes_dir}/${1}" ]] || mkdir -p "${_nfs_volumes_dir}/${1}" > /dev/null 2>&1
-    [[ -z "$(ls -A ${_nfs_volumes_dir}/${1})" ]] || return 1 # mountpoint not empty
-    sudo mount -t nfs -o vers=$3,ro,noatime,proto=tcp,sec=sys,local_lock=none,rsize=1048576,wsize=1048576 "$2" "${_nfs_volumes_dir}/${1}" 2>&1
-    return $?
-}
-
-nfs_volume_umount_all () {
-    if (mount | grep -E "secbox.+nfs|nfs.+secbox" > /dev/null 2>&1) && ! sudo_privs; then
-        msg "${cyan}[*]${no_format} Request sudo privs for ${USER} to umount NFS volumes:"
-    fi
-    for _share in ${_nfs_shares[@]}; do
-        _nfs_address=$(echo $_share | cut -d "," -f 1)              # nfs.example.tld:/a/b
-        _nfs_mountpoint=$(echo $_share | cut -d "," -f 2)           # /mount/point
-        _nfs_version=$(echo $_share | cut -d "," -f 3)              # 4.2
-        _nfs_name=$(echo ${_nfs_address#*/} | sed 's/\//_/')        # nfs.example.tld:/a/b -> a_b
+nfs_volume_umount_all() {
+    local _share
+    for _share in "${nfs_shares[@]}"; do
+        local _nfs_address=$(echo "$_share" | cut -d "," -f 1)              # nfs.example.tld:/a/b
+        local _nfs_name=$(echo "${_nfs_address#*/}" | sed 's/\//_/')        # nfs.example.tld:/a/b -> a_b
         if nfs_volume_exists "${_nfs_name}" "${_nfs_address}"; then
-            sudo umount "${_nfs_volumes_dir}/${_nfs_name}" 2>&1 || return 1
-            [[ -z "$(ls -A ${_nfs_volumes_dir}/${_nfs_name})" ]] && rm -r "${_nfs_volumes_dir}/${_nfs_name}"
+            sudo_privs || msg "${cyan}[*]${no_format} Request sudo privs for ${USER} to umount NFS volumes:"
+            sudo umount "${nfs_volumes_dir}/${_nfs_name}" 2>&1 || return 1
         fi
+        [[ -d "${nfs_volumes_dir}/${_nfs_name}" ]] && rm -d "${nfs_volumes_dir:?}/${_nfs_name}"
     done
     return 0
 }
 
-nfs_volume_exists () {
+nfs_volume_exists() {
     # $1 name - (e.g.: vol_euklid)
     # $2 address - (e.g.: loki.suse.de:/vol/euklid)
     mount | grep -qE "${1}.+${2}|${2}.+${1}"
     return $?
 }
 
-nfs_volume_mount () {
-    # $1 nfs share string - nfs_ nfs.example.tld:/a/b,/mount/point,4.2
-    _nfs_address=$(echo $1 | cut -d "," -f 1)               # nfs.example.tld:/a/b
-    _nfs_mountpoint=$(echo $1 | cut -d "," -f 2)            # /mount/point
-    _nfs_version=$(echo $1 | cut -d "," -f 3)               # 4.2
-    _nfs_name=$(echo ${_nfs_address#*/} | sed 's/\//_/')    # nfs.example.tld:/a/b -> a_b
+_nfs_volume_mount_cmd() {
+    # $1 name - (e.g.: vol_euklid)
+    # $2 address - (e.g.: loki.suse.de:/vol/euklid)
+    # $3 nfs_version - (e.g.: 4.2)
+    [[ -d "${nfs_volumes_dir}/${1}" ]] || mkdir -p "${nfs_volumes_dir}/${1}" > /dev/null 2>&1
+    [[ -z "$(ls -A "${nfs_volumes_dir}/${1}")" ]] || return 1 # mountpoint not empty
+    sudo mount -t nfs \
+        -o vers="$3",ro,noatime,proto=tcp,sec=sys,local_lock=none,rsize=1048576,wsize=1048576 \
+        "$2" \
+        "${nfs_volumes_dir}/${1}" 2>&1 || {
+            rm -d "${nfs_volumes_dir}/${1}" > /dev/null 2>&1
+            return 1
+        }
+}
+
+nfs_volume_mount() {
+    local _nfs_address="$1"
+    local _nfs_version="$2"
+    local _nfs_name="$3"
 
     if ! nfs_volume_exists "${_nfs_name}" "${_nfs_address}"; then
-        sudo_privs || msg "${cyan}[*]${no_format} Request sudo privs for ${USER} to mount NFS volumes:"
+        sudo_privs || msg "${cyan}[*]${no_format} Request sudo privs for ${USER} to mount NFS volumes: (CTRL+C to skip)"
         if _nfs_volume_mount_cmd "${_nfs_name}" "${_nfs_address}" "${_nfs_version}"; then
-            msg "${green}[.]${no_format} ${_nfs_name} volume created"
+            msg "${green}[.]${no_format} ${_nfs_name} volume mounted"
             return 0
         else
-            msg "${red}[.]${no_format} cannot create ${_nfs_name} volume"
+            msg "${red}[*]${no_format} cannot mount ${_nfs_name} volume"
             return 1
         fi
     else
@@ -267,10 +259,10 @@ nfs_volume_mount () {
     fi
 }
 
-create_container () {
+create_container() {
     # If the image does not exist, build it
-    podman image ls | grep -E "$_container_name[[:space:]]+local" >/dev/null 2>&1 || {
-        msg "${orange}[*]${no_format} ${_container_name} image not found"
+    podman image ls | grep -E "$container[[:space:]]+local" >/dev/null 2>&1 || {
+        msg "${orange}[*]${no_format} ${container} image not found"
         read -p "[.] Do you want to build the image right now? [y/N] " -n 1 -r
         echo
         if [[ $REPLY =~ ^[Yy]$ ]]; then
@@ -279,82 +271,78 @@ create_container () {
             return 1
         fi
     }
-    
-    # this may be removed if user use secbox destroy to delete the container
-    systemctl --user stop --quiet $_container_name.service >/dev/null 2>&1
-    [[ -f $_container_unit ]] && rm $_container_unit
 
-    # The mounted volume ${_tmp_dir}:${_tmp_dir} (${XDG_RUNTIME_DIR:-/tmp})
-    # is usefull for many purpose, most used ones (for me) are:
-    #  - Access D-Bus session bus socket
-    #    - Used by osc to access the secret service provider to get creds to log in OBS
+    # The mounted volume ${tmp_dir}:${tmp_dir} (aka ${XDG_RUNTIME_DIR:-/tmp})
+    # is usefull for many purposes, most used ones (for me) are:
+    #  - Access D-Bus session socket
+    #    - This is used by osc to query the secret service provider to get creds to login to OBS
     #  - mkcd (https://github.com/StayPirate/dotfiles/blob/7608e8ad66f8c13dc57fb49ed0ccf2dd7a04ae5a/.zshrc#L118)
 
-    _podman_cmdline="podman container create \
-                        --name $_container_name \
-                        --userns=keep-id \
-                        -u $(id -u) \
-                        -v ${_tmp_dir}:${_tmp_dir} \
-                        -v ${HOME}:${HOME} \
-                        -w ${HOME}"
+    local _podman_cmdline="podman container create \
+                            --name ${container} \
+                            --userns=keep-id \
+                            -u $(id -u) \
+                            -v ${tmp_dir}:${tmp_dir} \
+                            -v ${HOME}:${HOME} \
+                            -w ${HOME}"
 
     [ -z "${DBUS_SESSION_BUS_ADDRESS:-}" ] || {
         _podman_cmdline="${_podman_cmdline} -e DBUS_SESSION_BUS_ADDRESS=\"${DBUS_SESSION_BUS_ADDRESS}\""
     }
 
-    if internal_network_access; then
-        _podman_cmdline_volumes=""
-        for _share in ${_nfs_shares[@]}; do
-            if nfs_volume_mount "${_share}"; then
+    if suse_internal_network_access; then
+        local _podman_cmdline_volumes=""
+        local _share
+        for _share in "${nfs_shares[@]}"; do                                # nfs.example.tld:/a/b,/mount/point,4.2
+            local _nfs_address=$(echo "$_share" | cut -d "," -f 1)               # nfs.example.tld:/a/b
+            local _nfs_mountpoint=$(echo "$_share" | cut -d "," -f 2)            # /mount/point
+            local _nfs_version=$(echo "$_share" | cut -d "," -f 3)               # 4.2
+            local _nfs_name=$(echo "${_nfs_address#*/}" | sed 's/\//_/')    # nfs.example.tld:/a/b -> a_b
+            if nfs_volume_mount "${_nfs_address}" "${_nfs_version}" "${_nfs_name}"; then
                 _podman_cmdline_volumes="${_podman_cmdline_volumes} \
-                                    -v ${_nfs_volumes_dir}/${_nfs_name}:${_nfs_mountpoint}"
+                                        -v ${nfs_volumes_dir}/${_nfs_name}:${_nfs_mountpoint}"
             fi
         done
     else
-        msg "${orange}[*]${no_format} No VPN access, you won't have access to NFS volumes.\n \
-   This only prevents you to run tests with 'isc omg rr'. You can use ${_script_name} --destroy,\n \
+        msg "${orange}[*]${no_format} SUSE network is not reachable, you won't have access to NFS volumes.\n \
+   This only prevents you to run tests with 'isc omg rr'. You can use ${script_name} --destroy,\n \
    then connect via VPN and run your command again."
     fi
 
     _podman_cmdline="${_podman_cmdline} \
                     ${_podman_cmdline_volumes:-} \
-                    localhost/$_container_name:local"
+                    localhost/$container:local"
 
-    eval $_podman_cmdline > /dev/null 2>&1 || return $?
+    eval "$_podman_cmdline" > /dev/null 2>&1 || return $?
     enable_container_service
     return 0
 }
 
-start_container () {
+start_container() {
     # If the container does not exist, create it
-    podman container exists $_container_name || {
+    podman container exists $container || {
         print_logo
-        msg "${orange}[*]${no_format} ${_container_name} container not found"
+        msg "${orange}[*]${no_format} ${container} container not found"
         create_container || {
-            msg "${red}[!]${no_format} Cannot create the ${_container_name} container"
+            msg "${red}[!]${no_format} Cannot create the ${container} container"
             return 1
         }
-        msg "${green}[.] ${no_format}${_container_name} container created\n"
+        msg "${green}[.] ${no_format}${container} container created\n"
     }
 
-    systemctl --user is-active --quiet $_container_name.service >/dev/null 2>&1
-    _service_status=$?
+    systemctl --user is-active --quiet $container.service >/dev/null 2>&1
+    local _service_status=$?
     case $_service_status in
-    0) 
-        return 0
-        ;;
-    3)
-        systemctl --user restart $_container_name.service >/dev/null 2>&1
-        return $?
-        ;;
-    *)
-        return 1
+    0)  return 0 ;;
+    3)  systemctl --user restart $container.service >/dev/null 2>&1
+        return $? ;;
+    *)  return 1 ;;
     esac
 }
 
-updated_image_available () {
-    _current_v=$(podman image inspect localhost/$_container_name\:local --format "{{.Config.Labels.version}}" 2>/dev/null)
-    _latest_v=$(cat $_containerfile_local | grep "LABEL version=" | cut -d "=" -f 2 | sed 's/"//g')
+update_available() {
+    local _current_v=$(podman image inspect localhost/$container\:local --format "{{.Config.Labels.version}}" 2>/dev/null)
+    local _latest_v=$(cat "$containerfile_local" | grep "LABEL version=" | cut -d "=" -f 2 | sed 's/"//g')
     if [[ "$_latest_v" =~ ^[0-9.]+$ && "$_current_v" =~ ^[0-9.]+$ ]]; then
         if [[ $_latest_v > $_current_v ]]; then
             return 0
@@ -363,123 +351,134 @@ updated_image_available () {
     return 1
 }
 
-systemd_service_is_enabled () {
-    systemctl --user is-enabled --quiet ${_container_name}.service
+systemd_service_is_enabled() {
+    systemctl --user is-enabled --quiet ${container}.service
     return $?
 }
 
-systemd_service_is_disabled () {
+systemd_service_is_disabled() {
     # Toggle return value
     systemd_service_is_enabled && return 1 || return 0
 }
 
-is_container_running () {
-    podman container ls --all | grep -qE "Up.*${_container_name}"
+container_is_running() {
+    podman container ls --all | grep -qE "Up.*${container}"
     return $?
 }
 
-container_is_not_running () {
+container_is_not_running() {
     # Toggle return value
-    is_container_running && return 1 || return 0
+    container_is_running && return 1 || return 0
 }
 
-secbox_exec () {
+secbox_exec() {
     # Podman misbehaves when pipes are involved, as reported here
     # https://github.com/containers/podman/issues/9718#issuecomment-799925847
     # Credits to @giuseppe who suggested a clever workaround (_ti)
-    ### TODO: add an explanation here for the future
-    _ti="-ti"; tty 0<&1 &>/dev/null || _ti=""
-    podman container exec $_ti -w "$(pwd)" $_container_name "$@"
+    ### tty 0<&1 &>/dev/null: use tty to test stdout instead of stdin :)
+    local _ti="-ti"; tty 0<&1 &>/dev/null || _ti=""
+    podman container exec "$_ti" -w "$(pwd)" $container "$@"
 }
 
-secbox_destroy (){
-    #### TODO: ask for confirmation
+secbox_destroy(){
     print_logo
+
+    read -p "[.] Do you really want to destroy secbox [y/N] " -n 1 -r
+    echo
+    [[ $REPLY =~ ^[Yy]$ ]] || die "${orange}[*]${no_format} Abort destruction."
+
+    systemctl --user daemon-reload
     # Stop container if running
-    if systemctl --user is-active --quiet $_container_name.service >/dev/null 2>&1; then
-        systemctl --user stop --quiet $_container_name.service && msg "${orange}[*]${no_format} container stopped"
+    if systemctl --user is-active --quiet $container.service >/dev/null 2>&1; then
+        systemctl --user stop --quiet $container.service && msg "${green}[.]${no_format} container stopped"
     fi
     # Disable autostart at boot
-    if systemctl --user is-enabled --quiet ${_container_name}.service >/dev/null 2>&1; then
-        systemctl --user disable ${_container_name}.service > /dev/null 2>&1
+    if systemctl --user is-enabled --quiet ${container}.service >/dev/null 2>&1; then
+        systemctl --user disable ${container}.service > /dev/null 2>&1 && msg "${green}[.]${no_format} container autostart disabled"
     fi
     # Remove systemd unit
-    if [[ -f $_container_unit ]]; then
-        rm $_container_unit
+    if [[ -f "$container_unit" ]]; then
+        rm "$container_unit"
         systemctl --user daemon-reload
-        msg "${orange}[*]${no_format} systemd service deleted"
     fi
     # Delete container
-    if podman container exists $_container_name; then
+    if podman container exists $container; then
         # Get container image id
-        _image_id=$(podman container inspect --format '{{.Image}}' ${_container_name} 2>/dev/null)
+        local _image_id=$(podman container inspect --format '{{.Image}}' ${container} 2>/dev/null)
         if podman container rm -f secbox > /dev/null 2>&1; then
             # If the container has been deleted
-            msg "${orange}[*]${no_format} ${_container_name} container deleted"
+            msg "${green}[.]${no_format} ${container} container deleted"
             # Delete NFS volumes
             if nfs_volume_umount_all; then
-                msg "${orange}[*]${no_format} NFS volumes unmounted"
+                msg "${green}[.]${no_format} NFS volumes unmounted"
             else
-                msg "${orange}[!]${no_format} NFS volumes are still mounted in ${_nfs_volumes_dir}"
+                msg "${orange}[*]${no_format} NFS volumes are still mounted in ${nfs_volumes_dir}"
             fi
             # Delete image
-            if [[ ! -z "${_image_id:-}" ]] && [[ "${1:-}" == "-i" ]]; then
-                podman image rm $_image_id > /dev/null 2&>1 && msg "${orange}[*]${no_format} ${_container_name} image deleted"
+            if [[ -n "${_image_id:-}" ]] && [[ "${1:-}" == "-i" ]]; then
+                podman image rm "$_image_id" > /dev/null 2>&1 && msg "${green}[.]${no_format} ${container} image deleted"
             fi
         else
-            msg "${red}[!]${no_format} ${_container_name} container cannot be deleted"
+            msg "${red}[!]${no_format} ${container} container cannot be deleted"
         fi
     fi
 }
 
-secbox_root () {
-    # TODO: write a more useful warning here....
-    msg "${red}
-    !!!  You cannot access the / of the host system from here,  !!!
-    !!! but thinking before press enter it's always a good idea !!!
-    !!!                     ~ Be CaReFuL ~                      !!!
-    ${no_format}"
-    podman container exec -ti --user 0 $_container_name bash
+secbox_root() {
+    msg "${red}"
+    echo -e "    !!!\t                          ~ Be CaReFuL ~\t!!!
+    !!!\tSecbox is a rootless container, that means this root user is mapped\t!!!
+    !!!\twith your host $USER account. While you can install any package\t!!!
+    !!!\tor change any container's file, DO NOT FORGET that your host-user's\t!!!
+    !!!\tHOME directory is shared with this container. Any change performed\t!!!
+    !!!\tin /home/$USER is reflected to your host filesystem.\t!!!
+    !!!\tIn case you messed up the container, don't worry! Just destroy and\t!!!
+    !!!\trecreate it '${container} --destroy' and '${container} echo Hello World'\t!!!
+    !!!\t                          ~ Be CaReFuL ~\t!!!" | column -t -s $'\t'
+    msg "${no_format}"
+    podman container exec -ti --user 0 $container bash
 }
 
-# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~  ~ ~ # 
-#         S C R I P T   M A I N          #
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+main() {
 
-setup_colors
+    type podman >/dev/null 2>&1 || {
+        die "${red}[!]${no_format} Container engine missing: podman is required"
+    }
 
-while :; do
-    case ${1:-} in
-        -h | --help | help | "") print_help; exit;;
-        -v | --version) print_version; exit;;
-        --debug) set -x ;;
-        --destroy) secbox_destroy ${2:-}; exit;;
-        --root) secbox_root; exit ;;
-        --no-color) no_color=1 && setup_colors ;;
-        -?*) die "${orange}Unknown option${no_format}: ${1:-}" 0 ;;
-        *) break ;;
-    esac
-    shift
-done
+    setup_colors
 
-# Is podman installed?
-type podman >/dev/null 2>&1 || die "${red}[!]${no_format} Container engine missing: podman is required"
+    while :; do
+        case ${1:-} in
+            -h | --help | help | "") print_help; exit ;;
+            -v | --version) print_version; exit ;;
+            --debug) set -x ;;
+            --destroy) secbox_destroy "${2:-}"; exit ;;
+            --root) secbox_root; exit ;;
+            --no-color) no_color=1 && setup_colors ;;
+            -?*) die "${orange}Unknown option${no_format}: ${1:-}" 0 ;;
+            *) break ;;
+        esac
+        shift
+    done
 
-# FIXME: get_containerfile can be put within update_image_available....
-get_containerfile
+    # FIXME: get_containerfile can be put within update_image_available....
+    get_containerfile
 
-# Can be converted to already built image
-# curl -LsfS https://hub.docker.com/v2/repositories/tuxmealux/alpine-rtorrent | jq -r '.last_updated'
-# https://registry.suse.de/v2/_catalog
-# http -b https://registry.suse.de/v2/suse/sle-15-sp1/update/cr/images/suse/sle15/tags/list
-updated_image_available && update_image
+    # Can be converted to already built image
+    # curl -LsfS https://hub.docker.com/v2/repositories/tuxmealux/alpine-rtorrent | jq -r '.last_updated'
+    # https://registry.suse.de/v2/_catalog
+    # http -b https://registry.suse.de/v2/suse/sle-15-sp1/update/cr/images/suse/sle15/tags/list
+    update_available && update_image
 
-if container_is_not_running; then
-    start_container || die "${red}[!]${no_format} Cannot start the ${_container_name} container"
-fi
+    if container_is_not_running; then
+        start_container || die "${red}[!]${no_format} Cannot start the ${container} container"
+    fi
 
-if systemd_service_is_disabled; then
-    enable_container_service || msg "${orange}[*]${no_format} Cannot enable ${_container_name} service"
-fi
+    if systemd_service_is_disabled; then
+        enable_container_service || msg "${orange}[*]${no_format} Cannot enable ${container} service"
+    fi
 
-secbox_exec "$@"
+    secbox_exec "$@"
+}
+
+main "$@"
