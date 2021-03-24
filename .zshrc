@@ -134,6 +134,11 @@ alias dotfiles-private="git --git-dir=\"${HOME}/.config/dotfiles/private/.git\" 
 alias dotp=dotfiles-private
 alias dotfiles-root="sudo git --git-dir=\"${HOME}/.config/dotfiles/root/.git\" --work-tree=/"
 alias dotr=dotfiles-root
+# Use like unlock_keepassxc && secret-tool search client weechat workstation wintermute 2>&1 | grep -E '^secret' | cut -d " " -f3
+alias unlock_keepassxc="echo 'check the explanation attribute ;)' | secret-tool store --label='dummy-entry' \
+                        explanation 'Because of quirks in the gnome libsecret API, a dummy entry needs to be stored in order to \
+                        guarantee that this keyring was properly unlocked. More details at http://crbug.com/660005 and \
+                        https://github.com/keepassxreboot/keepassxc/issues/4443'"
 # The Wolt app (food delivery) provides an in-app game where you can win free delivery tokens.
 # I use the following alias to beat the game
 alias wolt="xdotool click --repeat 300 --delay 10 1"
@@ -146,12 +151,13 @@ alias -g NOERR='2>/dev/null'
 ### SUSE / openSUSE ###
 # Aliases
 source ~/.config/zsh/alias/suse
-alias secbox="sudo -E secbox"
-alias zypper="sudo -E secbox sudo zypper"
-alias obs="sudo -E secbox osc"
-alias ibs="sudo -E secbox osc -A ibs"
-alias is_maintained="sudo -E secbox is_maintained"
-alias quilt="sudo -E secbox quilt"
+alias secbox="secbox"
+alias zypper="secbox sudo zypper"
+alias obs="secbox osc"
+alias ibs="secbox osc -A ibs"
+alias is_maintained="secbox is_maintained"
+alias quilt="secbox quilt"
+alias bugzilla="bugzilla"
 alias minutes-pro="_wikidir=\$HOME/Workspace/SUSE/wiki; [ -d \$_wikidir/.git ] || git clone gitlab@gitlab.suse.de:pes/wiki.git \$_wikidir; \
                    cd \$_wikidir/Maintenance-Security/Minutes/Proactive_Security_Meeting && \
                    git pull --ff-only && \
