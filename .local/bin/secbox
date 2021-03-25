@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -Eeuo pipefail
+trap cleanup SIGINT SIGTERM ERR EXIT
 # -----------------------------------------------------------------------------
 #                     One tool to rule them all, one tool to containerize them
 #                   One tool to bring them all, and in the namespace bind them
@@ -43,6 +44,8 @@ A collection of all the needed tools for your daily work in the Security Team
 
 Available options:
 
+--nfs           Makes NFS shares available for the requested command
+                This is useful for 'ics omg rr', tel <username>, etc
 --destroy [-i]  Destroy ${container} and related components, -i delete the image too
 --root          Enter the running container as root user, container debug mode
 --debug         Script debug mode
@@ -76,12 +79,20 @@ declare -ar nfs_shares=(
     # dist and mirror are required by `osc omg rr` to perform tests.
     "dist.suse.de:/dist,/mounts/dist,4.2"
     "loki.suse.de:/vol/euklid,/mounts/mirror,3"
+    "loki.suse.de:/real-home/bin,/mounts/internal-tools,3"
     #"hilbert.suse.de:/work,/mounts/work,4.2"
     #"rufus.suse.de:/vol/schnell,/mounts/schnell,3"
     #"rufus.suse.de:/vol/work_users,/mounts/work_users,3"
     #"hilbert.suse.de:/built,/mounts/built,4.2"
     #"dust.suse.de:/unpacked,/mounts/unpacked,4.2" # access denied here (╯°□°)╯︵ ┻━┻ ### Need to talk to infra!
 )
+
+cleanup() {
+    trap - SIGINT SIGTERM ERR EXIT
+
+    # Umount NFS shares if were enabled
+    [[ -n $nfs_flag ]] && nfs_umount_all
+}
 
 print_version() {
     local _version_str="script\t:\t${script_name}\tv.${script_version}"
@@ -120,8 +131,9 @@ die() {
   exit "$code"
 }
 
-# Configure the container to start at boot
 enable_container_service() {
+# Configure the container to start at boot
+
     # If systemd unit does not exist, create it
     systemctl --user status ${container}.service >/dev/null 2>&1 || {
         if podman generate systemd --name $container > "$container_unit"; then
@@ -155,10 +167,7 @@ suse_internal_network_access() {
 
     for _address in "${_know_internal_addresses[@]}"; do
         # Fail if any connection can't be estabilished
-        (echo > /dev/tcp/$_address) >/dev/null 2>&1 || {
-            msg "${orange}[*]${no_format} ${_address%/*} can't be reached on port ${_address#*/}, please check your network setup"
-            return 1
-        }
+        (echo > /dev/tcp/$_address) >/dev/null 2>&1 || return 1
     done
     return 0
 }
@@ -204,59 +213,50 @@ sudo_privs() {
     sudo -nv >/dev/null 2>&1 && return 0 || return 1
 }
 
-nfs_volume_umount_all() {
+nfs_volume_exists() {
+    # $1 name - (e.g.: vol_euklid)
+    # $2 address - (e.g.: loki.suse.de:/vol/euklid)
+    mount | grep -E "${2} on ${nfs_volumes_dir}/${1}" > /dev/null 2>&1
+    return $?
+}
+
+nfs_umount_all() {
     local _share
     for _share in "${nfs_shares[@]}"; do
         local _nfs_address=$(echo "$_share" | cut -d "," -f 1)              # nfs.example.tld:/a/b
         local _nfs_name=$(echo "${_nfs_address#*/}" | sed 's/\//_/')        # nfs.example.tld:/a/b -> a_b
         if nfs_volume_exists "${_nfs_name}" "${_nfs_address}"; then
             sudo_privs || msg "${cyan}[*]${no_format} Request sudo privs for ${USER} to umount NFS volumes:"
-            sudo umount "${nfs_volumes_dir}/${_nfs_name}" 2>&1 || return 1
+            sudo umount -lf "${nfs_volumes_dir}/${_nfs_name}" 2>&1 ||
+                msg "${orange}[*]${no_format} NFS: cannot umount ${nfs_volumes_dir}/${_nfs_name}"
         fi
-        [[ -d "${nfs_volumes_dir}/${_nfs_name}" ]] && rm -d "${nfs_volumes_dir:?}/${_nfs_name}"
     done
     return 0
 }
 
-nfs_volume_exists() {
-    # $1 name - (e.g.: vol_euklid)
-    # $2 address - (e.g.: loki.suse.de:/vol/euklid)
-    mount | grep -qE "${1}.+${2}|${2}.+${1}"
-    return $?
-}
+nfs_mount_all() {
+    local _share
+    for _share in "${nfs_shares[@]}"; do                                # nfs.example.tld:/a/b,/mount/point,4.2
 
-_nfs_volume_mount_cmd() {
-    # $1 name - (e.g.: vol_euklid)
-    # $2 address - (e.g.: loki.suse.de:/vol/euklid)
-    # $3 nfs_version - (e.g.: 4.2)
-    [[ -d "${nfs_volumes_dir}/${1}" ]] || mkdir -p "${nfs_volumes_dir}/${1}" > /dev/null 2>&1
-    [[ -z "$(ls -A "${nfs_volumes_dir}/${1}")" ]] || return 1 # mountpoint not empty
-    sudo mount -t nfs \
-        -o vers="$3",ro,noatime,proto=tcp,sec=sys,local_lock=none,rsize=1048576,wsize=1048576 \
-        "$2" \
-        "${nfs_volumes_dir}/${1}" 2>&1 || {
-            rm -d "${nfs_volumes_dir}/${1}" > /dev/null 2>&1
-            return 1
-        }
-}
+        local _nfs_address=$(echo "$_share" | cut -d "," -f 1)          # nfs.example.tld:/a/b
+        local _nfs_mountpoint=$(echo "$_share" | cut -d "," -f 2)       # /mount/point
+        local _nfs_version=$(echo "$_share" | cut -d "," -f 3)          # 4.2
+        local _nfs_name=$(echo "${_nfs_address#*/}" | sed 's/\//_/')    # nfs.example.tld:/a/b -> a_b
 
-nfs_volume_mount() {
-    local _nfs_address="$1"
-    local _nfs_version="$2"
-    local _nfs_name="$3"
-
-    if ! nfs_volume_exists "${_nfs_name}" "${_nfs_address}"; then
-        sudo_privs || msg "${cyan}[*]${no_format} Request sudo privs for ${USER} to mount NFS volumes: (CTRL+C to skip)"
-        if _nfs_volume_mount_cmd "${_nfs_name}" "${_nfs_address}" "${_nfs_version}"; then
-            msg "${green}[.]${no_format} ${_nfs_name} volume mounted"
-            return 0
-        else
-            msg "${red}[*]${no_format} cannot mount ${_nfs_name} volume"
-            return 1
+        if ! nfs_volume_exists "${_nfs_name}" "${_nfs_address}"; then
+            sudo_privs || msg "${cyan}[*]${no_format} Request sudo privs for ${USER} to mount NFS volumes:"
+            [[ -d "${nfs_volumes_dir}/${_nfs_name}" ]] || mkdir -p "${nfs_volumes_dir}/${_nfs_name}" > /dev/null 2>&1
+            [[ -z "$(ls -A "${nfs_volumes_dir}/${_nfs_name}")" ]] || {
+                # mountpoint not empty and not the NFS share we want
+                msg "${orange}[*]${no_format} NFS: cannot mount ${nfs_volumes_dir}/${_nfs_name}, folder not empty"
+            }
+            sudo mount -t nfs \
+                -o vers="$_nfs_version",ro,noatime,proto=tcp,sec=sys,local_lock=none,rsize=1048576,wsize=1048576 \
+                "$_nfs_address" \
+                "${nfs_volumes_dir}/${_nfs_name}" > /dev/null 2>&1 ||
+                    msg "${orange}[*]${no_format} NFS: cannot mount ${nfs_volumes_dir}/${_nfs_name}"
         fi
-    else
-        return 0
-    fi
+    done
 }
 
 create_container() {
@@ -286,28 +286,21 @@ create_container() {
                             -v ${HOME}:${HOME} \
                             -w ${HOME}"
 
-    [ -z "${DBUS_SESSION_BUS_ADDRESS:-}" ] || {
+    [ -z "${DBUS_SESSION_BUS_ADDRESS:-}" ] ||
         _podman_cmdline="${_podman_cmdline} -e DBUS_SESSION_BUS_ADDRESS=\"${DBUS_SESSION_BUS_ADDRESS}\""
-    }
 
-    if suse_internal_network_access; then
-        local _podman_cmdline_volumes=""
-        local _share
-        for _share in "${nfs_shares[@]}"; do                                # nfs.example.tld:/a/b,/mount/point,4.2
-            local _nfs_address=$(echo "$_share" | cut -d "," -f 1)               # nfs.example.tld:/a/b
-            local _nfs_mountpoint=$(echo "$_share" | cut -d "," -f 2)            # /mount/point
-            local _nfs_version=$(echo "$_share" | cut -d "," -f 3)               # 4.2
-            local _nfs_name=$(echo "${_nfs_address#*/}" | sed 's/\//_/')    # nfs.example.tld:/a/b -> a_b
-            if nfs_volume_mount "${_nfs_address}" "${_nfs_version}" "${_nfs_name}"; then
-                _podman_cmdline_volumes="${_podman_cmdline_volumes} \
-                                        -v ${nfs_volumes_dir}/${_nfs_name}:${_nfs_mountpoint}"
-            fi
-        done
-    else
-        msg "${orange}[*]${no_format} SUSE network is not reachable, you won't have access to NFS volumes.\n \
-   This only prevents you to run tests with 'isc omg rr'. You can use ${script_name} --destroy,\n \
-   then connect via VPN and run your command again."
-    fi
+    # Create NFS mountpoints
+
+    for _share in "${nfs_shares[@]}"; do                                # nfs.example.tld:/a/b,/mount/point,4.2
+        local _nfs_address=$(echo "$_share" | cut -d "," -f 1)          # nfs.example.tld:/a/b
+        local _nfs_mountpoint=$(echo "$_share" | cut -d "," -f 2)       # /mount/point
+        local _nfs_version=$(echo "$_share" | cut -d "," -f 3)          # 4.2
+        local _nfs_name=$(echo "${_nfs_address#*/}" | sed 's/\//_/')    # nfs.example.tld:/a/b -> a_b
+
+        [[ -d "${nfs_volumes_dir}/${_nfs_name}" ]] || mkdir -p "${nfs_volumes_dir}/${_nfs_name}" > /dev/null 2>&1
+        _podman_cmdline="${_podman_cmdline} --mount \
+                    type=bind,source=${nfs_volumes_dir}/${_nfs_name},destination=${_nfs_mountpoint},bind-propagation=shared"
+    done
 
     _podman_cmdline="${_podman_cmdline} \
                     ${_podman_cmdline_volumes:-} \
@@ -377,7 +370,8 @@ secbox_exec() {
     # Credits to @giuseppe who suggested a clever workaround (_ti)
     ### tty 0<&1 &>/dev/null: use tty to test stdout instead of stdin :)
     local _ti="-ti"; tty 0<&1 &>/dev/null || _ti=""
-    podman container exec "$_ti" -w "$(pwd)" $container "$@"
+    podman container exec "$_ti" -w "$(pwd)" $container "$@" ||
+        msg "${red}[!]${no_format} try 'secbox help', you may want to use [--nfs] [--root] [--debug]"
 }
 
 secbox_destroy(){
@@ -408,12 +402,6 @@ secbox_destroy(){
         if podman container rm -f secbox > /dev/null 2>&1; then
             # If the container has been deleted
             msg "${green}[.]${no_format} ${container} container deleted"
-            # Delete NFS volumes
-            if nfs_volume_umount_all; then
-                msg "${green}[.]${no_format} NFS volumes unmounted"
-            else
-                msg "${orange}[*]${no_format} NFS volumes are still mounted in ${nfs_volumes_dir}"
-            fi
             # Delete image
             if [[ -n "${_image_id:-}" ]] && [[ "${1:-}" == "-i" ]]; then
                 podman image rm "$_image_id" > /dev/null 2>&1 && msg "${green}[.]${no_format} ${container} image deleted"
@@ -425,6 +413,8 @@ secbox_destroy(){
 }
 
 secbox_root() {
+    podman container exists $container || die "${red}[!]${no_format} ${container} container does not exist"
+
     msg "${red}"
     echo -e "    !!!\t                          ~ Be CaReFuL ~\t!!!
     !!!\tSecbox is a rootless container, that means this root user is mapped\t!!!
@@ -440,12 +430,12 @@ secbox_root() {
 }
 
 main() {
-
-    type podman >/dev/null 2>&1 || {
-        die "${red}[!]${no_format} Container engine missing: podman is required"
-    }
-
     setup_colors
+
+    type podman >/dev/null 2>&1 ||
+        die "${red}[!]${no_format} Container engine missing: podman is required"
+    
+    nfs_flag=''
 
     while :; do
         case ${1:-} in
@@ -455,6 +445,8 @@ main() {
             --destroy) secbox_destroy "${2:-}"; exit ;;
             --root) secbox_root; exit ;;
             --no-color) no_color=1 && setup_colors ;;
+            --nfs) suse_internal_network_access && nfs_flag='true' ||
+                   msg "${orange}[*]${no_format} can't use NFS, are you connected to the SUSE network?" ;;
             -?*) die "${orange}Unknown option${no_format}: ${1:-}" 0 ;;
             *) break ;;
         esac
@@ -478,7 +470,13 @@ main() {
         enable_container_service || msg "${orange}[*]${no_format} Cannot enable ${container} service"
     fi
 
+    [[ -n $nfs_flag ]] && nfs_mount_all
+
     secbox_exec "$@"
 }
 
 main "$@"
+
+### Additional ideas (TODO)
+# * Verify if podman image checker is a good candidate
+# * Create a subcommand to print suggested aliases
