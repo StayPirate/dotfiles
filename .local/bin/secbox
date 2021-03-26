@@ -17,8 +17,8 @@ trap cleanup SIGINT SIGTERM ERR EXIT
 #
 # Description
 # ~~~~~~~~~~~
-#   Secbox is a toolbox which provides you with an out-of-the-box working setup
-#   for your daily work in the SUSE Security Team.
+#   Secbox is a toolbox that provides an out-of-the-box working setup for your
+#   daily work in the SUSE Security Team.
 #
 #   It does not only manage the toolset but it also takes care of mounting the
 #   required NFS shared volumes. Think at this as a portable workstation setup.
@@ -40,7 +40,7 @@ trap cleanup SIGINT SIGTERM ERR EXIT
 print_help() {
     cat <<EOF
 Usage: ${script_name} [--debug] [-h] [-v] [--destroy] [--root] \\
-                [--no-color] command [arg1 arg2...]
+                [--no-color] [--nfs] [--alias] command [arg1 arg2...]
 
 A collection of all the needed tools for your daily work in the Security Team
 
@@ -54,6 +54,7 @@ Available options:
 --root          Enter the running container as root user, container debug mode
 --debug         Script debug mode
 --no-color      Turn off colored output
+--alias         Print a list of useful aliases
 -h, --help      Print this help and exit
 -v, --version   Print component versions
 EOF
@@ -133,6 +134,16 @@ die() {
   local _code=${2:-1} # default exit status 1
   [[ -z $_msg ]] || msg "$_msg"
   exit "$_code"
+}
+
+aliases() {
+    echo "
+osc='secbox osc'
+isc='secbox osc -A ibs'
+is_maintained='secbox is_maintained'
+quilt='secbox quilt'
+tel='secbox tel'
+"
 }
 
 enable_container_service() {
@@ -485,6 +496,7 @@ main() {
             --destroy) secbox_destroy "${2:-}" "${3:-}"; exit ;;
             --root) secbox_root; exit ;;
             --no-color) no_color=1 && setup_colors ;;
+            --alias) aliases; exit ;;
             --nfs) nfs_flag='true' ;;
             -?*) die "${orange}Unknown option${no_format}: ${1:-}" 0 ;;
             *) break ;;
@@ -516,6 +528,3 @@ main() {
 }
 
 main "$@"
-
-### Additional ideas (TODO)
-# * Create a subcommand to print suggested aliases
