@@ -84,7 +84,7 @@ declare -ar nfs_shares=(
     # dist and mirror are required by `osc omg rr` to perform tests.
     "dist.suse.de:/dist,/mounts/dist,4.2"
     "loki.suse.de:/vol/euklid,/mounts/mirror,3"
-    "loki.suse.de:/real-home/bin,/mounts/internal-tools,3"
+    #"loki.suse.de:/real-home/bin,/mounts/internal-tools,3" ### TODO: use sshfs and map the /real-home/bin in the container (add option for ssh key)
     #"hilbert.suse.de:/work,/mounts/work,4.2"
     #"rufus.suse.de:/vol/schnell,/mounts/schnell,3"
     #"rufus.suse.de:/vol/work_users,/mounts/work_users,3"
@@ -470,6 +470,10 @@ main() {
 
     type podman >/dev/null 2>&1 ||
         die "${red}[!]${no_format} Container engine missing: podman is required"
+
+    [[ $(grep "$(id -nu)" /etc/subuid) ]] && [[ $(grep "$(id -nu)" /etc/subgid) ]] ||
+        die "${red}[!]${no_format} Podman is not configured to run rootless, please configure it first.
+    https://github.com/containers/podman/blob/master/docs/tutorials/rootless_tutorial.md"
     
     nfs_flag=''
 
