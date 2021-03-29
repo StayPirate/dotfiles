@@ -48,3 +48,7 @@
 	branch = master
 	update = none
 	shallow = true
+[submodule ".local/bin/secbox"]
+	path = .local/bin/secbox
+	url = git@github.com:StayPirate/secbox.git
+	branch = master
