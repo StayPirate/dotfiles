@@ -155,6 +155,8 @@ alias secbox="secbox"
 alias zypper="secbox sudo zypper"
 alias obs="secbox osc"
 alias ibs="secbox osc -A ibs"
+alias osc="obs"
+alias isc="ibs"
 alias is_maintained="secbox is_maintained"
 alias quilt="secbox quilt"
 alias bugzilla="bugzilla"
@@ -164,7 +166,8 @@ alias minutes-pro="_wikidir=\$HOME/Workspace/SUSE/wiki; [ -d \$_wikidir/.git ] |
                    _last=\$(ls | sort -nr | head -n 1); \
                    _new=\$(date +\"%Y-%m-%d.mdwn\"); \
                    [ ! -f \$_new ] && cp -u \$_last \$_new; \
-                   \$EDITOR \$_new"
+                   \$EDITOR \$_new && \
+                   git add \$_new && git commit -m \"Update minutes\" && git push"
 # Continus monitoring of an OBS incident via "monitor #incident_number"
 alias monitor='f(){ watch --no-title --color --interval 5 "echo \"Monitoring incident ${@}\" && sudo secbox osc -A ibs r SUSE:Maintenance:\"$@\" | grep -E \"\(.*\)\" | grep -Ev \"[ ]{2}\? buildstatus|[[:space:]]+[.x][[:space:]]+[.x].*(published)\"" }; f'
 ######
