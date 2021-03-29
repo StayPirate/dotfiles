@@ -151,7 +151,6 @@ alias -g NOERR='2>/dev/null'
 ### SUSE / openSUSE ###
 # Aliases
 source ~/.config/zsh/alias/suse
-alias secbox="secbox"
 alias zypper="secbox sudo zypper"
 alias obs="secbox osc"
 alias ibs="secbox osc -A ibs"
@@ -159,7 +158,7 @@ alias osc="obs"
 alias isc="ibs"
 alias is_maintained="secbox is_maintained"
 alias quilt="secbox quilt"
-alias bugzilla="bugzilla"
+alias bugzilla="secbox bugzilla"
 alias minutes-pro="_wikidir=\$HOME/Workspace/SUSE/wiki; [ -d \$_wikidir/.git ] || git clone gitlab@gitlab.suse.de:pes/wiki.git \$_wikidir; \
                    cd \$_wikidir/Maintenance-Security/Minutes/Proactive_Security_Meeting && \
                    git pull --ff-only && \
