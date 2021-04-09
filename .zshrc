@@ -154,9 +154,9 @@ alias -g NOERR='2>/dev/null'
 source ~/.config/zsh/alias/suse-containers
 
 ### OBS/IBS/PBS
-alias osc='secbox osc'
-alias psc='secbox osc -A pbs'
-alias isc='f(){ if [[ \"$@\"  =~ \"omg\" ]]; then \
+alias obs='secbox osc'
+alias pbs='secbox osc -A pbs'
+alias ibs='f(){ if [[ \"$@\"  =~ \"omg\" ]]; then
                 secbox --sshfs osc -A ibs "$@";
               else
                 secbox osc -A ibs "$@";
@@ -166,9 +166,9 @@ alias quilt='secbox squilt'
 alias oscsd='osc service localrun download_files'
 alias oscb='osc build --ccache --cpio-bulk-download --download-api-only'
 alias bugzilla='secbox bugzilla'
-alias obs='osc'
-alias ibs='isc'
-alias pbs='psc'
+alias osc='obs'
+alias isc='ibs'
+alias psc='pbs'
 
 ### Security meetings
 alias minutes-pro="_wikidir=\$HOME/Workspace/SUSE/wiki; mkdir -p \$_wikidir 2>/dev/null; \
