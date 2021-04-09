@@ -150,16 +150,29 @@ alias -g NOERR='2>/dev/null'
 
 ### SUSE / openSUSE ###
 # Aliases
-source ~/.config/zsh/alias/suse
-alias zypper="secbox sudo zypper"
-alias obs="secbox osc"
-alias ibs="secbox osc -A ibs"
-alias osc="obs"
-alias isc="ibs"
-alias is_maintained="secbox is_maintained"
-alias quilt="secbox quilt"
-alias bugzilla="secbox bugzilla"
-alias minutes-pro="_wikidir=\$HOME/Workspace/SUSE/wiki; [ -d \$_wikidir/.git ] || git clone gitlab@gitlab.suse.de:pes/wiki.git \$_wikidir; \
+# Containers shortcuts
+source ~/.config/zsh/alias/suse-containers
+
+### OBS/IBS/PBS
+alias osc='secbox osc'
+alias psc='secbox osc -A pbs'
+alias isc='f(){ if [[ \"$@\"  =~ \"omg\" ]]; then \
+                secbox --sshfs osc -A ibs "$@";
+              else
+                secbox osc -A ibs "$@";
+              fi; }; f'
+alias is_maintained='secbox is_maintained'
+alias quilt='secbox squilt'
+alias oscsd='osc service localrun download_files'
+alias oscb='osc build --ccache --cpio-bulk-download --download-api-only'
+alias bugzilla='secbox bugzilla'
+alias obs='osc'
+alias ibs='isc'
+alias pbs='psc'
+
+### Security meetings
+alias minutes-pro="_wikidir=\$HOME/Workspace/SUSE/wiki; mkdir -p \$_wikidir 2>/dev/null; \
+                   [ -d \$_wikidir/.git ] || git clone gitlab@gitlab.suse.de:pes/wiki.git \$_wikidir; \
                    cd \$_wikidir/Maintenance-Security/Minutes/Proactive_Security_Meeting && \
                    git pull --ff-only && \
                    _last=\$(ls | sort -nr | head -n 1); \
@@ -167,8 +180,10 @@ alias minutes-pro="_wikidir=\$HOME/Workspace/SUSE/wiki; [ -d \$_wikidir/.git ] |
                    [ ! -f \$_new ] && cp -u \$_last \$_new; \
                    \$EDITOR \$_new && \
                    git add \$_new && git commit -m \"Update minutes\" && git push"
-# Continus monitoring of an OBS incident via "monitor #incident_number"
-alias monitor='f(){ watch --no-title --color --interval 5 "echo \"Monitoring incident ${@}\" && sudo secbox osc -A ibs r SUSE:Maintenance:\"$@\" | grep -E \"\(.*\)\" | grep -Ev \"[ ]{2}\? buildstatus|[[:space:]]+[.x][[:space:]]+[.x].*(published)\"" }; f'
+
+### Internal Tools
+alias tel='secbox --sshfs tel "$@"'
+alias foodchain='secbox --sshfs foodchain "$@"'
 ######
 
 ### Hook Functions ###
