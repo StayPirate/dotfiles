@@ -20,6 +20,8 @@ export FPATH
 
 export SHELL="/usr/bin/zsh"
 export EDITOR="vim"
+# For shell word boundaries. Default config, but without '/'. Helpful when CTRL+W on paths
+export WORDCHARS='*?_-.[]~=&;!#$&(){}<>'
 
 # better yaourt colors
 export YAOURT_COLORS="nb=1:pkg=1:ver=1;32:lver=1;45:installed=1;42:grp=1;34:od=1;41;5:votes=1;44:dsc=0:other=1;35"

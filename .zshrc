@@ -58,7 +58,6 @@ bindkey -e
 
 bindkey '\e[1;5C' forward-word;     # CTRL+[right]
 bindkey '\e[1;5D' backward-word;    # CTRL+[left]
-bindkey '^W' vi-backward-kill-word  # Delete the previous word but stop at [^a-zA-Z0-9]. Useful with pathname.
 bindkey " " magic-space             # do history expansion on space
 
 # create a zkbd compatible hash;
