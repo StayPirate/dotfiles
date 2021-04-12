@@ -156,7 +156,7 @@ source ~/.config/zsh/alias/suse-containers
 ### OBS/IBS/PBS
 alias obs='secbox osc'
 alias pbs='secbox osc -A pbs'
-alias ibs='f(){ if [[ \"$@\"  =~ \"omg\" ]]; then
+alias ibs='f(){ if [[ \"$@\"  =~ \".*omg.*\" ]]; then
                 secbox --sshfs osc -A ibs "$@";
               else
                 secbox osc -A ibs "$@";
