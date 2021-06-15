@@ -43,3 +43,4 @@ export POWERLINE_CONFIG_COMMAND="${_tmux_dir}/powerline/scripts/powerline-config
 export PYENV_ROOT="${_pyenv_root_dir}"
 export PYTHON_BUILD_ARIA2_OPTS="-x 10 -k 1M"
 export PYENV_VIRTUALENV_CACHE_PATH="${_pyenv_virtualenv_cache_dir}"
+eval "$(pyenv init --path)"
