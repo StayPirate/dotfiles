@@ -126,6 +126,7 @@ alias grep='grep --colour=auto'
 alias egrep='egrep --colour=auto'
 alias fgrep='fgrep --colour=auto'
 alias gpgh='gpg --homedir .'
+alias 2clip='xclip -in -selection clipboard >/dev/null 2>&1'
 alias pacman-search="pacman -Slq | fzf -m --preview 'cat <(pacman -Si {1}) <(pacman -Fl {1} | awk \"{print \$2}\")' | xargs -ro sudo pacman -S --needed"
 alias dotfiles="git --git-dir=\"${HOME}/.config/dotfiles/public\" --work-tree=\"${HOME}\""
 alias dot=dotfiles
@@ -181,8 +182,11 @@ alias minutes-pro="_wikidir=\$HOME/Workspace/SUSE/wiki; mkdir -p \$_wikidir 2>/d
                    git add \$_new && git commit -m \"Update minutes\" && git push"
 
 ### Internal Tools
-alias tel='secbox --sshfs tel "$@"'
-alias foodchain='secbox --sshfs foodchain "$@"'
+alias foodchain='secbox --sshfs foodchain'
+alias tel='secbox --sshfs tel'
+alias create_archives_db='secbox --sshfs create_archives_db'
+alias query_archives_db='secbox query_archives_db'
+alias mtk="secbox --sshfs mtk"
 ######
 
 ### Hook Functions ###
