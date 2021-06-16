@@ -1,0 +1,31 @@
+# Incident Manager tooling
+# These functions are used to quickly grep into different maintained kernel-sources in SUSE.
+# Example: gitgrep "-C 4" "create notification to user" "/bcm\.c"
+
+gitfind () {
+    # Current maintained kernels are:
+    local -ar kernels=(
+        "SLE15-SP2"
+        "linux-2.6.32"
+        "linux-3.0"
+        "linux-4.12"
+        "linux-4.4"
+        "master"
+    )
+    local branch found
+
+    for branch in "${kernels[@]}"; do
+        for found in `git ls-tree -r --name-only "${branch}" | grep "${1}"`; do
+            echo "${branch}:${found}"
+        done
+    done
+}
+
+gitgrep () {
+    for file in `gitfind "${3}"`; do
+    	echo "$file:"
+        git show "${file}" | grep -Ihni "${1}" "${2}" | while read line; do echo -e "\t${line}"; done
+    done
+}
+
+gitgrep "$@"

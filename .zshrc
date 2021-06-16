@@ -153,6 +153,9 @@ alias -g NOERR='2>/dev/null'
 # Containers shortcuts
 source ~/.config/zsh/alias/suse-containers
 
+### Functions
+autoload -Uz gitgrep
+
 ### OBS/IBS/PBS
 alias obs='secbox osc'
 alias pbs='secbox osc -A pbs'
