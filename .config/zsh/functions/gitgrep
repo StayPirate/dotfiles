@@ -1,9 +1,23 @@
-# Incident Manager tooling
+### Incident Manager tooling
+#
 # These functions are used to quickly grep into different maintained kernel-sources in SUSE.
 # Example: gitgrep "-C 4" "create notification to user" "/bcm\.c"
+#
+# Make sure you're inside a local git repo while using this function.
+# To properly initialize a local repo run the following commands:
+#
+#   git clone git://kerncvs.suse.de/kernel.git && cd kernel
+#   git branch --track SLE15-SP2 origin/SLE15-SP2
+#   git branch --track linux-2.6.32 origin/linux-2.6.32
+#   git branch --track linux-3.0 origin/linux-3.0
+#   git branch --track linux-4.4 origin/linux-4.4
+#   git branch --track linux-4.12 origin/linux-4.12
+#   git branch --track master origin/master
+#   git branch --track stable origin/stable
+#
 
 gitfind () {
-    # Current maintained kernels are:
+    # Currently maintained kernels are:
     local -ar kernels=(
         "SLE15-SP2"
         "linux-2.6.32"
@@ -11,6 +25,7 @@ gitfind () {
         "linux-4.12"
         "linux-4.4"
         "master"
+        "stable"
     )
     local branch found
 
@@ -29,3 +44,49 @@ gitgrep () {
 }
 
 gitgrep "$@"
+
+
+# Example command output looks like:
+#
+# > gitgrep "-C 4" "create notification to user" "/bcm\.c"
+# SLE15-SP2:net/can/bcm.c:
+#         391-
+#         392-            op->count--;
+#         393-            if (!op->count && (op->flags & TX_COUNTEVT)) {
+#         394-
+#         395:                    /* create notification to user */
+#         396-                    msg_head.opcode  = TX_EXPIRED;
+#         397-                    msg_head.flags   = op->flags;
+#         398-                    msg_head.count   = op->count;
+#         399-                    msg_head.ival1   = op->ival1;
+#         --
+#         552-{
+#         553-    struct bcm_op *op = (struct bcm_op *)data;
+#         554-    struct bcm_msg_head msg_head;
+#         555-
+#         556:    /* create notification to user */
+#         557-    msg_head.opcode  = RX_TIMEOUT;
+#         558-    msg_head.flags   = op->flags;
+#         559-    msg_head.count   = op->count;
+#         560-    msg_head.ival1   = op->ival1;
+# linux-2.6.32:net/can/bcm.c:
+#         351-
+#         352-            op->count--;
+#         353-            if (!op->count && (op->flags & TX_COUNTEVT)) {
+#         354-
+#         355:                    /* create notification to user */
+#         356-                    msg_head.opcode  = TX_EXPIRED;
+#         357-                    msg_head.flags   = op->flags;
+#         358-                    msg_head.count   = op->count;
+#         359-                    msg_head.ival1   = op->ival1;
+#         --
+#         523-{
+#         524-    struct bcm_op *op = (struct bcm_op *)data;
+#         525-    struct bcm_msg_head msg_head;
+#         526-
+#         527:    /* create notification to user */
+#         528-    msg_head.opcode  = RX_TIMEOUT;
+#         529-    msg_head.flags   = op->flags;
+#         530-    msg_head.count   = op->count;
+#         531-    msg_head.ival1   = op->ival1;
+# [...]
