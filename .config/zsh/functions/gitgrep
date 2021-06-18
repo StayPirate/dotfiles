@@ -1,10 +1,8 @@
 ### Incident Manager tooling
 #
 # These functions are used to quickly grep into different maintained kernel-sources in SUSE.
-# Example: gitgrep "-C 4" "create notification to user" "/bcm\.c"
 #
-# Make sure you're inside a local git repo while using this function.
-# To properly initialize a local repo run the following commands:
+# To properly initialize a local kernel repo run the following commands:
 #
 #   git clone git://kerncvs.suse.de/kernel.git && cd kernel
 #   git branch --track SLE15-SP2 origin/SLE15-SP2
@@ -16,8 +14,25 @@
 #   git branch --track stable origin/stable
 #
 
+gitgrep_usage () {
+    cat <<EOF
+Usage:
+    gitgrep "<string to search for>" ["filename" ["grep extra options"]]
+
+Examples:
+    gitgrep "create notification to user" "/bcm\.c" "-C 4"
+    gitgrep "create notification to user" "/bcm\.c"
+    gitgrep "create notification to user" "" "-C 4"
+    gitgrep "create notification to user" ""
+
+Note:
+    If you don't want to filter by filename, add "" as second argument, as shown in the examples above.
+    Gitgrep hardcode some -always needed- grep options, which are: -Ihni
+EOF
+}
+
 gitfind () {
-    # Currently maintained kernels are:
+    # According to kerncvs.suse.de, currently maintained kernels are:
     local -ar kernels=(
         "SLE15-SP2"
         "linux-2.6.32"
@@ -36,19 +51,32 @@ gitfind () {
     done
 }
 
-gitgrep () {
-    for file in `gitfind "${3}"`; do
-    	echo "$file:"
-        git show "${file}" | grep -Ihni "${1}" "${2}" | while read line; do echo -e "\t${line}"; done
-    done
-}
+########################
+##### gitgrep main #####
 
-gitgrep "$@"
+if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    echo "not a git repository"
+    return
+fi
+
+if [[ $# -eq 0 ]]; then 
+    gitgrep_usage
+    return
+fi
+
+for file in `gitfind "${2}"`; do
+    if git show "${file}" | grep -Ihni "${1}" ${3:-} >/dev/null 2>&1; then
+        echo "$file:"
+        git show "${file}" | grep -Ihni "${1}" ${3:-} | while read line; do echo -e "\t${line}"; done
+    fi
+done
 
 
-# Example command output looks like:
+########################
+## output looks like: ##
+########################
 #
-# > gitgrep "-C 4" "create notification to user" "/bcm\.c"
+# > gitgrep "create notification to user" "/bcm\.c" "-C 4"
 # SLE15-SP2:net/can/bcm.c:
 #         391-
 #         392-            op->count--;
