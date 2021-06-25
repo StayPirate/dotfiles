@@ -150,6 +150,30 @@ alias -g NOERR='2>/dev/null'
 
 ### SUSE / openSUSE ###
 # Aliases
+alias gitfind="gitgrep \"\"" # For gitgrep look at .config/zsh/functions/gitgrep
+alias decompress='IFS=''; find . -type f -regextype posix-extended -regex ".*\.(tar\.|tgz).*" | \
+                  awk -F ": " "/^[^#]/{print $1}" | grep -v .osc | grep -Ev ".*\.(asc|sig)$" | \
+                  while read -r line; do \
+                    echo $line; \
+                    tar --force-local -xf "$line" -C $(dirname "$line"); \
+                  done' # TODO: add the code to extract gem files
+
+# Update all local branches of a git repository
+alias git-pull-all='current_branch=`git branch --show-current`
+                    echo -n "Updating ${current_branch} "
+                    git pull --ff-only --quiet --all && echo
+                    for b in `git branch -l | grep -v "$current_branch"`; do
+                      echo -n "Updating ${b} "
+                      git switch --quiet "$b"
+                      git pull --ff-only --quiet && echo;
+                    done
+                    git switch --quiet $current_branch
+                    unset current_branch'
+# Enter the SUSE kernel repository
+alias k="cd ~/Workspace/SUSE/kernel"
+# Enter the SUSE kernel repository and update all the local branches
+alias kk="cd ~/Workspace/SUSE/kernel && git-pull-all"
+
 # Containers shortcuts
 source ~/.config/zsh/alias/suse-containers
 
@@ -157,9 +181,9 @@ source ~/.config/zsh/alias/suse-containers
 autoload -Uz gitgrep
 
 ### OBS/IBS/PBS
-alias obs='secbox osc'
-alias pbs='secbox osc -A pbs'
-alias ibs='f(){ if [[ \"$@\"  =~ \".*omg.*\" ]]; then
+alias osc='secbox osc'
+alias psc='secbox osc -A pbs'
+alias isc='f(){ if [[ \"$@\"  =~ \".*omg.*\" ]]; then
                 secbox --sshfs osc -A ibs "$@";
               else
                 secbox osc -A ibs "$@";
@@ -169,9 +193,16 @@ alias quilt='secbox squilt'
 alias oscsd='osc service localrun download_files'
 alias oscb='osc build --ccache --cpio-bulk-download --download-api-only'
 alias bugzilla='secbox bugzilla'
-alias osc='obs'
-alias isc='ibs'
-alias psc='pbs'
+# Which package depends on SUSE:SLE-12:GA/Botan?
+# > isc whatdependson SUSE:SLE-12:GA Botan standard x86_64
+alias dep_on='isc whatdependson'
+
+### Internal Tools
+alias foodchain='secbox --sshfs foodchain'
+alias tel='secbox --sshfs tel'
+alias create_archives_db='secbox --sshfs create_archives_db'
+alias query_archives_db='secbox query_archives_db'
+alias mtk="secbox --sshfs mtk"
 
 ### Security meetings
 alias minutes-pro="_wikidir=\$HOME/Workspace/SUSE/wiki; mkdir -p \$_wikidir 2>/dev/null; \
@@ -183,13 +214,6 @@ alias minutes-pro="_wikidir=\$HOME/Workspace/SUSE/wiki; mkdir -p \$_wikidir 2>/d
                    [ ! -f \$_new ] && cp -u \$_last \$_new; \
                    \$EDITOR \$_new && \
                    git add \$_new && git commit -m \"Update minutes\" && git push"
-
-### Internal Tools
-alias foodchain='secbox --sshfs foodchain'
-alias tel='secbox --sshfs tel'
-alias create_archives_db='secbox --sshfs create_archives_db'
-alias query_archives_db='secbox query_archives_db'
-alias mtk="secbox --sshfs mtk"
 ######
 
 ### Hook Functions ###

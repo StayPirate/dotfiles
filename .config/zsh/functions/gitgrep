@@ -28,6 +28,12 @@ Examples:
 Note:
     If you don't want to filter by filename, add "" as second argument, as shown in the examples above.
     Gitgrep hardcode some -always needed- grep options, which are: -Ihni
+
+    To list all the file which match a specific pattern run:
+      gitgrep "" "<regex>"
+      Example: gitgrep "" "/bcm\.c"
+    or simply use this alias:
+      alias gitfind="gitgrep \"\""
 EOF
 }
 
@@ -61,6 +67,11 @@ fi
 
 if [[ $# -eq 0 ]]; then 
     gitgrep_usage
+    return
+fi
+
+if [[ -z "$1" ]]; then 
+    gitfind "${2}"
     return
 fi
 
