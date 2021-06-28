@@ -151,12 +151,28 @@ alias -g NOERR='2>/dev/null'
 ### SUSE / openSUSE ###
 # Aliases
 alias gitfind="gitgrep \"\"" # For gitgrep look at .config/zsh/functions/gitgrep
-alias decompress='IFS=''; find . -type f -regextype posix-extended -regex ".*\.(tar\.|tgz).*" | \
-                  awk -F ": " "/^[^#]/{print $1}" | grep -v .osc | grep -Ev ".*\.(asc|sig)$" | \
-                  while read -r line; do \
-                    echo $line; \
-                    tar --force-local -xf "$line" -C $(dirname "$line"); \
-                  done' # TODO: add the code to extract gem files
+alias decompress='old_IFS=$IFS; IFS=''
+                  # Extract data.tar.gz from gemfile which will be processed later on this script 
+                  find . -type f -regextype posix-extended -regex ".*\.gem" |
+                    awk -F ": " "/^[^#]/{print $1}" |
+                    grep -v "\.osc" |
+                      while read -r gemfile; do
+                        echo $gemfile
+                        tar --force-local -xf "$gemfile" -C $(dirname "$gemfile");
+                      done
+                  # Extract any compressed archive in its same folder
+                  find . -type f -regextype posix-extended -regex ".*\.(tar\.|tgz).*" |
+                    awk -F ": " "/^[^#]/{print $1}" |
+                    # Skip .osc folder
+                    grep -v "\.osc" |
+                    # Skip similar-name non archive files
+                    grep -Ev ".*\.(asc|sig|sha)$" |
+                      while read -r line; do
+                        echo $line
+                        tar --force-local -xf "$line" -C $(dirname "$line");
+                      done
+                  IFS=$old_IFS
+                  unset gemfile line old_IFS'
 
 # Update all local branches of a git repository
 alias git-pull-all='current_branch=`git branch --show-current`
