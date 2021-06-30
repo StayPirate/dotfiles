@@ -142,6 +142,12 @@ alias unlock_keepassxc="echo 'check the explanation attribute ;)' | secret-tool 
 # The Wolt app (food delivery) provides an in-app game where you can win free delivery tokens.
 # I use the following alias to beat the game
 alias wolt="xdotool click --repeat 300 --delay 10 1"
+# Example: 'try hub' and play with the hub cli
+alias try='f() { podman container run --rm -ti ubuntu:latest sh -c "
+                   apt-get update &&
+                   apt-get -y install ${1} &&
+                   bash
+               "}; f'
 # Suffix aliases
 alias -s txt=$EDITOR
 # Global aliases
