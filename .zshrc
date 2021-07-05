@@ -114,7 +114,8 @@ zstyle ':completion:*' format '%B---- %d%b'
 # confirm before overwriting something
 alias cp="cp -i"
 # create a temporary folder and cd into it
-alias mkcd="cd \$(mktemp -d -t XXXXXX -p ${XDG_RUNTIME_DIR:-/tmp})"
+alias mkcd="cd \$(mktemp -d -t tmp-XXXXXX -p ${XDG_RUNTIME_DIR:-/tmp})"
+alias mkclean='find ${XDG_RUNTIME_DIR:-/tmp} -maxdepth 1 -mindepth 1 -type d -regextype egrep -regex ".*/tmp-[0-9A-Za-z]{6}$" -exec rm -rf {} \;'
 alias docker='sudo docker'
 alias docker-compose='sudo docker-compose'
 alias ls='ls --color=auto'
@@ -202,29 +203,9 @@ source ~/.config/zsh/alias/suse-containers
 ### Functions
 autoload -Uz gitgrep
 
-### OBS/IBS/PBS
-alias osc='secbox osc'
-alias psc='secbox osc -A pbs'
-alias isc='f(){ if [[ \"$@\"  =~ \".*omg.*\" ]]; then
-                secbox --sshfs osc -A ibs "$@";
-              else
-                secbox osc -A ibs "$@";
-              fi; }; f'
-alias is_maintained='secbox is_maintained'
-alias quilt='secbox squilt'
-alias oscsd='osc service localrun download_files'
-alias oscb='osc build --ccache --cpio-bulk-download --download-api-only'
-alias bugzilla='secbox bugzilla'
-# Which package depends on SUSE:SLE-12:GA/Botan?
-# > isc whatdependson SUSE:SLE-12:GA Botan standard x86_64
-alias dep_on='isc whatdependson'
-
-### Internal Tools
-alias foodchain='secbox --sshfs foodchain'
-alias tel='secbox --sshfs tel'
-alias create_archives_db='secbox --sshfs create_archives_db'
-alias query_archives_db='secbox query_archives_db'
-alias mtk="secbox --sshfs mtk"
+# Load secbox aliases
+# https://github.com/StayPirate/secbox#aliases
+eval "$(secbox --alias)"
 
 ### Security meetings
 alias minutes-pro="_wikidir=\$HOME/Workspace/SUSE/wiki; mkdir -p \$_wikidir 2>/dev/null; \
