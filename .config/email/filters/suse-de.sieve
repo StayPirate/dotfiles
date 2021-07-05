@@ -1,8 +1,8 @@
 # Sieve: https://tools.ietf.org/html/rfc5228
 require ["fileinto", "body", "variables"];
 
-set "susede_email" "ggabrielli@suse.de";
-set "susecom_email" "gianluca.gabrielli@suse.com";
+set "susede_addr" "ggabrielli@suse.de";
+set "susecom_addr" "gianluca.gabrielli@suse.com";
 
 # rule:[SPAM]
 if allof ( header :contains "X-Spam-Flag" "YES",
@@ -44,7 +44,7 @@ if allof ( address :is "From" "bugzilla_noreply@suse.com",
            address :is "To" "security-team@suse.de",
            header  :is "X-Bugzilla-Type" "changed",
            header  :is "X-Bugzilla-Changed-Fields" "cc",
-           body    :contains "|${susecom_email}" ) {
+           body    :contains "|${susecom_addr}" ) {
     fileinto "INBOX/Tools/Bugzilla/Direct";
     stop;
 }
@@ -60,7 +60,7 @@ if allof ( address :is "From" "bugzilla_noreply@suse.com",
 
 # rule:[BZ - direct notification]
 if allof ( address :is "From" "bugzilla_noreply@suse.com", 
-           address :is "To" "${susecom_email}" ) {
+           address :is "To" "${susecom_addr}" ) {
     fileinto "INBOX/Tools/Bugzilla/Direct";
     stop;
 }
@@ -172,7 +172,7 @@ if allof (     header :is "X-Mailer" "OBS Notification System",
 # A package I maintain failed to build
 if allof ( header  :is "X-Mailer" "OBS Notification System",
            header  :is "X-OBS-URL" "https://build.suse.de",
-           address :contains "To" "${susecom_email}",
+           address :contains "To" "${susecom_addr}",
            header  :contains "x-obs-event-type" "build_fail" ) {
     fileinto "INBOX/Tools/IBS/build";
     stop;
@@ -230,7 +230,7 @@ if allof ( header  :is "X-Mailer" "OBS Notification System",
 # A package I maintain failed to build
 if allof ( header  :is "X-Mailer" "OBS Notification System",
            header  :is "X-OBS-URL" "https://build.opensuse.org",
-           address :contains "To" "${susecom_email}",
+           address :contains "To" "${susecom_addr}",
            header  :contains "x-obs-event-type" "build_fail" ) {
     fileinto "INBOX/Tools/OBS/build";
     stop;
@@ -592,7 +592,7 @@ if header :contains "List-Id" "<isn.lists.infosecnews.org>" { fileinto "INBOX/ML
 
 # rule:[Seclist - CERT]
 # https://public.govdelivery.com/accounts/USDHSCISA/subscriber/edit?preferences=true#tab1
-if allof ( address :is "To" "${susede_email}",
+if allof ( address :is "To" "${susede_addr}",
            anyof ( address :contains "From" "US-CERT@ncas.us-cert.gov",
                    address :contains "From" "CISA@public.govdelivery.com" )) {
     fileinto "INBOX/ML/SecList/CERT Advisories";
@@ -651,7 +651,7 @@ if header :contains "List-Id" "<ibm-virt-security.lists.debian.org>" { fileinto 
 # rule:[Security-News - LWN]
 # https://lwn.net
 if allof ( address :is "From" "lwn@lwn.net",
-           address :is "To" "${susede_email}" ) {
+           address :is "To" "${susede_addr}" ) {
     fileinto "INBOX/NL/LWN";
     stop;
 }
