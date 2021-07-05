@@ -508,6 +508,9 @@ if header :contains "List-Id" "<sle-security-updates.lists.suse.com>" { fileinto
 # ├── Debian
 # │   ├── Security Announce
 # │   └── Security Tracker
+# ├── RedHat
+# │   ├── Security Announce
+# │   └── IBM Virt Security
 # └── Security News
 #     └── LWN
 
@@ -629,6 +632,15 @@ if header :contains "List-Id" "<debian-security-tracker.lists.debian.org>" { fil
 # rule:[Debian - security announce]
 # https://lists.debian.org/debian-security-announce/
 if header :contains "List-Id" "<debian-security-announce.lists.debian.org>" { fileinto "INBOX/ML/Debian/Security Announce"; stop; }
+
+# rule:[RedHat - security announce]
+# https://listman.redhat.com/mailman/listinfo/rhsa-announce
+if header :contains "List-Id" "<rhsa-announce.redhat.com>" { fileinto "INBOX/ML/RedHat/Security Announce"; stop; }
+
+# rule:[RedHat - security announce]
+# https://listman.redhat.com/mailman/listinfo/ibm-virt-security
+if header :contains "List-Id" "<ibm-virt-security.lists.debian.org>" { fileinto "INBOX/ML/Debian/IBM Virt Security"; stop; }
+
 
 #######################
 ##### NEWS LETTER #####
