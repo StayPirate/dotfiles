@@ -121,6 +121,8 @@ alias docker-compose='sudo docker-compose'
 alias ls='ls --color=auto'
 alias ll='ls -lh --color=auto'
 alias la='ls -Alh --color=auto'
+alias lS='ls -lAhSr --color=auto'
+alias lt='ls -lAhtr --color=auto'
 alias root="sudo su -"
 alias myip="curl https://ipinfo.io/ip"
 alias grep='grep --colour=auto'
@@ -149,6 +151,8 @@ alias try='f() { podman container run --rm -ti ubuntu:latest sh -c "
                    apt-get -y install ${1} &&
                    bash
                "}; f'
+# Show 500+ Mb folders. Use "heavy" for local folder, or "heavy subfolder" for a subfolder.
+alias heavy='f() { du -h --max-depth=1 -x --exclude="/dev|/proc|/sys|/tmp|/run" "${1:=.}" 2>/dev/null | sort -h | grep -E "^[0-9.]+G.*|^[5-9][0-9]{2}M.*" }; f'
 # Suffix aliases
 alias -s txt=$EDITOR
 # Global aliases
@@ -196,6 +200,24 @@ alias git-pull-all='current_branch=`git branch --show-current`
 alias k="cd ~/Workspace/SUSE/kernel"
 # Enter the SUSE kernel repository and update all the local branches
 alias kk="cd ~/Workspace/SUSE/kernel && git-pull-all"
+
+# Print all the CVSS score stored in SMASH for a specific CVE-ID
+alias cvss='f() { echo $1;
+                  curl -LsSf -H "Authorization: Token $(cat ~/.config/SUSE/SMASH_Token)" \
+                             "https://smash.suse.de/api/issues/?reference=${1}" | \
+                              jq -r ".results[] | .cvss[] | (.score|tostring) +\" \"+ .source" | \
+                    while read line; do
+                      echo "\t${line}"
+                    done
+                }; f'
+# Print all the CVE added to a specific submission request in OBS
+# Note: some CVEs might only be mentioned in the changes file and not really introduced by the submission request 
+alias cves='f() { isc rq show -d $1 | grep -E "^\+" | grep -Eo "CVE-[0-9]{4}-[0-9]{3,6}" | sort -u | \
+                    while read cve; do
+                      cvss $cve
+                    done
+                }; f'
+
 
 # Containers shortcuts
 source ~/.config/zsh/alias/suse-containers
