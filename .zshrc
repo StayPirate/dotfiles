@@ -129,7 +129,6 @@ alias grep='grep --colour=auto'
 alias egrep='egrep --colour=auto'
 alias fgrep='fgrep --colour=auto'
 alias gpgh='gpg --homedir .'
-alias 2clip='xclip -in -selection clipboard >/dev/null 2>&1'
 alias pacman-search="pacman -Slq | fzf -m --preview 'cat <(pacman -Si {1}) <(pacman -Fl {1} | awk \"{print \$2}\")' | xargs -ro sudo pacman -S --needed"
 alias dotfiles="git --git-dir=\"${HOME}/.config/dotfiles/public\" --work-tree=\"${HOME}\""
 alias dot=dotfiles
@@ -152,11 +151,15 @@ alias try='f() { podman container run --rm -ti ubuntu:latest sh -c "
                    bash
                "}; f'
 # Show 500+ Mb folders. Use "heavy" for local folder, or "heavy subfolder" for a subfolder.
-alias heavy='f() { du -h --max-depth=1 -x --exclude="/dev|/proc|/sys|/tmp|/run" "${1:=.}" 2>/dev/null | sort -h | grep -E "^[0-9.]+G.*|^[5-9][0-9]{2}M.*" }; f'
+alias heavy='f() { du -h --max-depth=1 -x --exclude="/dev|/proc|/sys|/tmp|/run" "${1:=.}" 2>/dev/null | \
+                   sort -h | \
+                   grep -E "^[0-9.]+G.*|^[5-9][0-9]{2}M.*"
+                 }; f'
 # Suffix aliases
 alias -s txt=$EDITOR
 # Global aliases
 alias -g NOERR='2>/dev/null'
+alias -g 2c=' | xclip -in -selection clipboard >/dev/null 2>&1' # ex 2clip
 ######
 
 ### SUSE / openSUSE ###
@@ -172,7 +175,7 @@ alias decompress='old_IFS=$IFS; IFS=''
                         tar --force-local -xf "$gemfile" -C $(dirname "$gemfile");
                       done
                   # Extract any compressed archive in its same folder
-                  find . -type f -regextype posix-extended -regex ".*\.(tar\.|tgz).*" |
+                  find . -type f -regextype posix-extended -regex ".*\.(tar\.|tgz|zip).*" |
                     awk -F ": " "/^[^#]/{print $1}" |
                     # Skip .osc folder
                     grep -v "\.osc" |
@@ -180,7 +183,11 @@ alias decompress='old_IFS=$IFS; IFS=''
                     grep -Ev ".*\.(asc|sig|sha)$" |
                       while read -r line; do
                         echo $line
-                        tar --force-local -xf "$line" -C $(dirname "$line");
+                        if echo $line | grep -qE ".*\.zip$"; then
+                          unzip -q "$line" -d $(dirname "$line");
+                        else
+                          tar --force-local -xf "$line" -C $(dirname "$line");
+                        fi
                       done
                   IFS=$old_IFS
                   unset gemfile line old_IFS'
@@ -201,23 +208,37 @@ alias k="cd ~/Workspace/SUSE/kernel"
 # Enter the SUSE kernel repository and update all the local branches
 alias kk="cd ~/Workspace/SUSE/kernel && git-pull-all"
 
-# Print all the CVSS score stored in SMASH for a specific CVE-ID
-alias cvss='f() { echo $1;
-                  curl -LsSf -H "Authorization: Token $(cat ~/.config/SUSE/SMASH_Token)" \
-                             "https://smash.suse.de/api/issues/?reference=${1}" | \
-                              jq -r ".results[] | .cvss[] | (.score|tostring) +\" \"+ .source" | \
-                    while read line; do
-                      echo "\t${line}"
-                    done
-                }; f'
-# Print all the CVE added to a specific submission request in OBS
-# Note: some CVEs might only be mentioned in the changes file and not really introduced by the submission request 
-alias cves='f() { isc rq show -d $1 | grep -E "^\+" | grep -Eo "CVE-[0-9]{4}-[0-9]{3,6}" | sort -u | \
-                    while read cve; do
-                      cvss $cve
-                    done
-                }; f'
-
+alias se='g() { echo "$1" | grep -qE  "^#.*" && return
+                echo "$1" | grep -qE  "No matches found for|matches for" && return
+                echo "$1" | grep -qE  "^$" && return
+                echo "$1" | grep -qE  "^home:" && return
+                echo "$1" | grep -qE  "^PTF:" && return
+                echo "$1" | grep -qE  "^SUSE:Maintenance:" && return
+                echo "$1" | grep -qE  "^openSUSE:Maintenance:" && return
+                echo "$1" | grep -qE  ".*[_\.\-]+[0-9]{2,}$" && return
+                echo "$1" | grep -qE  "^SUSE:openSUSE:" && return
+                echo "$1" | grep -qE  "^SUSE:SLE-9" && return
+                echo "$1" | grep -qE  "^SUSE:SLE-10" && return
+                echo "$1" | grep -qE  "^DISCONTINUED:" && return
+                echo "$1" | grep -qE  "^openSUSE:1" && return
+                echo "$1" | grep -qE  "^openSUSE:Leap:15.[0-2]." && return
+                echo "$1" | grep -iqE "^Devel:" && return
+                echo "$1" | grep -qE  "^YaST:" && return
+                echo "$1" | grep -qE  "^openSUSE:Evergreen" && return
+                echo "$1" | grep -qE  "^openSUSE:Leap:42" && return
+                echo "$1" | grep -qE  "^QA:" && return
+                echo "$1" | grep -qE  "^openSUSE:Dropped" && return
+                echo "$1" | grep -qE  "^Maemo:" && return
+                echo "$1" | grep -qE  "^OBS:" && return
+                echo "$1" | grep -qE  "^SSL:" && return
+                echo "$1" | grep -qE  "^Scented:" && return
+                echo "  $1"
+          };
+          f() { echo "IBS:"
+            isc se -s "$1" | while read -r line; do g "$line"; done
+            echo "OBS:"
+            osc se -s "$1" | while read -r line; do g "$line"; done
+          }; f'
 
 # Containers shortcuts
 source ~/.config/zsh/alias/suse-containers
