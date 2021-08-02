@@ -37,37 +37,23 @@ if allof ( address :is "From" "bugzilla_noreply@suse.com",
 	stop;
 }
 
-# rule:[BZ - CC me]
-# Added or removed from CC into a bugzilla security issue.
-# Put it into the Direct folder.
-if allof ( address :is "From" "bugzilla_noreply@suse.com", 
-           address :is "To" "security-team@suse.de",
-           header  :is "X-Bugzilla-Type" "changed",
-           header  :is "X-Bugzilla-Changed-Fields" "cc",
-           body    :contains "|${susecom_addr}" ) {
-    fileinto "INBOX/Tools/Bugzilla/Direct";
-    stop;
-}
-
-# rule:[BZ - mute new (not me) CC ]
-# Ignore, if the only change is a new person added/removed to CC.
-if allof ( address :is "From" "bugzilla_noreply@suse.com", 
-           header  :is "X-Bugzilla-Type" "changed",
-           header  :is "X-Bugzilla-Changed-Fields" "cc" ) {
+# rule:[BZ - mute n2p status ]
+# Ignore notification when the only change is the status from new to in progress
+# But allow notification with a new comment.
+if allof ( address  :is "From" "bugzilla_noreply@suse.com",
+           header   :is "X-Bugzilla-Type" "changed",
+           header   :is "X-Bugzilla-Changed-Fields" "bug_status",
+           header   :is "X-Bugzilla-Status" "IN_PROGRESS",
+           anyof ( body     :contains "Status|NEW",
+                   body     :contains "Status  NEW     IN_PROGRESS"),
+           not body :contains "--- Comment #" ) {
     discard;
-    stop;
-}
-
-# rule:[BZ - direct notification]
-if allof ( address :is "From" "bugzilla_noreply@suse.com", 
-           address :is "To" "${susecom_addr}" ) {
-    fileinto "INBOX/Tools/Bugzilla/Direct";
     stop;
 }
 
 # rule:[BZ - Embargoed notification]
 if allof ( address :is "From" "bugzilla_noreply@suse.com", 
-           address :is "To" "security-team@suse.djira@suse.come",
+           address :is "To" "security-team@suse.de",
            header  :contains "Subject" "EMBARGOED" ) {
     fileinto "INBOX/Tools/Bugzilla/Security Team/Embargoed";
     stop;
@@ -85,8 +71,39 @@ if allof ( address    :is "From" "bugzilla_noreply@suse.com",
     stop;
 }
 
+# rule:[BZ - CC me]
+# Added or removed from CC into a bugzilla security issue.
+# Put it into the Direct folder.
+if allof ( address :is "From" "bugzilla_noreply@suse.com",
+           address :is "To" "security-team@suse.de",
+           header  :is "X-Bugzilla-Type" "changed",
+           header  :is "X-Bugzilla-Changed-Fields" "cc",
+           body    :contains "|${susecom_addr}" ) {
+    fileinto "INBOX/Tools/Bugzilla/Direct";
+    stop;
+}
+
+# rule:[BZ - mute new (not me) CC or assigned_to]
+# Ignore, if the only change is a new person added/removed to CC, or changed the assignee.
+# But allow notification with a new comment.
+if allof ( address  :is       "From" "bugzilla_noreply@suse.com",
+           header   :is       "X-Bugzilla-Type" "changed",
+           anyof ( header   :contains "X-Bugzilla-Changed-Fields" "cc",
+                   header   :contains "X-Bugzilla-Changed-Fields" "assigned_to"),
+           not body :contains "--- Comment #" ) {
+    discard;
+    stop;
+}
+
+# rule:[BZ - direct notification]
+if allof ( address :is "From" "bugzilla_noreply@suse.com",
+           address :is "To" "${susecom_addr}" ) {
+    fileinto "INBOX/Tools/Bugzilla/Direct";
+    stop;
+}
+
 # rule:[BZ - maint-coord - catch all]
-# All the issues assigned to maint-coord go to the not monitored Maintenance folder
+# Discard all the issues assigned to maint-coord
 if allof ( address :is "From" "bugzilla_noreply@suse.com", 
            address :is "To" "maint-coord@suse.de" ) {
     discard;
@@ -344,6 +361,7 @@ if header :contains "List-Id" "<kernel.suse.de>" { fileinto "INBOX/ML/SUSE/kerne
 if header :contains "List-Id" "<maintsecteam.suse.de>" { fileinto "INBOX/ML/SUSE/maintsecteam"; stop; }
 
 # rule:[SUSEDE - maintsec-reports - channel file changed]
+# Note: it seems that only SLE12 changes are sent over this ML.
 if allof ( header :contains "List-Id" "<maintsec-reports.suse.de>",
            header :contains "Subject" "Channel changes for" ) {
     fileinto "INBOX/ML/SUSE/maintsec-reports/channels changes";
