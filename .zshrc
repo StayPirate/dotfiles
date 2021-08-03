@@ -165,7 +165,12 @@ alias -g 2c=' | xclip -in -selection clipboard >/dev/null 2>&1' # ex 2clip
 ### SUSE / openSUSE ###
 # Aliases
 alias gitfind="gitgrep \"\"" # For gitgrep look at .config/zsh/functions/gitgrep
-alias decompress='old_IFS=$IFS; IFS=''
+alias decompress='extract_phar_inplace() {
+                      secbox --no-tty php -r \
+                      "\$phar = new Phar(\"$1\"); \$phar->extractTo(\"$(dirname "$1")\");"
+                  }
+
+                  old_IFS=$IFS; IFS=''
                   # Extract data.tar.gz from gemfile which will be processed later on this script 
                   find . -type f -regextype posix-extended -regex ".*\.gem" |
                     awk -F ": " "/^[^#]/{print $1}" |
@@ -178,10 +183,9 @@ alias decompress='old_IFS=$IFS; IFS=''
                   find . -type f -regextype posix-extended -regex ".*\.phar" |
                     awk -F ": " "/^[^#]/{print $1}" |
                     grep -v "\.osc" |
-                      while read -r pharfile; do
-                        echo $pharfile
-                        php -r "\$phar = new Phar(\"$pharfile\"); \$phar->extractTo(\"$(dirname "$pharfile")\");"
-                      done
+                    while read -r pharfile; do
+                      extract_phar_inplace "$pharfile"
+                    done
                   # Extract any compressed archive in its same folder
                   find . -type f -regextype posix-extended -regex ".*\.(tar\.|tgz|zip).*" |
                     awk -F ": " "/^[^#]/{print $1}" |
