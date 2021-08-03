@@ -174,6 +174,14 @@ alias decompress='old_IFS=$IFS; IFS=''
                         echo $gemfile
                         tar --force-local -xf "$gemfile" -C $(dirname "$gemfile");
                       done
+                  # Extract PHP Archive (.phar files)
+                  find . -type f -regextype posix-extended -regex ".*\.phar" |
+                    awk -F ": " "/^[^#]/{print $1}" |
+                    grep -v "\.osc" |
+                      while read -r pharfile; do
+                        echo $pharfile
+                        php -r "\$phar = new Phar(\"$pharfile\"); \$phar->extractTo(\"$(dirname "$pharfile")\");"
+                      done
                   # Extract any compressed archive in its same folder
                   find . -type f -regextype posix-extended -regex ".*\.(tar\.|tgz|zip).*" |
                     awk -F ": " "/^[^#]/{print $1}" |
