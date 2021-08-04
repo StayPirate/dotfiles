@@ -313,6 +313,7 @@ if allof ( address :is "From" "gitlab@suse.de" ) {
 # ML
 # └── SUSE
 #     ├── security-team
+#     │   └── Xorg
 #     ├── security
 #     │   ├── Xen Security Advisory
 #     │   ├── MariaDB
@@ -453,6 +454,12 @@ if header :contains "List-Id" "<security-reports.suse.de>" { fileinto "INBOX/ML/
 # https://mailman.suse.de/mailman/listinfo/security-review
 if header :contains "List-Id" "<security-review.suse.de>" { fileinto "INBOX/ML/SUSE/security-review"; stop; }
 
+# rule:[SUSEDE - security-team - xorg-security ML]
+if allof ( header :contains "List-Id" "<security-team.suse.de>",
+           header :contains "X-BeenThere" "xorg-security@lists.x.org" ) {
+    fileinto "INBOX/ML/SUSE/security-team/Xorg";
+    stop;
+}
 # rule:[SUSEDE - security-team - security-team and me in CC ]
 # When someone follows up on a thread where I'm also in CC, I want it in the same ML folder
 if allof (     address :contains "CC" "security-team@suse.de",
