@@ -463,8 +463,8 @@ if allof ( header :contains "List-Id" "<security-team.suse.de>",
 # rule:[SUSEDE - security-team - security-team and me in CC ]
 # When someone follows up on a thread where I'm also in CC, I want it in the same ML folder
 if allof (     address :contains "CC" "security-team@suse.de",
-               address :contains "CC" "ggabrielli@suse.de",
-           not address :contains "To" "ggabrielli@suse.de" ) {
+               address :contains "CC" "${susede_addr}",
+           not address :contains "To" "${susede_addr}" ) {
     fileinto "INBOX/ML/SUSE/security-team";
     stop;
 }
