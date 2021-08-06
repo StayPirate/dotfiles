@@ -184,6 +184,7 @@ alias decompress='extract_phar_inplace() {
                     awk -F ": " "/^[^#]/{print $1}" |
                     grep -v "\.osc" |
                     while read -r pharfile; do
+                      echo $pharfile
                       extract_phar_inplace "$pharfile"
                     done
                   # Extract any compressed archive in its same folder
@@ -220,7 +221,13 @@ alias k="cd ~/Workspace/SUSE/kernel"
 # Enter the SUSE kernel repository and update all the local branches
 alias kk="cd ~/Workspace/SUSE/kernel && git-pull-all"
 
-alias se='g() { echo "$1" | grep -qE  "^#.*" && return
+alias se='# Usage:
+          #   se package_name (equal to isc se -s package_name; osc se -s package_name)
+          #   se -o package_name (equal to isc se package_name; osc se package_name)
+          # I chose an opt-out design for the -s flag because I want it enabled
+          # by default since I use it 99% of the times
+          #
+          g() { echo "$1" | grep -qE  "^#.*" && return
                 echo "$1" | grep -qE  "No matches found for|matches for" && return
                 echo "$1" | grep -qE  "^$" && return
                 echo "$1" | grep -qE  "^home:" && return
@@ -246,10 +253,16 @@ alias se='g() { echo "$1" | grep -qE  "^#.*" && return
                 echo "$1" | grep -qE  "^Scented:" && return
                 echo "  $1"
           };
-          f() { echo "IBS:"
-            isc se -s "$1" | while read -r line; do g "$line"; done
+          f() {
+            local _s="-s"
+            if [[ "$1" == "-o" ]]; then
+              _s=""
+              shift
+            fi
+            echo "IBS:"
+            isc se $_s "$1" | while read -r line; do g "$line"; done
             echo "OBS:"
-            osc se -s "$1" | while read -r line; do g "$line"; done
+            osc se $_s "$1" | while read -r line; do g "$line"; done
           }; f'
 
 # Containers shortcuts
