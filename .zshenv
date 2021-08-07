@@ -11,7 +11,7 @@ export XDG_CONFIG_HOME=${_xdg_config_home}
 
 # $ZDOTDIR is specified in $HOME/.zprofile
 typeset -U PATH path
-path=("${_pyenv_installation_dir}/bin" "${HOME}/.local/bin" "${HOME}/.local/bin/secbox"  "${_tmux_dir}/powerline/scripts" "$path[@]")
+path=("${_pyenv_installation_dir}/bin" "${HOME}/.local/bin" "${_tmux_dir}/powerline/scripts" "$path[@]")
 export PATH
 
 typeset -U FPATH fpath

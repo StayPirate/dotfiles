@@ -49,6 +49,9 @@
 	update = none
 	shallow = true
 [submodule ".local/bin/secbox"]
-	path = .local/bin/secbox
+	path = .local/bin/repos/secbox
 	url = git@github.com:StayPirate/secbox.git
 	branch = master
+[submodule ".local/bin/tldr-sh-client"]
+	path = .local/bin/repos/tldr-sh-client
+	url = https://github.com/raylee/tldr-sh-client.git

@@ -108,6 +108,8 @@ zstyle ':completion:*' menu select
 # Show commands in groups
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' format '%B---- %d%b'
+# tldr autocompletion
+compctl -s "$(tldr 2>/dev/null --list)" tldr
 ######
 
 ### ALIASES ###
