@@ -3,6 +3,7 @@ require ["fileinto", "body", "variables"];
 
 set "susede_addr" "ggabrielli@suse.de";
 set "susecom_addr" "gianluca.gabrielli@suse.com";
+set "bugzilla_username" "crazybyte";
 
 # rule:[SPAM]
 if allof ( header :contains "X-Spam-Flag" "YES",
@@ -178,7 +179,7 @@ if allof ( header :is "X-Mailer" "OBS Notification System",
 # A request issued by me is not accepted
 if allof (     header :is "X-Mailer" "OBS Notification System",
                header :is "X-OBS-URL" "https://build.suse.de",
-               header :is "x-obs-request-creator" "crazybyte",
+               header :is "x-obs-request-creator" "${bugzilla_username}",
                header :is "x-obs-event-type" "request_statechange",
            not header :is "x-obs-request-state" "accepted" ) {
     fileinto "INBOX/Tools/IBS/requests/pushed back";
@@ -199,7 +200,7 @@ if allof ( header  :is "X-Mailer" "OBS Notification System",
 # Notification for requests I issued
 if allof ( header :is "X-Mailer" "OBS Notification System",
            header :is "X-OBS-URL" "https://build.suse.de",
-           header :is "x-obs-request-creator" "crazybyte" ) {
+           header :is "x-obs-request-creator" "${bugzilla_username}" ) {
     fileinto "INBOX/Tools/IBS/requests";
     stop;
 }
@@ -454,6 +455,14 @@ if header :contains "List-Id" "<security-reports.suse.de>" { fileinto "INBOX/ML/
 # https://mailman.suse.de/mailman/listinfo/security-review
 if header :contains "List-Id" "<security-review.suse.de>" { fileinto "INBOX/ML/SUSE/security-review"; stop; }
 
+# rule:[SUSEDE - security-team - no US-CERT]
+# Discard newsletters coming US-CERT because these are duplicated for me, I'm already subscribed to that list
+# ML -> SecList -> CERT Advisories
+if allof ( header  :contains "List-Id" "<security-team.suse.de>",
+           address :is       "From" "US-CERT@ncas.us-cert.gov" ) {
+    discard;
+    stop;
+}
 # rule:[SUSEDE - security-team - xorg-security ML]
 if allof ( header :contains "List-Id" "<security-team.suse.de>",
            header :contains "X-BeenThere" "xorg-security@lists.x.org" ) {
