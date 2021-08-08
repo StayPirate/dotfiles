@@ -1,0 +1,6 @@
+alias dotfiles="git --git-dir=\"${HOME}/.config/dotfiles/public\" --work-tree=\"${HOME}\""
+alias dotfiles-private="git --git-dir=\"${HOME}/.config/dotfiles/private/.git\" --work-tree=\"${HOME}\""
+alias dotfiles-root="sudo git --git-dir=\"${HOME}/.config/dotfiles/root/.git\" --work-tree=/"
+alias dot=dotfiles
+alias dotp=dotfiles-private
+alias dotr=dotfiles-root

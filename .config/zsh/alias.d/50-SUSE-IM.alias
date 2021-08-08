@@ -1,0 +1,103 @@
+alias decompress='extract_phar_inplace() {
+                      secbox --no-tty php -r \
+                      "\$phar = new Phar(\"$1\"); \$phar->extractTo(\"$(dirname "$1")\");"
+                  }
+
+                  old_IFS=$IFS; IFS=''
+                  # Extract data.tar.gz from gemfile which will be processed later on this script 
+                  find . -type f -regextype posix-extended -regex ".*\.gem" |
+                    awk -F ": " "/^[^#]/{print $1}" |
+                    grep -v "\.osc" |
+                      while read -r gemfile; do
+                        echo $gemfile
+                        tar --force-local -xf "$gemfile" -C $(dirname "$gemfile");
+                      done
+                  # Extract PHP Archive (.phar files)
+                  find . -type f -regextype posix-extended -regex ".*\.phar" |
+                    awk -F ": " "/^[^#]/{print $1}" |
+                    grep -v "\.osc" |
+                    while read -r pharfile; do
+                      echo $pharfile
+                      extract_phar_inplace "$pharfile"
+                    done
+                  # Extract any compressed archive in its same folder
+                  find . -type f -regextype posix-extended -regex ".*\.(tar\.|tgz|zip).*" |
+                    awk -F ": " "/^[^#]/{print $1}" |
+                    # Skip .osc folder
+                    grep -v "\.osc" |
+                    # Skip similar-name non archive files
+                    grep -Ev ".*\.(asc|sig|sha)$" |
+                      while read -r line; do
+                        echo $line
+                        if echo $line | grep -qE ".*\.zip$"; then
+                          unzip -q "$line" -d $(dirname "$line");
+                        else
+                          tar --force-local -xf "$line" -C $(dirname "$line");
+                        fi
+                      done
+                  IFS=$old_IFS
+                  unset gemfile line old_IFS'
+
+alias gitfind="gitgrep \"\"" # For gitgrep look at .config/zsh/functions/gitgrep
+
+# Update all local branches of a git repository
+alias git-pull-all='current_branch=`git branch --show-current`
+                    echo -n "Updating ${current_branch} "
+                    git pull --ff-only --quiet --all && echo
+                    for b in `git branch -l | grep -v "$current_branch"`; do
+                      echo -n "Updating ${b} "
+                      git switch --quiet "$b"
+                      git pull --ff-only --quiet && echo;
+                    done
+                    git switch --quiet $current_branch
+                    unset current_branch'
+
+# Enter the SUSE kernel repository
+alias k="cd ~/Workspace/SUSE/kernel"
+# Enter the SUSE kernel repository and update all the local branches
+alias kk="cd ~/Workspace/SUSE/kernel && git-pull-all"
+
+# Search for packages in IBS and OBS
+alias se='# Usage:
+          #   se package_name (equal to isc se -s package_name; osc se -s package_name)
+          #   se -o package_name (equal to isc se package_name; osc se package_name)
+          # I chose an opt-out design for the -s flag because I want it enabled
+          # by default since I use it 99% of the times
+          #
+          g() { echo "$1" | grep -qE  "^#.*" && return
+                echo "$1" | grep -qE  "No matches found for|matches for" && return
+                echo "$1" | grep -qE  "^$" && return
+                echo "$1" | grep -qE  "^home:" && return
+                echo "$1" | grep -qE  "^PTF:" && return
+                echo "$1" | grep -qE  "^SUSE:Maintenance:" && return
+                echo "$1" | grep -qE  "^openSUSE:Maintenance:" && return
+                echo "$1" | grep -qE  ".*[_\.\-]+[0-9]{2,}$" && return
+                echo "$1" | grep -qE  "^SUSE:openSUSE:" && return
+                echo "$1" | grep -qE  "^SUSE:SLE-9" && return
+                echo "$1" | grep -qE  "^SUSE:SLE-10" && return
+                echo "$1" | grep -qE  "^DISCONTINUED:" && return
+                echo "$1" | grep -qE  "^openSUSE:1" && return
+                echo "$1" | grep -qE  "^openSUSE:Leap:15.[0-2]." && return
+                echo "$1" | grep -iqE "^Devel:" && return
+                echo "$1" | grep -qE  "^YaST:" && return
+                echo "$1" | grep -qE  "^openSUSE:Evergreen" && return
+                echo "$1" | grep -qE  "^openSUSE:Leap:42" && return
+                echo "$1" | grep -qE  "^QA:" && return
+                echo "$1" | grep -qE  "^openSUSE:Dropped" && return
+                echo "$1" | grep -qE  "^Maemo:" && return
+                echo "$1" | grep -qE  "^OBS:" && return
+                echo "$1" | grep -qE  "^SSL:" && return
+                echo "$1" | grep -qE  "^Scented:" && return
+                echo "  $1"
+          };
+          f() {
+            local _s="-s"
+            if [[ "$1" == "-o" ]]; then
+              _s=""
+              shift
+            fi
+            echo "IBS:"
+            isc se $_s "$1" | while read -r line; do g "$line"; done
+            echo "OBS:"
+            osc se $_s "$1" | while read -r line; do g "$line"; done
+          }; f'

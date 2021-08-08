@@ -1,0 +1,3 @@
+# Load secbox aliases
+# https://github.com/StayPirate/secbox#aliases
+eval "$(secbox --alias)"

@@ -112,188 +112,16 @@ zstyle ':completion:*' format '%B---- %d%b'
 compctl -s "$(tldr 2>/dev/null --list)" tldr
 ######
 
-### ALIASES ###
-# confirm before overwriting something
-alias cp="cp -i"
-# create a temporary folder and cd into it
-alias mkcd="cd \$(mktemp -d -t tmp-XXXXXX -p ${XDG_RUNTIME_DIR:-/tmp})"
-alias mkclean='find ${XDG_RUNTIME_DIR:-/tmp} -maxdepth 1 -mindepth 1 -type d -regextype egrep -regex ".*/tmp-[0-9A-Za-z]{6}$" -exec rm -rf {} \;'
-alias docker='sudo docker'
-alias docker-compose='sudo docker-compose'
-alias ls='ls --color=auto'
-alias ll='ls -lh --color=auto'
-alias la='ls -Alh --color=auto'
-alias lS='ls -lAhSr --color=auto'
-alias lt='ls -lAhtr --color=auto'
-alias root="sudo su -"
-alias myip="curl https://ipinfo.io/ip"
-alias grep='grep --colour=auto'
-alias egrep='egrep --colour=auto'
-alias fgrep='fgrep --colour=auto'
-alias gpgh='gpg --homedir .'
-alias pacman-search="pacman -Slq | fzf -m --preview 'cat <(pacman -Si {1}) <(pacman -Fl {1} | awk \"{print \$2}\")' | xargs -ro sudo pacman -S --needed"
-alias dotfiles="git --git-dir=\"${HOME}/.config/dotfiles/public\" --work-tree=\"${HOME}\""
-alias dot=dotfiles
-alias dotfiles-private="git --git-dir=\"${HOME}/.config/dotfiles/private/.git\" --work-tree=\"${HOME}\""
-alias dotp=dotfiles-private
-alias dotfiles-root="sudo git --git-dir=\"${HOME}/.config/dotfiles/root/.git\" --work-tree=/"
-alias dotr=dotfiles-root
-# Use like unlock_keepassxc && secret-tool search client weechat workstation wintermute 2>&1 | grep -E '^secret' | cut -d " " -f3
-alias unlock_keepassxc="echo 'check the explanation attribute ;)' | secret-tool store --label='dummy-entry' \
-                        explanation 'Because of quirks in the gnome libsecret API, a dummy entry needs to be stored in order to \
-                        guarantee that this keyring was properly unlocked. More details at http://crbug.com/660005 and \
-                        https://github.com/keepassxreboot/keepassxc/issues/4443'"
-# The Wolt app (food delivery) provides an in-app game where you can win free delivery tokens.
-# I use the following alias to beat the game
-alias wolt="xdotool click --repeat 300 --delay 10 1"
-# Example: 'try hub' and play with the hub cli
-alias try='f() { podman container run --rm -ti ubuntu:latest sh -c "
-                   apt-get update &&
-                   apt-get -y install ${1} &&
-                   bash
-               "}; f'
-# Show 500+ Mb folders. Use "heavy" for local folder, or "heavy subfolder" for a subfolder.
-alias heavy='f() { du -h --max-depth=1 -x --exclude="/dev|/proc|/sys|/tmp|/run" "${1:=.}" 2>/dev/null | \
-                   sort -h | \
-                   grep -E "^[0-9.]+G.*|^[5-9][0-9]{2}M.*"
-                 }; f'
-# Suffix aliases
-alias -s txt=$EDITOR
-# Global aliases
-alias -g NOERR='2>/dev/null'
-alias -g 2c=' | xclip -in -selection clipboard >/dev/null 2>&1' # ex 2clip
-######
-
-### SUSE / openSUSE ###
-# Aliases
-alias gitfind="gitgrep \"\"" # For gitgrep look at .config/zsh/functions/gitgrep
-alias decompress='extract_phar_inplace() {
-                      secbox --no-tty php -r \
-                      "\$phar = new Phar(\"$1\"); \$phar->extractTo(\"$(dirname "$1")\");"
-                  }
-
-                  old_IFS=$IFS; IFS=''
-                  # Extract data.tar.gz from gemfile which will be processed later on this script 
-                  find . -type f -regextype posix-extended -regex ".*\.gem" |
-                    awk -F ": " "/^[^#]/{print $1}" |
-                    grep -v "\.osc" |
-                      while read -r gemfile; do
-                        echo $gemfile
-                        tar --force-local -xf "$gemfile" -C $(dirname "$gemfile");
-                      done
-                  # Extract PHP Archive (.phar files)
-                  find . -type f -regextype posix-extended -regex ".*\.phar" |
-                    awk -F ": " "/^[^#]/{print $1}" |
-                    grep -v "\.osc" |
-                    while read -r pharfile; do
-                      echo $pharfile
-                      extract_phar_inplace "$pharfile"
-                    done
-                  # Extract any compressed archive in its same folder
-                  find . -type f -regextype posix-extended -regex ".*\.(tar\.|tgz|zip).*" |
-                    awk -F ": " "/^[^#]/{print $1}" |
-                    # Skip .osc folder
-                    grep -v "\.osc" |
-                    # Skip similar-name non archive files
-                    grep -Ev ".*\.(asc|sig|sha)$" |
-                      while read -r line; do
-                        echo $line
-                        if echo $line | grep -qE ".*\.zip$"; then
-                          unzip -q "$line" -d $(dirname "$line");
-                        else
-                          tar --force-local -xf "$line" -C $(dirname "$line");
-                        fi
-                      done
-                  IFS=$old_IFS
-                  unset gemfile line old_IFS'
-
-# Update all local branches of a git repository
-alias git-pull-all='current_branch=`git branch --show-current`
-                    echo -n "Updating ${current_branch} "
-                    git pull --ff-only --quiet --all && echo
-                    for b in `git branch -l | grep -v "$current_branch"`; do
-                      echo -n "Updating ${b} "
-                      git switch --quiet "$b"
-                      git pull --ff-only --quiet && echo;
-                    done
-                    git switch --quiet $current_branch
-                    unset current_branch'
-# Enter the SUSE kernel repository
-alias k="cd ~/Workspace/SUSE/kernel"
-# Enter the SUSE kernel repository and update all the local branches
-alias kk="cd ~/Workspace/SUSE/kernel && git-pull-all"
-
-alias se='# Usage:
-          #   se package_name (equal to isc se -s package_name; osc se -s package_name)
-          #   se -o package_name (equal to isc se package_name; osc se package_name)
-          # I chose an opt-out design for the -s flag because I want it enabled
-          # by default since I use it 99% of the times
-          #
-          g() { echo "$1" | grep -qE  "^#.*" && return
-                echo "$1" | grep -qE  "No matches found for|matches for" && return
-                echo "$1" | grep -qE  "^$" && return
-                echo "$1" | grep -qE  "^home:" && return
-                echo "$1" | grep -qE  "^PTF:" && return
-                echo "$1" | grep -qE  "^SUSE:Maintenance:" && return
-                echo "$1" | grep -qE  "^openSUSE:Maintenance:" && return
-                echo "$1" | grep -qE  ".*[_\.\-]+[0-9]{2,}$" && return
-                echo "$1" | grep -qE  "^SUSE:openSUSE:" && return
-                echo "$1" | grep -qE  "^SUSE:SLE-9" && return
-                echo "$1" | grep -qE  "^SUSE:SLE-10" && return
-                echo "$1" | grep -qE  "^DISCONTINUED:" && return
-                echo "$1" | grep -qE  "^openSUSE:1" && return
-                echo "$1" | grep -qE  "^openSUSE:Leap:15.[0-2]." && return
-                echo "$1" | grep -iqE "^Devel:" && return
-                echo "$1" | grep -qE  "^YaST:" && return
-                echo "$1" | grep -qE  "^openSUSE:Evergreen" && return
-                echo "$1" | grep -qE  "^openSUSE:Leap:42" && return
-                echo "$1" | grep -qE  "^QA:" && return
-                echo "$1" | grep -qE  "^openSUSE:Dropped" && return
-                echo "$1" | grep -qE  "^Maemo:" && return
-                echo "$1" | grep -qE  "^OBS:" && return
-                echo "$1" | grep -qE  "^SSL:" && return
-                echo "$1" | grep -qE  "^Scented:" && return
-                echo "  $1"
-          };
-          f() {
-            local _s="-s"
-            if [[ "$1" == "-o" ]]; then
-              _s=""
-              shift
-            fi
-            echo "IBS:"
-            isc se $_s "$1" | while read -r line; do g "$line"; done
-            echo "OBS:"
-            osc se $_s "$1" | while read -r line; do g "$line"; done
-          }; f'
-
-# Containers shortcuts
-source ~/.config/zsh/alias/suse-containers
-
-### Functions
-autoload -Uz gitgrep
-
-# Load secbox aliases
-# https://github.com/StayPirate/secbox#aliases
-eval "$(secbox --alias)"
-
-### Security meetings
-alias minutes-pro="_wikidir=\$HOME/Workspace/SUSE/wiki; mkdir -p \$_wikidir 2>/dev/null; \
-                   [ -d \$_wikidir/.git ] || git clone gitlab@gitlab.suse.de:pes/wiki.git \$_wikidir; \
-                   cd \$_wikidir/Maintenance-Security/Minutes/Proactive_Security_Meeting && \
-                   git pull --ff-only && \
-                   _last=\$(ls | sort -nr | head -n 1); \
-                   _new=\$(date +\"%Y-%m-%d.mdwn\"); \
-                   [ ! -f \$_new ] && cp -u \$_last \$_new; \
-                   \$EDITOR \$_new && \
-                   git add \$_new && git commit -m \"Update minutes\" && git push"
-######
-
 ### Hook Functions ###
 # http://zsh.sourceforge.net/Doc/Release/Functions.html#Hook-Functions
 # Executed whenever the current working directory is changed.
 chpwd() ls
 ######
+
+# Load aliases
+for f in `find ~/.config/zsh/alias.d -name "*.alias"`; do
+  source "$f"
+done
 
 ### FZF ###
 if type fzf >/dev/null ; then
@@ -362,17 +190,9 @@ autoload -Uz custom_colors # load ~/.config/zsh/dir_colors
 custom_colors
 # SARS-CoV-2 stats
 autoload -Uz corona
+# Git workflow
+autoload -Uz gitgrep
 ######
-
-#### HOW TO INSTALL PLGUINS & THEMES ####
-#                                       #
-#       !!! Use git submodules !!!      #
-#                                       # # Example:
-# git submodule add -b master <repo>    # # cd ~ && git submodule add -b master https://github.com/zsh-users/zsh-completions.git zsh/plugins/zsh-completions
-# So, it could all be udpated with:     #
-# git submodule update --remote         #
-#########################################
-# Don't forget to source them here below
 
 ### LOAD PLUGINS ###
 # zsh-syntax-highlighting

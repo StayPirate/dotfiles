@@ -1,0 +1,61 @@
+###
+### SYSTEM COMMON
+###
+
+# Create a temporary folder and cd into it
+alias mkcd="cd \$(mktemp -d -t tmp-XXXXXX -p ${XDG_RUNTIME_DIR:-/tmp})"
+# Remove previously created temporary folders
+alias mkclean='find ${XDG_RUNTIME_DIR:-/tmp} -maxdepth 1 -mindepth 1 -type d -regextype egrep -regex ".*/tmp-[0-9A-Za-z]{6}$" -exec rm -rf {} \;'
+
+# Confirm before overwriting something
+alias cp="cp -i"
+
+# More colors
+alias ls='ls --color=auto'
+alias ll='ls -lh --color=auto'
+alias la='ls -Alh --color=auto'
+alias lS='ls -lAhSr --color=auto'
+alias lt='ls -lAhtr --color=auto'
+alias grep='grep --colour=auto'
+alias egrep='egrep --colour=auto'
+alias fgrep='fgrep --colour=auto'
+
+alias root="sudo su -"
+
+alias -s txt=$EDITOR # Suffix alias
+
+# Suppress stderr
+alias -g NOERR='2>/dev/null' # Global alias
+
+# Suppress stderr and stdout
+alias -g NOOUT='2>&1 > /dev/null' # Global alias
+
+# Copy stdout to the system clipboard
+alias -g 2c=' | xclip -in -selection clipboard >/dev/null 2>&1' # Global alias, ex 2clip
+
+###
+### UTILIES
+###
+
+alias myip="curl https://ipinfo.io/ip"
+
+alias gpgh='gpg --homedir .'
+
+# Eg. unlock_keepassxc && secret-tool search client weechat workstation wintermute 2>&1 | grep -E '^secret' | cut -d " " -f3
+alias unlock_keepassxc="echo 'check the explanation attribute ;)' | secret-tool store --label='dummy-entry' \
+                        explanation 'Because of quirks in the gnome libsecret API, a dummy entry needs to be stored in order to \
+                        guarantee that this keyring was properly unlocked. More details at http://crbug.com/660005 and \
+                        https://github.com/keepassxreboot/keepassxc/issues/4443'"
+
+# Example: 'try hub' and play with the hub cli
+alias try='f() { podman container run --rm -ti ubuntu:latest sh -c "
+                   apt-get update &&
+                   apt-get -y install ${1} &&
+                   bash
+            "}; f'
+
+# Show 500+ Mb folders. Use "heavy" for local folder, or "heavy subfolder" for a subfolder.
+alias heavy='f() { du -h --max-depth=1 -x --exclude="/dev|/proc|/sys|/tmp|/run" "${1:=.}" 2>/dev/null | \
+                   sort -h | \
+                   grep -E "^[0-9.]+G.*|^[5-9][0-9]{2}M.*"
+            }; f'
