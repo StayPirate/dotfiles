@@ -21,6 +21,6 @@
 	ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
 	f = "!git ls-files | grep -i"
 	update = "!dotfiles-update"
-	where = "!sh -c \"git branch --contains \"$1\" | sed 's/^..//g'\""
+	where = "!zsh -ic \"git-where $1\""
 [http "https://gitlab.suse.de"]
 	sslCAInfo = ~/.ca-certificates/SUSE/SUSE_CA_suse.de_chain.crt

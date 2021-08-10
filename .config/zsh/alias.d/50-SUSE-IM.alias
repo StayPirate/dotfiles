@@ -57,6 +57,19 @@ alias k="cd ~/Workspace/SUSE/kernel"
 # Enter the SUSE kernel repository and update all the local branches
 alias kk="cd ~/Workspace/SUSE/kernel && git-pull-all"
 
+alias git-where='related_commits() {
+                      git show "$1" --oneline --no-patch --no-notes
+                      git log --all --grep="$1" --oneline
+                    }
+                   f() {
+                     # Kernel maintainers only use the first 12 chars of the hash
+                     related_commits "$(echo "$1" | cut -c -12)" | cut -d " " -f 1 | sort -u | \
+                       while read -r commit; do
+                         git show "$commit" --oneline --no-patch --no-notes
+                         git branch --contains "$commit" | sed "s/^..//g" | while read -r branch; do echo -e "\t${branch}"; done
+                       done
+                    }; f'
+
 # Search for packages in IBS and OBS
 alias se='# Usage:
           #   se package_name (equal to isc se -s package_name; osc se -s package_name)
