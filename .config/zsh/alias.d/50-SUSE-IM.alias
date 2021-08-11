@@ -58,12 +58,20 @@ alias k="cd ~/Workspace/SUSE/kernel"
 alias kk="cd ~/Workspace/SUSE/kernel && git-pull-all"
 
 alias git-where='related_commits() {
-                      git show "$1" --oneline --no-patch --no-notes
-                      git log --all --grep="$1" --oneline
+                      # Print the commit hash itself as first result
+                      git show "$1" --no-patch --no-notes --format=%h
+                      # Search any other commit which mentions the searched hash or subject in its message
+                      subject=$(git show "$1" --no-patch --no-notes --format=%s)
+                      # Sometimes when kernel matinarers move commits the commit message is wrapped by 50 chars
+                      # hence I only search for a substring of the full subject, wrapped by space and by 50 width
+                      subject_wrapped_50=$(echo $subject | fold -sw 50 | head -n 1 | rev | cut -c 2- | rev)
+                      git log --all -F --grep="$1" --grep="$subject_wrapped_50" --format=%h
                     }
                    f() {
+                     git show "$1" >/dev/null || return
                      # Kernel maintainers only use the first 12 chars of the hash
-                     related_commits "$(echo "$1" | cut -c -12)" | cut -d " " -f 1 | sort -u | \
+                     short_hash=$(git show "$1" --no-patch --no-notes --format=%h)
+                     related_commits $short_hash | sort -u | \
                        while read -r commit; do
                          git show "$commit" --oneline --no-patch --no-notes
                          git branch --contains "$commit" | sed "s/^..//g" | while read -r branch; do echo -e "\t${branch}"; done
