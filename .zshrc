@@ -190,8 +190,6 @@ autoload -Uz custom_colors # load ~/.config/zsh/dir_colors
 custom_colors
 # SARS-CoV-2 stats
 autoload -Uz corona
-# Git workflow
-autoload -Uz gitgrep
 ######
 
 ### LOAD PLUGINS ###
