@@ -527,6 +527,7 @@ if header :contains "List-Id" "<sle-security-updates.lists.suse.com>" { fileinto
 # │   │   ├── korelogic
 # │   │   ├── onapsis
 # │   │   ├── asterisk
+# │   │   ├── atlassian
 # │   │   └── mikrotik
 # │   ├── Open Source Security
 # │   ├── linux-distro
@@ -545,6 +546,10 @@ if header :contains "List-Id" "<sle-security-updates.lists.suse.com>" { fileinto
 # ├── RedHat
 # │   ├── Security Announce
 # │   └── IBM Virt Security
+# ├── Ubuntu
+# │   ├── Hardened
+# │   ├── Security Announce
+# │   └── Security Patch
 # └── Security News
 #     └── LWN
 
@@ -582,13 +587,13 @@ if allof ( header  :contains "List-Id" "<fulldisclosure.seclists.org>",
 }
 # rule:[Seclist - Full-Disclosure - korelogic-sa]
 if allof ( header  :contains "List-Id" "<fulldisclosure.seclists.org>",
-           address :is "Reply-To" "disclosures@korelogic.com" ) {
+           address :contains "Reply-To" "disclosures@korelogic.com" ) {
     fileinto "INBOX/ML/SecList/Full Disclosure/korelogic"; 
     stop;
 }
-# rule:[Seclist - Full-Disclosure - korelogic-sa]
+# rule:[Seclist - Full-Disclosure - onapsis]
 if allof ( header  :contains "List-Id" "<fulldisclosure.seclists.org>",
-           address :is "Reply-To" "research@onapsis.com" ) {
+           address :contains "Reply-To" "research@onapsis.com" ) {
     fileinto "INBOX/ML/SecList/Full Disclosure/onapsis"; 
     stop;
 }
@@ -602,6 +607,12 @@ if allof ( header  :contains "List-Id" "<fulldisclosure.seclists.org>",
 if allof ( header  :contains "List-Id" "<fulldisclosure.seclists.org>",
            header :contains "Subject" "mikrotik" ) {
     fileinto "INBOX/ML/SecList/Full Disclosure/mikrotik"; 
+    stop;
+}
+# rule:[Seclist - Full-Disclosure - atlassian]
+if allof ( header  :contains "List-Id" "<fulldisclosure.seclists.org>",
+           address :is "From" "security@atlassian.com" ) {
+    fileinto "INBOX/ML/SecList/Full Disclosure/atlassian";
     stop;
 }
 # rule:[Seclist - Full-Disclosure]
@@ -674,6 +685,18 @@ if header :contains "List-Id" "<rhsa-announce.redhat.com>" { fileinto "INBOX/ML/
 # rule:[RedHat - security announce]
 # https://listman.redhat.com/mailman/listinfo/ibm-virt-security
 if header :contains "List-Id" "<ibm-virt-security.lists.debian.org>" { fileinto "INBOX/ML/Debian/IBM Virt Security"; stop; }
+
+# rule:[Ubuntu - security announce]
+# https://lists.ubuntu.com/mailman/listinfo/ubuntu-security-announce
+if header :contains "List-Id" "<ubuntu-security-announce.lists.ubuntu.com>" { fileinto "INBOX/ML/Ubuntu/Security Announce"; stop; }
+
+# rule:[Ubuntu - security patch]
+# https://lists.ubuntu.com/mailman/listinfo/ubuntu-security-patch
+if header :contains "List-Id" "<ubuntu-security-patch.lists.ubuntu.com>" { fileinto "INBOX/ML/Ubuntu/Security Patch"; stop; }
+
+# rule:[Ubuntu - hardened]
+# https://lists.ubuntu.com/mailman/listinfo/ubuntu-hardened
+if header :contains "List-Id" "<ubuntu-hardened.lists.ubuntu.com>" { fileinto "INBOX/ML/Ubuntu/Hardened"; stop; }
 
 
 #######################
