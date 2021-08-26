@@ -4,6 +4,7 @@ alias decompress='extract_phar_inplace() {
                   }
 
                   old_IFS=$IFS; IFS=''
+
                   # Extract data.tar.gz from gemfile which will be processed later on this script 
                   find . -type f -regextype posix-extended -regex ".*\.gem" |
                     awk -F ": " "/^[^#]/{print $1}" |
@@ -12,6 +13,7 @@ alias decompress='extract_phar_inplace() {
                         echo $gemfile
                         tar --force-local -xf "$gemfile" -C $(dirname "$gemfile");
                       done
+
                   # Extract PHP Archive (.phar files)
                   find . -type f -regextype posix-extended -regex ".*\.phar" |
                     awk -F ": " "/^[^#]/{print $1}" |
@@ -20,6 +22,16 @@ alias decompress='extract_phar_inplace() {
                       echo $pharfile
                       extract_phar_inplace "$pharfile"
                     done
+
+                  # Extract obscpio archives (.obscpio files)
+                  find . -type f -regextype posix-extended -regex ".*\.obscpio" |
+                    awk -F ": " "/^[^#]/{print $1}" |
+                    grep -v "\.osc" |
+                    while read -r obsfile; do
+                      echo $obsfile
+                      cpio --quiet --extract --preserve-modification-time --make-directories --directory $(dirname "$obsfile") -- < "$obsfile"
+                    done
+
                   # Extract any compressed archive in its same folder
                   find . -type f -regextype posix-extended -regex ".*\.(tar\.|tgz|zip).*" |
                     awk -F ": " "/^[^#]/{print $1}" |
@@ -35,27 +47,29 @@ alias decompress='extract_phar_inplace() {
                           tar --force-local -xf "$line" -C $(dirname "$line");
                         fi
                       done
+
                   IFS=$old_IFS
                   unset gemfile line old_IFS'
 
 alias gitfind="gitgrep \"\"" # For gitgrep look at .config/zsh/functions/gitgrep
 
 # Update all local branches of a git repository
-alias git-pull-all='current_branch=`git branch --show-current`
-                    echo -n "Updating ${current_branch} "
+alias git-pull-all-local-branches='initial_branch=`git branch --show-current`
+                    echo -n "Updating ${initial_branch} "
                     git pull --ff-only --quiet --all && echo
-                    for b in `git branch -l | grep -v "$current_branch"`; do
-                      echo -n "Updating ${b} "
-                      git switch --quiet "$b"
-                      git pull --ff-only --quiet && echo;
-                    done
-                    git switch --quiet $current_branch
-                    unset current_branch'
+                    git branch -l | grep -v "$initial_branch" | sed "s/ //g" | \
+                      while read -r branch; do
+                        echo -n "Updating ${branch}"
+                        git switch --quiet "$branch"
+                        git pull --ff-only --quiet && echo;
+                      done
+                    git switch --quiet $initial_branch
+                    unset initial_branch'
 
 # Enter the SUSE kernel repository
 alias k="cd ~/Workspace/SUSE/kernel"
 # Enter the SUSE kernel repository and update all the local branches
-alias kk="cd ~/Workspace/SUSE/kernel && git-pull-all"
+alias kk="cd ~/Workspace/SUSE/kernel && git-pull-all-local-branches"
 
 alias git-where='related_commits() {
                       # Print the commit hash itself as first result
