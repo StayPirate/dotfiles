@@ -314,12 +314,15 @@ if allof ( address :is "From" "gitlab@suse.de" ) {
 # ML
 # └── SUSE
 #     ├── security-team
-#     │   └── Xorg
+#     │   ├── Xorg
+#     │   └── Samba
 #     ├── security
-#     │   ├── Xen Security Advisory
+#     │   ├── Xen
+#     │   │   └── Security Advisory
 #     │   ├── MariaDB
 #     │   ├── Django
-#     │   └── Ceph
+#     │   ├── Ceph
+#     │   └── Kubernetes
 #     ├── maintsecteam
 #     ├── security-reports
 #     │   └── Embargo Alerts
@@ -393,13 +396,19 @@ if header :contains "List-Id" "<secure-boot.suse.de>" { fileinto "INBOX/ML/SUSE/
 # https://mailman.suse.de/mailman/listinfo/secure-devel
 if header :contains "List-Id" "<secure-devel.suse.de>" { fileinto "INBOX/ML/SUSE/secure-devel"; stop; }
 
-# rule:[SUSEDE - security - xen]
+# rule:[SUSEDE - security - XSA]
 if allof ( header :contains "List-Id" "<security.suse.de>",
            address :is "From" "security@xen.org" ) {
-    fileinto "INBOX/ML/SUSE/security/Xen Security Advisory";
+    fileinto "INBOX/ML/SUSE/security/Xen/Security Advisory";
     stop;
 }
-# rule:[SUSEDE - security - chep redhat noise]
+# rule:[SUSEDE - security - xen]
+if allof ( header :contains "List-Id" "<security.suse.de>",
+           header :is "X-BeenThere" "xen-security-issues-discuss@lists.xenproject.org" ) {
+    fileinto "INBOX/ML/SUSE/security/Xen";
+    stop;
+}
+# rule:[SUSEDE - security - ceph redhat noise]
 # Remove all the noise made by the RH secalert
 if allof ( header  :contains "List-Id" "<security.suse.de>",
            address :contains "To" "security@ceph.io",
@@ -408,7 +417,7 @@ if allof ( header  :contains "List-Id" "<security.suse.de>",
     discard;
     stop;
 }
-# rule:[SUSEDE - security - chep]
+# rule:[SUSEDE - security - ceph]
 if allof ( header :contains "List-Id" "<security.suse.de>",
            anyof ( address :is "CC" "security@ceph.io",
                    address :is "To" "security@ceph.io" )) {
@@ -425,6 +434,12 @@ if allof ( header  :contains "List-Id" "<security.suse.de>",
 if allof ( header :contains "List-Id" "<security.suse.de>",
            header :contains "Subject" "Django security releases") {
     fileinto "INBOX/ML/SUSE/security/Django";
+    stop;
+}
+# rule:[SUSEDE - security - Kubernetes]
+if allof ( header  :contains "List-Id" "<security.suse.de>",
+           address :contains "To" "@kubernetes.io") {
+    fileinto "INBOX/ML/SUSE/security/Kubernetes";
     stop;
 }
 # rule:[SUSEDE - security]
@@ -467,6 +482,12 @@ if allof ( header  :contains "List-Id" "<security-team.suse.de>",
 if allof ( header :contains "List-Id" "<security-team.suse.de>",
            header :contains "X-BeenThere" "xorg-security@lists.x.org" ) {
     fileinto "INBOX/ML/SUSE/security-team/Xorg";
+    stop;
+}
+# rule:[SUSEDE - security-team - Samba ML]
+if allof ( header :contains "List-Id" "<security-team.suse.de>",
+           header :contains "From" "samba-bugs@samba.org" ) {
+    fileinto "INBOX/ML/SUSE/security-team/Samba";
     stop;
 }
 # rule:[SUSEDE - security-team - security-team and me in CC ]
