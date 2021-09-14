@@ -571,8 +571,8 @@ if header :contains "List-Id" "<sle-security-updates.lists.suse.com>" { fileinto
 # │   ├── Hardened
 # │   ├── Security Announce
 # │   └── Security Patch
-# └── Security News
-#     └── LWN
+# └── Security Advisory
+#     └── Weechat
 
 # rule:[OpenSUSE - factory]
 # https://lists.opensuse.org/archives/list/factory@lists.opensuse.org/
@@ -719,17 +719,30 @@ if header :contains "List-Id" "<ubuntu-security-patch.lists.ubuntu.com>" { filei
 # https://lists.ubuntu.com/mailman/listinfo/ubuntu-hardened
 if header :contains "List-Id" "<ubuntu-hardened.lists.ubuntu.com>" { fileinto "INBOX/ML/Ubuntu/Hardened"; stop; }
 
+# rule:[SA - weechat]
+# https://lists.nongnu.org/mailman/listinfo/weechat-security
+if header :contains "List-Id" "<weechat-security.nongnu.org>" { fileinto "INBOX/ML/Security Advisory/Weechat"; stop; }
+
 
 #######################
 ##### NEWS LETTER #####
 #######################
 # NL
-# └── LWN
+# ├── LWN
+# └── CyberSaiyan
 
 # rule:[Security-News - LWN]
 # https://lwn.net
 if allof ( address :is "From" "lwn@lwn.net",
            address :is "To" "${susede_addr}" ) {
     fileinto "INBOX/NL/LWN";
+    stop;
+}
+
+# rule:[Security-News - CyberSaiyan]
+# https://cybersaiyan.us17.list-manage.com
+if allof ( address :is "From" "info@cybersaiyan.it",
+           address :is "To" "${susede_addr}" ) {
+    fileinto "INBOX/NL/CyberSaiyan";
     stop;
 }
