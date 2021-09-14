@@ -396,6 +396,17 @@ if header :contains "List-Id" "<secure-boot.suse.de>" { fileinto "INBOX/ML/SUSE/
 # https://mailman.suse.de/mailman/listinfo/secure-devel
 if header :contains "List-Id" "<secure-devel.suse.de>" { fileinto "INBOX/ML/SUSE/secure-devel"; stop; }
 
+# rule:[SUSEDE - security - redhat noise]
+# Remove all the noise made by the RH secalert
+# Currently found in ceph and kubernetes lists
+if allof ( header  :contains "List-Id" "<security.suse.de>",
+           anyof ( address :is "From" "secalert@redhat.com",
+                   address :is "From" "infosec@redhat.com" ),
+           anyof ( address :is "To" "security@ceph.io",
+                   address :is "To" "distributors-announce@kubernetes.io" )) {
+    discard;
+    stop;
+}
 # rule:[SUSEDE - security - XSA]
 if allof ( header :contains "List-Id" "<security.suse.de>",
            address :is "From" "security@xen.org" ) {
@@ -406,15 +417,6 @@ if allof ( header :contains "List-Id" "<security.suse.de>",
 if allof ( header :contains "List-Id" "<security.suse.de>",
            header :is "X-BeenThere" "xen-security-issues-discuss@lists.xenproject.org" ) {
     fileinto "INBOX/ML/SUSE/security/Xen";
-    stop;
-}
-# rule:[SUSEDE - security - ceph redhat noise]
-# Remove all the noise made by the RH secalert
-if allof ( header  :contains "List-Id" "<security.suse.de>",
-           address :contains "To" "security@ceph.io",
-           anyof ( address :is "From" "secalert@redhat.com",
-                   address :is "From" "infosec@redhat.com" )) {
-    discard;
     stop;
 }
 # rule:[SUSEDE - security - ceph]
