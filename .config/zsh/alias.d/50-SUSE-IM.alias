@@ -51,8 +51,6 @@ alias decompress='extract_phar_inplace() {
                   IFS=$old_IFS
                   unset gemfile line old_IFS'
 
-alias gitfind="gitgrep \"\"" # For gitgrep look at .config/zsh/functions/gitgrep
-
 # Update all local branches of a git repository
 alias git-pull-all-local-branches='initial_branch=`git branch --show-current`
                     echo -n "Updating ${initial_branch} "
@@ -71,10 +69,11 @@ alias k="cd ~/Workspace/SUSE/kernel"
 # Enter the SUSE kernel repository and update all the local branches
 alias kk="cd ~/Workspace/SUSE/kernel && git-pull-all-local-branches"
 
-alias git-where='related_commits() {
-                      # Print the commit hash itself as first result
+alias git-find-commit='related_commits() {
+                      # First result is the hash itself
                       git show "$1" --no-patch --no-notes --format=%h
-                      # Search any other commit which mentions the searched hash or subject in its message
+
+                      # Then search any other commit which mentions the searched hash or subject in its message
                       subject=$(git show "$1" --no-patch --no-notes --format=%s)
                       # Sometimes when kernel matinarers move commits the commit message is wrapped by 50 chars
                       # hence I only search for a substring of the full subject, wrapped by space and by 50 width
@@ -82,7 +81,11 @@ alias git-where='related_commits() {
                       git log --all -F --grep="$1" --grep="$subject_wrapped_50" --format=%h
                     }
                    f() {
+                     if [[ -z $1 ]]; then echo "Usage: git find-commit \"<commit_id>\""; return; fi
+
+                     # Exit if the commit dont exists in any of the local branches.
                      git show "$1" >/dev/null || return
+
                      # Kernel maintainers only use the first 12 chars of the hash
                      short_hash=$(git show "$1" --no-patch --no-notes --format=%h)
                      related_commits $short_hash | sort -u | \
@@ -91,6 +94,17 @@ alias git-where='related_commits() {
                          git branch --contains "$commit" | sed "s/^..//g" | while read -r branch; do echo -e "\t${branch}"; done
                        done
                     }; f'
+
+alias git-find-file='f() {
+                        if [[ -z $1 ]]; then echo "Usage: git find-file \"<pathname_regex>\""; return; fi
+
+                        for branch in $(git branch | sed "s/^..//g" | tr "\n" " "); do
+                          if git ls-tree -r --name-only $branch | grep "$1" > /dev/null; then
+                            echo "${branch}:";
+                            git ls-tree -r --name-only $branch | grep "$1" | sed "s/^/   /g";
+                          fi
+                        done; :
+                      }; f'
 
 # Search for packages in IBS and OBS
 alias se='# Usage:
