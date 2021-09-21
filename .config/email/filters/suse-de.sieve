@@ -553,6 +553,7 @@ if header :contains "List-Id" "<sle-security-updates.lists.suse.com>" { fileinto
 # │   │   ├── atlassian
 # │   │   └── mikrotik
 # │   ├── Open Source Security
+# │   │   └── WebKit SA
 # │   ├── linux-distro
 # │   ├── vince
 # │   ├── Info Security News
@@ -573,6 +574,8 @@ if header :contains "List-Id" "<sle-security-updates.lists.suse.com>" { fileinto
 # │   ├── Hardened
 # │   ├── Security Announce
 # │   └── Security Patch
+# ├── Italian
+# │   └── GNU Translation
 # └── Security Advisory
 #     └── Weechat
 
@@ -642,6 +645,12 @@ if allof ( header  :contains "List-Id" "<fulldisclosure.seclists.org>",
 # https://nmap.org/mailman/listinfo/fulldisclosure
 if header :contains "List-Id" "<fulldisclosure.seclists.org>" { fileinto "INBOX/ML/SecList/Full Disclosure"; stop; }
 
+# rule:[Seclist - oss-security - WebKit]
+if allof ( header  :contains "List-Id" "<oss-security.lists.openwall.com>",
+           header  :contains "Subject" "WebKit Security Advisory" ) {
+    fileinto "INBOX/ML/SecList/Open Source Security/WebKit SA";
+    stop;
+}
 # rule:[Seclist - oss-security]
 # http://oss-security.openwall.org/wiki/mailing-lists/oss-security
 if header :contains "List-Id" "<oss-security.lists.openwall.com>" { fileinto "INBOX/ML/SecList/Open Source Security"; stop; }
@@ -720,6 +729,10 @@ if header :contains "List-Id" "<ubuntu-security-patch.lists.ubuntu.com>" { filei
 # rule:[Ubuntu - hardened]
 # https://lists.ubuntu.com/mailman/listinfo/ubuntu-hardened
 if header :contains "List-Id" "<ubuntu-hardened.lists.ubuntu.com>" { fileinto "INBOX/ML/Ubuntu/Hardened"; stop; }
+
+# rule:[Italian - GNU Translation]
+# https://lists.gnu.org/mailman/listinfo/www-it-traduzioni
+if header :contains "List-Id" "<www-it-traduzioni.gnu.org>" { fileinto "INBOX/ML/Italian/GNU Translation"; stop; }
 
 # rule:[SA - weechat]
 # https://lists.nongnu.org/mailman/listinfo/weechat-security
