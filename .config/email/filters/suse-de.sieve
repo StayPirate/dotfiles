@@ -744,7 +744,8 @@ if header :contains "List-Id" "<weechat-security.nongnu.org>" { fileinto "INBOX/
 #######################
 # NL
 # ├── LWN
-# └── CyberSaiyan
+# ├── CyberSaiyan
+# └── Grapl Security
 
 # rule:[Security-News - LWN]
 # https://lwn.net
@@ -759,5 +760,12 @@ if allof ( address :is "From" "lwn@lwn.net",
 if allof ( address :is "From" "info@cybersaiyan.it",
            address :is "To" "${susede_addr}" ) {
     fileinto "INBOX/NL/CyberSaiyan";
+    stop;
+}
+
+# rule:[Security-News - Grapl Security]
+# https://www.graplsecurity.com/subscribe
+if allof ( address :is "To" "ggabrielli+graplnl@suse.de" ) {
+    fileinto "INBOX/NL/Grapl Security";
     stop;
 }
