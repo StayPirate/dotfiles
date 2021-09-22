@@ -397,13 +397,11 @@ if header :contains "List-Id" "<secure-boot.suse.de>" { fileinto "INBOX/ML/SUSE/
 if header :contains "List-Id" "<secure-devel.suse.de>" { fileinto "INBOX/ML/SUSE/secure-devel"; stop; }
 
 # rule:[SUSEDE - security - redhat noise]
-# Remove all the noise made by the RH secalert
-# Currently found in ceph and kubernetes lists
+# Remove all the noise made by the RH ServiceNow instance
 if allof ( header  :contains "List-Id" "<security.suse.de>",
+           header  :is       "X-ServiceNow-Generated" "true",
            anyof ( address :is "From" "secalert@redhat.com",
-                   address :is "From" "infosec@redhat.com" ),
-           anyof ( address :is "To" "security@ceph.io",
-                   address :is "To" "distributors-announce@kubernetes.io" )) {
+                   address :is "From" "infosec@redhat.com" )) {
     discard;
     stop;
 }
