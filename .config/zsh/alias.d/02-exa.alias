@@ -1,0 +1,11 @@
+### exa is a modern replacement for ls
+# https://github.com/ogham/exa
+
+type exa > /dev/null 2>&1 && {
+	alias ls='exa --icons --group-directories-first' # Also used with the chpwd hook in ~/.zshrc 
+	alias la='exa -la --group-directories-first --time-style long-iso --git'
+	alias ll='exa -l --group-directories-first --time-style long-iso --git'
+	alias lt='exa -la --sort modified --group-directories-first --time-style long-iso --git'
+	alias lS='exa -la --sort size --group-directories-first --time-style long-iso --git'
+	alias tree='exa -l --icons --tree --group-directories-first --time-style long-iso --git'
+}

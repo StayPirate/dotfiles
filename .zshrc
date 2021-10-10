@@ -112,16 +112,16 @@ zstyle ':completion:*' format '%B---- %d%b'
 compctl -s "$(tldr 2>/dev/null --list)" tldr
 ######
 
+# Load aliases
+for f in `find ~/.config/zsh/alias.d -name "*.alias"`; do
+  source "$f"
+done
+
 ### Hook Functions ###
 # http://zsh.sourceforge.net/Doc/Release/Functions.html#Hook-Functions
 # Executed whenever the current working directory is changed.
 chpwd() ls
 ######
-
-# Load aliases
-for f in `find ~/.config/zsh/alias.d -name "*.alias"`; do
-  source "$f"
-done
 
 ### FZF ###
 if type fzf >/dev/null ; then
