@@ -195,7 +195,10 @@ autoload -Uz corona
 ### LOAD PLUGINS ###
 # zsh-syntax-highlighting
 # https://github.com/zsh-users/zsh-syntax-highlighting
-source "${HOME}/.config/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+# source "${HOME}/.config/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+# fast-syntax-highlighting
+# https://github.com/zdharma/fast-syntax-highlighting
+source "${HOME}/.config/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
 # zsh-autosuggestions
 # https://github.com/zsh-users/zsh-autosuggestions
 source "${HOME}/.config/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"

@@ -4,6 +4,10 @@
 	url = https://github.com/zsh-users/zsh-syntax-highlighting.git
 	branch = master
 	shallow = true
+[submodule "fast-syntax-highlighting"]
+	path = .config/zsh/plugins/fast-syntax-highlighting
+	url = https://github.com/zdharma/fast-syntax-highlighting.git
+	branch = master
 [submodule "zsh-autosuggestions"]
 	path = .config/zsh/plugins/zsh-autosuggestions
 	url = https://github.com/zsh-users/zsh-autosuggestions.git
@@ -36,6 +40,7 @@
 	url = https://github.com/pyenv/pyenv-virtualenv.git
 	branch = master
 	shallow = true
+### DOTFILES ###
 [submodule "dotfiles-private"]
 	path = .config/dotfiles/private
 	url = git@github.com:StayPirate/dotfiles-private.git
@@ -48,10 +53,11 @@
 	branch = master
 	update = none
 	shallow = true
-[submodule ".local/bin/secbox"]
+### UTILITIES ###
+[submodule "secbox"]
 	path = .local/bin/repos/secbox
 	url = git@github.com:StayPirate/secbox.git
 	branch = master
-[submodule ".local/bin/tldr-sh-client"]
+[submodule "tldr-sh-client"]
 	path = .local/bin/repos/tldr-sh-client
 	url = https://github.com/raylee/tldr-sh-client.git
