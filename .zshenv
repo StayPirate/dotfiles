@@ -35,7 +35,7 @@ export LESSHISTSIZE=10000
 # Powerline
 # Load powerline python module
 typeset -aTU PYTHONPATH pythonpath
-pythonpath=("${_tmux_dir}/powerline")
+pythonpath=("${_tmux_dir}/powerline" "${HOME}/.local/bin/repos/asciinema")
 export PYTHONPATH
 export POWERLINE_CONFIG_COMMAND="${_tmux_dir}/powerline/scripts/powerline-config"
 
