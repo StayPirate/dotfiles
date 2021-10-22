@@ -102,6 +102,15 @@ if (( ${+terminfo[smkx]} && ${+terminfo[rmkx]} )); then
 fi
 ######
 
+### NVM - NODEJS VIRTUALENV ###
+# https://github.com/nvm-sh/nvm
+# zsh completion: https://github.com/nvm-sh/nvm/blob/a284af9228a62656e32eacfb0928faaeee8a124d/bash_completion#L83-L97
+source $HOME/.local/bin/repos/nvm/nvm.sh
+# zsh virtualenv autoload: https://github.com/nvm-sh/nvm#zsh
+# I customized it a little bit to better keep the correct version while changing folders
+autoload -Uz load-nvmrc
+######
+
 ### ZSH STYLE ###
 # Do menu-driven completion.
 zstyle ':completion:*' menu select
@@ -120,7 +129,7 @@ done
 ### Hook Functions ###
 # http://zsh.sourceforge.net/Doc/Release/Functions.html#Hook-Functions
 # Executed whenever the current working directory is changed.
-chpwd() ls
+chpwd() { ls && load-nvmrc }
 ######
 
 ### FZF ###
@@ -208,7 +217,7 @@ source "${HOME}/.config/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
 # https://github.com/Powerlevel9k/powerlevel9k
 POWERLEVEL9K_MODE='nerdfont-complete'
 POWERLEVEL9K_LINUX_MANJARO_ICON='\uf303'
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon ssh root_indicator dir dir_writable vcs virtualenv)
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon ssh root_indicator dir dir_writable vcs nvm virtualenv)
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(context command_execution_time status)
 POWERLEVEL9K_CONTEXT_TEMPLATE="%n"
 #POWERLEVEL9K_ALWAYS_SHOW_USER=true
