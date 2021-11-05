@@ -28,6 +28,8 @@ export WORDCHARS='*?_-.[]~=&;!#$&(){}<>|'
 # better yaourt colors
 export YAOURT_COLORS="nb=1:pkg=1:ver=1;32:lver=1;45:installed=1;42:grp=1;34:od=1;41;5:votes=1;44:dsc=0:other=1;35"
 
+# Set delta as default git pager if available
+type delta > /dev/null 2>&1 && export GIT_PAGER=delta
 # less history
 export LESSHISTFILE="${_less_cache_dir}/history"
 export LESSHISTSIZE=10000
