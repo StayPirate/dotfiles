@@ -1,0 +1,6 @@
+### bat is a modern replacement for cat with syntax highlighting
+# https://github.com/sharkdp/bat/
+
+type bat > /dev/null 2>&1 && {
+	alias cat='bat'
+}
