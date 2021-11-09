@@ -55,7 +55,7 @@ alias decompress='extract_phar_inplace() {
 # Note: !!! this function always discard all local changes !!!
 alias git-pull-all-local-branches='
           initial_branch=`git branch --show-current`
-          git fetch origin --prune --prune-tags --no-auto-maintenance
+          git fetch origin --quiet --prune --prune-tags --no-auto-maintenance
           echo -n "Updating ${initial_branch}"
           git reset --quiet --hard "origin/${initial_branch}" && echo
           git branch -l | grep -v "$initial_branch" | sed "s/ //g" | \
