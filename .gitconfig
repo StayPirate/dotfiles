@@ -36,6 +36,7 @@
 	update = "!dotfiles-update"
 	find-commit = "!zsh -ic \"git-find-commit $1\""
 	find-file   = "!zsh -ic \"git-find-file $1\""
+	reset-to-remote = "!git-reset-to-remote"
 [http "https://gitlab.suse.de"]
 	sslCAInfo = ~/.ca-certificates/SUSE/SUSE_CA_suse.de_chain.crt
 

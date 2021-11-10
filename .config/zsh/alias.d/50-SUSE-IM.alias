@@ -51,29 +51,10 @@ alias decompress='extract_phar_inplace() {
                   IFS=$old_IFS
                   unset gemfile line old_IFS'
 
-# Update all local branches of a git repository
-# Note: !!! this function always discard all local changes !!!
-alias git-pull-all-local-branches='
-          initial_branch=`git branch --show-current`
-          git fetch origin --quiet --prune --prune-tags --no-auto-maintenance
-          echo -n "Updating ${initial_branch}"
-          git reset --quiet --hard "origin/${initial_branch}" && echo
-          git branch -l | grep -v "$initial_branch" | sed "s/ //g" | \
-            while read -r branch; do
-              echo -n "Updating ${branch}"
-              git switch --quiet "$branch"
-              git reset --quiet --hard "origin/${branch}"
-              echo;
-            done
-          git switch --quiet $initial_branch
-          unset initial_branch
-          git maintenance run --auto --quiet
-      '
-
 # Enter the SUSE kernel repository
 alias k="cd ~/Workspace/SUSE/kernel"
 # Enter the SUSE kernel repository and update all the local branches
-alias kk="cd ~/Workspace/SUSE/kernel && git-pull-all-local-branches"
+alias kk="cd ~/Workspace/SUSE/kernel && git reset-to-remote --all-local-branches"
 
 alias git-find-commit='related_commits() {
                       # First result is the hash itself
