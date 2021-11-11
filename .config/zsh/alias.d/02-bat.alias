@@ -3,4 +3,6 @@
 
 type bat > /dev/null 2>&1 && {
 	alias cat='bat'
+	alias zbat='f(){ gzip -cd "$@" | bat }; f'
+	alias zcat='zbat'
 }
