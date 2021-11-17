@@ -25,6 +25,8 @@
 [alias]
 	s = status
 	d = diff
+	b = branch
+	sw = switch
 	l = "!git-fshow"
 	lg = log --graph --abbrev-commit --decorate --all \
 		--format=format:'%C(bold blue)%h%C(reset) - \

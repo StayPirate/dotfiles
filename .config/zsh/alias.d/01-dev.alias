@@ -4,3 +4,5 @@
 # https://github.com/dandavison/delta
 alias pipe_to_delta='f(){cat $1 | delta}; f'
 alias -s patch=pipe_to_delta
+
+alias g=git
