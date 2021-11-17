@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 #
-# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# ! THIS SCRIPT ALWAYS DISCARD ALL YOUR LOCAL !
-# !  CHANGES AND COMMIT HAED THE REMOTE REPO  !
-# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# ! THIS SCRIPT DISCARDS ALL YOUR LOCAL UNSTAGDED !
+# !   CHANGES AND COMMITS HAED THE REMOTE REPO    !
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 #
-# Reset local branches in a git repositoryZZ
+# Reset local branches to related tracked remote ones
 
 print_help(){
   echo "git-reset-to-remote [-h|--help] [--debug] [--all-local-branches] [--remote <remote>]"
