@@ -100,7 +100,7 @@ alias se='# Usage:
           # I chose an opt-out design for the -s flag because I want it enabled
           # by default since I use it 99% of the times
           #
-          g() { echo "$1" | grep -qE  "^#.*" && return
+          func2() { echo "$1" | grep -qE  "^#.*" && return
                 echo "$1" | grep -qE  "No matches found for|matches for" && return
                 echo "$1" | grep -qE  "^$" && return
                 echo "$1" | grep -qE  "^home:" && return
@@ -126,14 +126,14 @@ alias se='# Usage:
                 echo "$1" | grep -qE  "^Scented:" && return
                 echo "  $1"
           };
-          f() {
+          func1() {
             local _s="-s"
             if [[ "$1" == "-o" ]]; then
               _s=""
               shift
             fi
             echo "IBS:"
-            isc se $_s "$1" | while read -r line; do g "$line"; done
+            isc se $_s "$1" | while read -r line; do func2 "$line"; done
             echo "OBS:"
-            osc se $_s "$1" | while read -r line; do g "$line"; done
-          }; f'
+            osc se $_s "$1" | while read -r line; do func2 "$line"; done
+          }; func1'
