@@ -1,0 +1,11 @@
+# With the following two aliases *.patch files can be opened
+# with delta [0], just by typing the filename. Requires
+#
+# https://github.com/dandavison/delta
+type delta > /dev/null 2>&1 && {
+    alias diff=delta
+    alias pipe_to_delta='f(){cat $1 | delta}; f'
+    alias -s patch=pipe_to_delta
+}
+
+alias g=git
