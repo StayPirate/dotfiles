@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+gfccleanup() {
+  if [ ! -f "$gfctmpfile" ]; then
+    rm -f "$gfctmpfile"
+  fi
+}
+
+related_commits() {
+  # First result is the hash itself
+  git show "$1" --no-patch --no-notes --format=%h
+
+  # Then search any other commit which mentions the searched hash or subject in its message
+  subject=$(git show "$1" --no-patch --no-notes --format=%s)
+  # Sometimes when kernel matinarers move commits the commit message is wrapped by 50 chars
+  # hence I only search for a substring of the full subject, wrapped by space and by 50 width
+  subject_wrapped_50=$(echo "$subject" | fold -sw 50 | head -n 1 | rev | cut -c 2- | rev)
+  git log --all -F --grep="$1" --grep="$subject_wrapped_50" --format=%h
+}
+
+gfc() {
+  # Exit if the commit dont exists in any of the local branches.
+  git show "$1" >/dev/null || return
+
+  # Kernel maintainers only use the first 12 chars of the hash
+  short_hash=$(git show "$1" --no-patch --no-notes --format=%h)
+
+  # Show commits + branches that contain them, in parallel. We use `flock` to avoid race
+  # conditions when printing the results (only one `cat` instance can run at the same time).
+  trap gfccleanup EXIT
+  gfctmpfile=$(mktemp "${XDG_RUNTIME_DIR:-/tmp}"/git-find-commit.lock.XXXX)
+  related_commits $short_hash | sort -u | xargs -I{} -P $(nproc) $SHELL -c "{
+    git show {} --oneline --no-patch --no-notes --color;
+    git branch --contains {} | sed 's/^../\t/';
+  } | flock -x $gfctmpfile -c cat"
+}
+
+### MAIN ###
+#==========#
+if [[ $# -ne 1 ]]; then
+  echo "Usage: git find-commit <commit_id>"
+  exit
+fi
+
+gfc "$@"

@@ -56,32 +56,6 @@ alias k="cd ~/Workspace/SUSE/kernel"
 # Enter the SUSE kernel repository and update all the local branches
 alias kk="cd ~/Workspace/SUSE/kernel && git reset-to-remote --all-local-branches"
 
-alias git-find-commit='related_commits() {
-                      # First result is the hash itself
-                      git show "$1" --no-patch --no-notes --format=%h
-
-                      # Then search any other commit which mentions the searched hash or subject in its message
-                      subject=$(git show "$1" --no-patch --no-notes --format=%s)
-                      # Sometimes when kernel matinarers move commits the commit message is wrapped by 50 chars
-                      # hence I only search for a substring of the full subject, wrapped by space and by 50 width
-                      subject_wrapped_50=$(echo $subject | fold -sw 50 | head -n 1 | rev | cut -c 2- | rev)
-                      git log --all -F --grep="$1" --grep="$subject_wrapped_50" --format=%h
-                    }
-                   f() {
-                     if [[ -z $1 ]]; then echo "Usage: git find-commit \"<commit_id>\""; return; fi
-
-                     # Exit if the commit dont exists in any of the local branches.
-                     git show "$1" >/dev/null || return
-
-                     # Kernel maintainers only use the first 12 chars of the hash
-                     short_hash=$(git show "$1" --no-patch --no-notes --format=%h)
-                     related_commits $short_hash | sort -u | \
-                       while read -r commit; do
-                         git show "$commit" --oneline --no-patch --no-notes
-                         git branch --contains "$commit" | sed "s/^..//g" | while read -r branch; do echo -e "\t${branch}"; done
-                       done
-                    }; f'
-
 alias git-find-file='f() {
                         if [[ -z $1 ]]; then echo "Usage: git find-file \"<pathname_regex>\""; return; fi
 
