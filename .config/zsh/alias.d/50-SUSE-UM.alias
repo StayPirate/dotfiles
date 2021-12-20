@@ -1,0 +1,4 @@
+# When a maintenance incident is stuck in the "blocked" status
+# you give it a spintarella to make it move forward
+# Credits to Marina for this handy trick :)
+alias spintarella='f(){ isc wipebinaries --all SUSE:Maintenance:$1/patchinfo }; f'
