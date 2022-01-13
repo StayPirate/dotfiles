@@ -5,4 +5,6 @@ type bat > /dev/null 2>&1 && {
 	alias cat='bat'
 	alias zbat='f(){ gzip -cd "$@" | bat }; f'
 	alias zcat='zbat'
+	# bat automatically pipes its output through a pager (by default: less)
+	alias less='bat' # adding this alias the output will be handled again by less but it will be colorized first by bat
 }
