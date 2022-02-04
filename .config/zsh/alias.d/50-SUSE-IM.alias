@@ -66,11 +66,10 @@ alias scc='SUSE_CHANNELS=~/.local/share/SUSE/channels
   \;'
 
 alias maintained='f() {
-  xmllint --xpath \
-    "//binary[contains(@name,\"${1}\") and not(contains(@supportstatus,\"unsupported\")) and boolean(@supportstatus)]/@package" \
-    **/*/_channel 2>/dev/null | \
-  cut -d "\"" -f 2 | \
-  sort -u
+  # Upstream: http://videlibri.sourceforge.net/xidel.html
+  xidel -s --xpath \
+    "//binary[matches(@name,\"${1}\",\"i\") and boolean(@supportstatus) and not(contains(@supportstatus,\"unsupported\"))]/@package" \
+    **/*/_channel 2>/dev/null | sort -u
 }; f'
 
 alias git-find-file='f() {
