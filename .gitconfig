@@ -22,11 +22,15 @@
 	syntax-theme = Monokai Extended Origin
 	line-numbers = true
 	#side-by-side = true
+	#wrap-max-lines = unlimited
 [alias]
 	s = status
 	d = diff
 	b = branch
 	sw = switch
+	a = add
+	c = commit
+	p = push
 	l = "!git-fshow"
 	lg = log --graph --abbrev-commit --decorate --all \
 		--format=format:'%C(bold blue)%h%C(reset) - \
