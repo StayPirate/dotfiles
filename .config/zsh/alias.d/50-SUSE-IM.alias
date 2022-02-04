@@ -52,9 +52,9 @@ alias decompress='extract_phar_inplace() {
                   unset gemfile line old_IFS'
 
 # Enter the SUSE kernel repository
-alias k="cd ~/Workspace/SUSE/kernel"
+alias k="cd ~/.local/share/SUSE/kernel"
 # Enter the SUSE kernel repository and update all the local branches
-alias kk="cd ~/Workspace/SUSE/kernel && git reset-to-remote --all-local-branches"
+alias kk="cd ~/.local/share/SUSE/kernel && git reset-to-remote --all-local-branches"
 
 # Enter the SUSE Channels local copy
 alias sc='cd ~/.local/share/SUSE/channels'
