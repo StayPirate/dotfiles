@@ -56,6 +56,23 @@ alias k="cd ~/Workspace/SUSE/kernel"
 # Enter the SUSE kernel repository and update all the local branches
 alias kk="cd ~/Workspace/SUSE/kernel && git reset-to-remote --all-local-branches"
 
+# Enter the SUSE Channels local copy
+alias sc='cd ~/.local/share/SUSE/channels'
+# Enter the SUSE Channels local copy and update
+alias scc='SUSE_CHANNELS=~/.local/share/SUSE/channels
+  cd $SUSE_CHANNELS
+  find $SUSE_CHANNELS -maxdepth 1 -mindepth 1 -type d -exec \
+    zsh -ic "isc up {} > /dev/null 2>&1 && echo -e \"{}\tUpdated\"" \
+  \;'
+
+alias maintained='f() {
+  xmllint --xpath \
+    "//binary[contains(@name,\"${1}\") and not(contains(@supportstatus,\"unsupported\")) and boolean(@supportstatus)]/@package" \
+    **/*/_channel 2>/dev/null | \
+  cut -d "\"" -f 2 | \
+  sort -u
+}; f'
+
 alias git-find-file='f() {
                         if [[ -z $1 ]]; then echo "Usage: git find-file \"<pathname_regex>\""; return; fi
 
