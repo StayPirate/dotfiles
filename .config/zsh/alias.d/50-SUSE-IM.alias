@@ -82,23 +82,34 @@ alias sepkg='f() {
 #   webkitgtk
 #   webkitgtk3
 
-  xidel -s --xpath \
-    "//binary[matches(@name,\"${1}\",\"i\") and boolean(@supportstatus) and not(contains(@supportstatus,\"unsupported\"))]/@package" \
-    */_channel 2>/dev/null | sort -u
+  local _different_folder=false
+  [ "$PWD" != "$SUSE_CHANNELS" ] && { _different_folder="$PWD"; cd $SUSE_CHANNELS }
+    xidel -s --xpath \
+      "//binary[matches(@name,\"${1}\",\"i\") and boolean(@supportstatus) and not(contains(@supportstatus,\"unsupported\"))]/@package" \
+      */_channel 2>/dev/null | sort -u
+  [ "$_different_folder" != false ] && cd $_different_folder
 }; f'
 
 alias maintained_regular='f() {
 # List regular maintained codestreams of specified package
+
+  local _different_folder=false
+  [ "$PWD" != "$SUSE_CHANNELS" ] && { _different_folder="$PWD"; cd $SUSE_CHANNELS }
   xidel -s --xpath \
     "//channel[not(exists(disabled)) and descendant::target[not(exists(disabled))]]//binary[(@name=\"${1}\") and not(contains(@supportstatus,\"unsupported\")) and boolean(@supportstatus)]/parent::binaries/@project" \
     */_channel | sort -u
+  [ "$_different_folder" != false ] && cd $_different_folder
 }; f'
 
 alias maintained_ltss='f() {
 # List LTSS codestreams of specified package
+
+  local _different_folder=false
+  [ "$PWD" != "$SUSE_CHANNELS" ] && { _different_folder="$PWD"; cd $SUSE_CHANNELS }
   xidel -s --xpath \
     "//channel[not(exists(disabled)) and descendant::target[exists(disabled)]]//binary[(@name=\"${1}\") and not(contains(@supportstatus,\"unsupported\")) and boolean(@supportstatus)]/parent::binaries/@project" \
     */_channel | sort -u
+  [ "$_different_folder" != false ] && cd $_different_folder
 }; f'
 
 alias maintained='f() {
@@ -115,12 +126,14 @@ alias maintained='f() {
 #           SUSE:SLE-11-SP3:Update
 #           SUSE:SLE-12:Update
 
-  [[ "$PWD" != "$SUSE_CHANNELS" ]] && cd $SUSE_CHANNELS
+  local _different_folder=false
+  [ "$PWD" != "$SUSE_CHANNELS" ] && { _different_folder="$PWD"; cd $SUSE_CHANNELS }
   echo "The ${@} package is supported in the following codestreams:"
   echo "Regular support"
   maintained_regular ${@} | sed "s/^/\t/g"
   echo "LTSS support"
   maintained_ltss ${@} | sed "s/^/\t/g"
+  [ "$_different_folder" != false ] && cd $_different_folder
 }; f'
 
 alias git-find-file='f() {
