@@ -56,20 +56,71 @@ alias k="cd ~/.local/share/SUSE/kernel"
 # Enter the SUSE kernel repository and update all the local branches
 alias kk="cd ~/.local/share/SUSE/kernel && git reset-to-remote --all-local-branches"
 
-# Enter the SUSE Channels local copy
-alias sc='cd ~/.local/share/SUSE/channels'
-# Enter the SUSE Channels local copy and update
-alias scc='SUSE_CHANNELS=~/.local/share/SUSE/channels
-  cd $SUSE_CHANNELS
-  find $SUSE_CHANNELS -maxdepth 1 -mindepth 1 -type d -exec \
-    zsh -ic "isc up {} > /dev/null 2>&1 && echo -e \"{}\tUpdated\"" \
-  \;'
+export SUSE_CHANNELS=~/.local/share/SUSE/SUSE:Channels
 
-alias maintained='f() {
-  # Upstream: http://videlibri.sourceforge.net/xidel.html
+# Enter the SUSE Channels local copy
+alias sc='cd $SUSE_CHANNELS'
+# Enter the SUSE Channels local copy and update
+alias scc='cd $SUSE_CHANNELS && \
+  zsh -ic "isc up $SUSE_CHANNELS > /dev/null && \
+  echo -e \"${SUSE_CHANNELS##*/}\tUpdated\""'
+
+alias sepkg='f() {
+# Search packages that build binaries that contains the searched substring (case-insensitive)
+# Xidel upstream: http://videlibri.sourceforge.net/xidel.html
+#
+# Example:
+#   > sepkg webkit
+#   libproxy-plugins
+#   libqt4
+#   libqt5-qtwebkit
+#   libQtWebKit4
+#   webkit2gtk3
+#   webkit2gtk3:gtk3
+#   webkit2gtk3:gtk3-soup2
+#   webkit2gtk3:gtk4
+#   webkitgtk
+#   webkitgtk3
+
   xidel -s --xpath \
     "//binary[matches(@name,\"${1}\",\"i\") and boolean(@supportstatus) and not(contains(@supportstatus,\"unsupported\"))]/@package" \
-    **/*/_channel 2>/dev/null | sort -u
+    */_channel 2>/dev/null | sort -u
+}; f'
+
+alias maintained_regular='f() {
+# List regular maintained codestreams of specified package
+  xidel -s --xpath \
+    "//channel[not(exists(disabled)) and descendant::target[not(exists(disabled))]]//binary[(@name=\"${1}\") and not(contains(@supportstatus,\"unsupported\")) and boolean(@supportstatus)]/parent::binaries/@project" \
+    */_channel | sort -u
+}; f'
+
+alias maintained_ltss='f() {
+# List LTSS codestreams of specified package
+  xidel -s --xpath \
+    "//channel[not(exists(disabled)) and descendant::target[exists(disabled)]]//binary[(@name=\"${1}\") and not(contains(@supportstatus,\"unsupported\")) and boolean(@supportstatus)]/parent::binaries/@project" \
+    */_channel | sort -u
+}; f'
+
+alias maintained='f() {
+# List both regular and LTSS codestreams for a specified package
+#
+# Example:
+#   > maintained libqt4
+#   The libqt4 package is supported in the following codestreams:
+#   Regular support
+#           SUSE:SLE-11-SP1:Update
+#           SUSE:SLE-11-SP3:Update
+#           SUSE:SLE-12:Update
+#   LTSS support
+#           SUSE:SLE-11-SP3:Update
+#           SUSE:SLE-12:Update
+
+  [[ "$PWD" != "$SUSE_CHANNELS" ]] && cd $SUSE_CHANNELS
+  echo "The ${@} package is supported in the following codestreams:"
+  echo "Regular support"
+  maintained_regular ${@} | sed "s/^/\t/g"
+  echo "LTSS support"
+  maintained_ltss ${@} | sed "s/^/\t/g"
 }; f'
 
 alias git-find-file='f() {
