@@ -33,7 +33,7 @@ alias decompress='extract_phar_inplace() {
                     done
 
                   # Extract any compressed archive in its same folder
-                  find . -type f -regextype posix-extended -regex ".*\.(tar\.|tgz|zip).*" |
+                  find . -type f -regextype posix-extended -regex ".*\.(tar\.|tgz|zip|whl).*" |
                     awk -F ": " "/^[^#]/{print $1}" |
                     # Skip .osc folder
                     grep -v "\.osc" |
@@ -41,7 +41,7 @@ alias decompress='extract_phar_inplace() {
                     grep -Ev ".*\.(asc|sig|sha)$" |
                       while read -r line; do
                         echo $line
-                        if echo $line | grep -qE ".*\.zip$"; then
+                        if echo $line | grep -qE ".*\.(zip|whl)$"; then
                           unzip -q "$line" -d $(dirname "$line");
                         else
                           tar --force-local -xf "$line" -C $(dirname "$line");
@@ -85,17 +85,17 @@ alias sepkg='f() {
   local _different_folder=false
   [ "$PWD" != "$SUSE_CHANNELS" ] && { _different_folder="$PWD"; cd $SUSE_CHANNELS }
     xidel -s --xpath \
-      "//binary[matches(@name,\"${1}\",\"i\") and boolean(@supportstatus) and not(contains(@supportstatus,\"unsupported\"))]/@package" \
+      "//binary[matches(@name,\"${1}\",\"i\")]/@package" \
       */_channel 2>/dev/null | sort -u
   [ "$_different_folder" != false ] && cd $_different_folder
 }; f'
 
-alias sebinary='f() {
+alias sebin='f() {
 # Like sepkg (above), but it also prints the name of the binary that matched the searched substring and the
 # codestream where it is submitted. This could be useful to quickly checkout interesting packages
 #
 # Example:
-#   > sebinary webkit
+#   > sebin webkit
 #   SUSE:SLE-11-SP1:Update libqt4 libQtWebKit4
 #   SUSE:SLE-11-SP1:Update libqt4 libQtWebKit4-32bit
 #   SUSE:SLE-11-SP3:Update libqt4 libQtWebKit4
@@ -107,15 +107,15 @@ alias sebinary='f() {
   local _different_folder=false
   [ "$PWD" != "$SUSE_CHANNELS" ] && { _different_folder="$PWD"; cd $SUSE_CHANNELS }
   xidel -s --xpath \
-        "//binary[matches(@name,\"${1}\",\"i\") and boolean(@supportstatus) and not(contains(@supportstatus,\"unsupported\"))]/concat(parent::binaries/@project, \" \",@package,\" \",@name)" \
+        "//binary[matches(@name,\"${1}\",\"i\")]/concat(parent::binaries/@project, \" \",@package,\" \",@name)" \
         */_channel 2>/dev/null | sort -u
   [ "$_different_folder" != false ] && cd $_different_folder
 }; f'
 
-# Handy global alias to "check-out all (COALL)" the packages from the sebinary (above) output
+# Handy global alias to "check-out all (COALL)" the packages from the sebin (above) output
 #
 # Example:
-#   > sebinary ruby-dbus COALL
+#   > sebin ruby-dbus COALL
 #   SUSE:SLE-11-SP1:Update ruby-dbus
 #   SUSE:SLE-12:Update rubygem-ruby-dbus
 #   SUSE:SLE-15:Update rubygem-ruby-dbus
@@ -141,7 +141,7 @@ alias maintained_regular='f() {
   local _different_folder=false
   [ "$PWD" != "$SUSE_CHANNELS" ] && { _different_folder="$PWD"; cd $SUSE_CHANNELS }
   xidel -s --xpath \
-    "//channel[not(exists(disabled)) and descendant::target[not(exists(disabled))]]//binary[(@name=\"${1}\") and not(contains(@supportstatus,\"unsupported\")) and boolean(@supportstatus)]/parent::binaries/@project" \
+    "//channel[not(exists(disabled)) and descendant::target[not(exists(disabled))]]//binary[(@name=\"${1}\")]/parent::binaries/@project" \
     */_channel | sort -u
   [ "$_different_folder" != false ] && cd $_different_folder
 }; f'
@@ -152,7 +152,7 @@ alias maintained_ltss='f() {
   local _different_folder=false
   [ "$PWD" != "$SUSE_CHANNELS" ] && { _different_folder="$PWD"; cd $SUSE_CHANNELS }
   xidel -s --xpath \
-    "//channel[not(exists(disabled)) and descendant::target[exists(disabled)]]//binary[(@name=\"${1}\") and not(contains(@supportstatus,\"unsupported\")) and boolean(@supportstatus)]/parent::binaries/@project" \
+    "//channel[not(exists(disabled)) and descendant::target[exists(disabled)]]//binary[(@name=\"${1}\")]/parent::binaries/@project" \
     */_channel | sort -u
   [ "$_different_folder" != false ] && cd $_different_folder
 }; f'
