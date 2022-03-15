@@ -6,6 +6,7 @@ apiurl = https://api.opensuse.org
 #packagecachedir = /var/tmp/osbuild-packagecache
 # Wrapper to call build as root (sudo, su -, ...)
 #su-wrapper = sudo
+su-wrapper = bash -c
 # rootdir to setup the chroot environment
 # can contain %(repo)s, %(arch)s, %(project)s, %(package)s and %(apihost)s (apihost is the hostname
 # extracted from currently used apiurl) for replacement, e.g.
