@@ -85,7 +85,7 @@ alias sepkg='f() {
   local _different_folder=false
   [ "$PWD" != "$SUSE_CHANNELS" ] && { _different_folder="$PWD"; cd $SUSE_CHANNELS }
     xidel -s --xpath \
-      "//binary[matches(@name,\"${1}\",\"i\")]/@package" \
+      "//binary[matches(@name,\"${1}\",\"i\") or matches(@package,\"${1}\",\"i\")]/@package" \
       */_channel 2>/dev/null | sort -u
   [ "$_different_folder" != false ] && cd $_different_folder
 }; f'
@@ -107,8 +107,8 @@ alias sebin='f() {
   local _different_folder=false
   [ "$PWD" != "$SUSE_CHANNELS" ] && { _different_folder="$PWD"; cd $SUSE_CHANNELS }
   xidel -s --xpath \
-        "//binary[matches(@name,\"${1}\",\"i\")]/concat(parent::binaries/@project, \" \",@package,\" \",@name)" \
-        */_channel 2>/dev/null | sort -u
+        "//binary[matches(@name,\"${1}\",\"i\") or matches(@package,\"${1}\",\"i\")]/concat(parent::binaries/@project, \" \",@package,\" \",@name)" \
+        */_channel 2>/dev/null | sort -u | column -t -N Codestream,Package,Binary
   [ "$_different_folder" != false ] && cd $_different_folder
 }; f'
 
