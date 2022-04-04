@@ -129,7 +129,7 @@ done
 ### Hook Functions ###
 # http://zsh.sourceforge.net/Doc/Release/Functions.html#Hook-Functions
 # Executed whenever the current working directory is changed.
-chpwd() { ls && load-nvmrc }
+chpwd() { load-nvmrc }
 ######
 
 ### FZF ###
