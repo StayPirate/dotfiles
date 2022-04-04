@@ -31,6 +31,9 @@ fi
 # If no args are passed
 [[ $# -eq 0 ]] && gitgrep_usage
 
+
+pathname=""
+grep_args=""
 # The following nested if statements make parameters position indipendet
 if [[ ! -z "$2" ]]; then
     if [[ "$2" =~ ^\- ]]; then
@@ -60,7 +63,7 @@ for branch in "${local_branches[@]}"; do
     echo -e "\033[1;33m$branch \033[0m"
 
     # If a pathname is provided, nail down the search only to that file
-    [ ! -z $pathname ] && branch="$branch:$pathname"
+    [[ ! -z "$pathname" ]] && branch="$branch:$pathname"
 
     eval git grep --heading --break --threads 4 -pInF ${grep_args:-"-C 3"} \'${escaped_string}\' $branch
 done
