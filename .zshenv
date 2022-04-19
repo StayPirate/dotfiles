@@ -9,16 +9,21 @@ source ~/.config/dotfiles/vars
 
 export XDG_CONFIG_HOME=${_xdg_config_home}
 
+# User gem path
+type gem >/dev/null && {
+    export GEM_PATH="$(ruby -e 'print Gem.user_dir')/bin"
+}
+
 # $ZDOTDIR is specified in $HOME/.zprofile
 typeset -U PATH path
-path=("${_pyenv_installation_dir}/bin" "${HOME}/.local/bin" "${_tmux_dir}/powerline/scripts" "$path[@]")
+path=("${_pyenv_installation_dir}/bin" "${HOME}/.local/bin" "${_tmux_dir}/powerline/scripts" "$path[@]" "$GEM_PATH")
 export PATH
 
 typeset -U FPATH fpath
 fpath=("${HOME}/.config/zsh/plugins/zsh-completions/src" "${HOME}/.config/zsh/functions" "${fpath[@]}")
 export FPATH
 
-export SHELL="/usr/bin/zsh"
+export SHELL=$(which zsh)
 export EDITOR="vim"
 # Custom shell word boundaries, helpful when CTRL+W on paths.
 # without: /
