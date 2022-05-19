@@ -70,3 +70,7 @@
 	path = .local/bin/repos/asciinema
 	url = https://github.com/asciinema/asciinema.git
 	branch = master
+### GDB PLUGIN ###
+[submodule "pwndbg"]
+	path = .local/bin/repos/pwndbg
+	url = https://github.com/pwndbg/pwndbg.git
