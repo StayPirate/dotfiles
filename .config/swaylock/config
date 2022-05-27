@@ -1,0 +1,8 @@
+daemonize
+ignore-empty-password
+show-failed-attempts
+image=~/.local/share/wallpapers/Torvalds_lockscreen.png
+indicator-caps-lock
+color=1c586a
+scaling=fit
+indicator-radius=100
