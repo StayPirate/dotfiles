@@ -49,7 +49,7 @@ dotfiles-private config --local status.showUntrackedFiles no > /dev/stderr
 dotfiles-root config --local status.showUntrackedFiles no > /dev/stderr
 [[ $? -eq 0 ]] && dotfiles-root checkout -f > /dev/stderr
 
-# Remove .zcompdump in the home, new cache location is "${_zsh_cache_dir}/zcompdump"
+# Remove .zcompdump in the home, new cache location is "${XDG_CACHE_HOME:-$HOME/.cache}/zcompdump"
 [[ -f $HOME/.zcompdump ]] && rm $HOME/.zcompdump
 
 # Check disabled custom services

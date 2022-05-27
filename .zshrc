@@ -2,10 +2,9 @@
 
 # Initialize dotfiles the first time zsh is ran from $USER
 if [[ ! -f "${HOME}/.config/dotfiles/first_run" ]]; then
-  [ -z $XDG_RUNTIME_DIR ] && XDG_RUNTIME_DIR=/tmp
-  _tmp_log=$(mktemp -t dotfiles-XXXX.log -p $XDG_RUNTIME_DIR)
-  echo "Inizialization dotfiles, log at ${_tmp_log}"
-  ${HOME}/.config/dotfiles/initialize.sh 2>$_tmp_log
+  _dotfiles_init_log=$(mktemp -t dotfiles-init-XXXX.log -p ${XDG_RUNTIME_DIR:-/tmp})
+  echo "Inizialization dotfiles, log at ${_dotfiles_init_log}"
+  ${HOME}/.config/dotfiles/initialize.sh 2>$_dotfiles_init_log
 fi
 
 # Powerline Daemon: Fast and lightweight, with daemon support for even better performance.
@@ -18,12 +17,9 @@ fi
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+if [[ -r "${XDG_CACHE_HOME}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
-
-# Loading variable shared with the instalation script
-source ~/.config/dotfiles/vars
 
 ### HISTORY ###
 HISTFILE=~/.cache/zsh/history
@@ -194,7 +190,7 @@ fi
 autoload -Uz extract
 autoload -Uz compinit
 autoload -Uz cert-fp
-compinit -d "${_zsh_cache_dir}/zcompdump"
+compinit -d "${XDG_CACHE_HOME}/zcompdump"
 autoload -Uz custom_colors # load ~/.config/zsh/dir_colors
 custom_colors
 # SARS-CoV-2 stats

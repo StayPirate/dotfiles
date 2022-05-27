@@ -10,7 +10,7 @@ Installing Python-2.7.18...
 Installed Python-2.7.18 to /home/<user>/.config/pyenv/versions/2.7.18
 ```
 
-it will be installed in [`~/.config/pyenv/versions`](../vars#L21). You can verify the installation by checking its availability with `pyenv versions`.
+it will be installed in `~/.config/pyenv/versions`. You can verify the installation by checking its availability with `pyenv versions`.
 
 ```bash
 $pyenv versions
