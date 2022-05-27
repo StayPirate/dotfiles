@@ -1,0 +1,1 @@
+alias weechat='alacritty --class weechat -e weechat &; disown'
