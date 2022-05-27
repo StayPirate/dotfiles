@@ -55,3 +55,7 @@ export PYENV_ROOT="${XDG_CONFIG_HOME}/pyenv"
 export PYTHON_BUILD_ARIA2_OPTS="-x 10 -k 1M"
 export PYENV_VIRTUALENV_CACHE_PATH="${XDG_CACHE_HOME}/pyenv-virtualenv"
 eval "$(pyenv init --path)"
+# ssh-agent
+# This var is also specified in .config/environment.d/10-ssh-agent.conf
+# as it is required by .config/systemd/user/ssh-agent.service
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"

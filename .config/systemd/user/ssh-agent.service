@@ -3,7 +3,8 @@ Description=SSH key agent
 
 [Service]
 Type=simple
-Environment=SSH_AUTH_SOCK=%t/ssh-agent.socket
+# SSH_AUTH_SOCK is defined in
+# ~/.config/environment.d/10-ssh-agent.conf
 ExecStart=/usr/bin/ssh-agent -D -a $SSH_AUTH_SOCK
 
 [Install]
