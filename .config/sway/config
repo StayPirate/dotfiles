@@ -49,9 +49,6 @@ output $home_office_display {
     res 3840x1440
     #mode 3440x1440@59.936Hz # Doesn't work... maybe I need to use the display port?
 }
-# Initially put focus on a specific monitor
-# (https://github.com/swaywm/sway/wiki#multihead)
-exec swaymsg focus output $home_office_display
 
 # Enable/Disable laptop monitor when open/close the lid
 bindswitch --locked lid:on output $laptop_display disable
@@ -90,6 +87,8 @@ exec dbus-update-activation-environment --systemd --all
 #
 # You can get the names of your inputs by running: swaymsg -t get_inputs
 # Read `man 5 sway-input` for more information about this section.
+
+focus_follows_mouse no
 
 ### Key bindings
 #
@@ -281,6 +280,7 @@ exec dbus-update-activation-environment --systemd --all
     }
     for_window [ app_id="thunderbird" title="[0-9]+ Reminders?$" ] {
         floating enable
+        resize set 20 ppt 30 ppt
         sticky enable
         no_focus [ app_id="thunderbird" title="[0-9]+ Reminders?$" ]
     }
@@ -405,13 +405,21 @@ client.unfocused            #468499 #468499 #ffffff #468499   #468499ee
 # Border style
 #
 default_border pixel 2
+smart_borders on
 
 #
 # Gaps
 #
 # inner = around views
-gaps inner 8
+gaps inner 15
 # outer = around workspace (vertical = top and bottom)
-gaps vertical -4
-smart_gaps off
-smart_borders off
+# gaps vertical -4
+# gaps outer -10
+smart_gaps on
+
+# Status Bar (waybar):
+# https://github.com/Alexays/Waybar
+#
+bar {
+    swaybar_command waybar
+}

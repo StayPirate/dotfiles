@@ -1,0 +1,135 @@
+* {
+	font-size: 16px;
+	font-family: monospace;
+}
+
+window#waybar {
+	background: #292b2e;
+	color: #fdf6e3;
+}
+
+#custom-right-arrow-dark,
+#custom-left-arrow-dark {
+	color: #1a1a1a;
+}
+#custom-right-arrow-light,
+#custom-left-arrow-light {
+	color: #292b2e;
+	background: #1a1a1a;
+}
+
+#workspaces,
+#clock.1,
+#clock.2,
+#clock.3,
+#pulseaudio,
+#custom-spotify,
+#memory,
+#cpu,
+#battery,
+#disk,
+#network,
+#tray {
+	background: #1a1a1a;
+}
+
+#workspaces button {
+	padding: 0 2px;
+	color: #fdf6e3;
+}
+#workspaces button.focused {
+	color: #268bd2;
+}
+#workspaces button:hover {
+	box-shadow: inherit;
+	text-shadow: inherit;
+}
+#workspaces button:hover {
+	background: #1a1a1a;
+	border: #1a1a1a;
+	padding: 0 3px;
+}
+
+#custom-spotify {
+	color: #1db954;
+}
+#pulseaudio {
+	color: #268bd2;
+}
+#memory {
+	color: #2aa198;
+}
+#cpu {
+	color: #6c71c4;
+}
+
+/* Battery idicator is green when in a full capacity status */
+#battery.full {
+	color: #3b9900;
+}
+/* Normal battery idicator between good and warning capacity status */
+#battery.good {
+	color: #859900;
+}
+/* Battery idicator start blinking (orange) while charging */
+@keyframes blink-charging {
+    to {
+        color: #b58900;
+    }
+}
+#battery.charging.good {
+    animation-name: blink-charging;
+    animation-duration: 2s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+/* Battery idicator start blinking (orange) when getting lower */
+@keyframes blink-warning {
+    to {
+        color: #fc8b00;
+    }
+}
+#battery.warning:not(.charging) {
+    animation-name: blink-warning;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+/* Battery idicator start blinking (red) when critical */
+@keyframes blink-critical {
+    to {
+        color: #f92672;
+    }
+}
+#battery.critical:not(.charging) {
+    animation-name: blink-critical;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+#disk {
+	color: #b58900;
+}
+
+#network {
+	color: #0045b5;
+}
+
+#network.disconnected {
+	color: #AA0000;
+}
+
+#clock,
+#pulseaudio,
+#custom-spotify,
+#memory,
+#cpu,
+#battery,
+#network,
+#disk {
+	padding: 0 10px;
+}
