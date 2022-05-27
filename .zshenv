@@ -59,6 +59,9 @@ eval "$(pyenv init --path)"
 # Sway
 export XDG_CURRENT_DESKTOP=sway
 
+# Wayland
+export MOZ_ENABLE_WAYLAND=1 # Start Firefox natively on Wayland
+
 # ssh-agent
 # This var is also specified in .config/environment.d/10-ssh-agent.conf
 # as it is required by .config/systemd/user/ssh-agent.service
