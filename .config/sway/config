@@ -54,25 +54,36 @@ output $home_office_display {
 bindswitch --locked lid:on output $laptop_display disable
 bindswitch --locked lid:off output $laptop_display enable
 
-# 'systemctl --user import-environment' affects all user units started after setting
-# the environment variables, but not the units that were already running.
-# The following command has the same effect as 'systemctl --user import-environment',
-# but also affects the D-Bus session.
-exec dbus-update-activation-environment --systemd --all
+# Lock screen
+# I run `loginctl lock-session` as it sends over dbus a message to inform
+# other applications about the upcoming lock.
+# This makes KeePassXC to automatically lock all open databases.
+#
+# swaylock conf: ~/.config/swaylock/config
+set $lock_machine "loginctl lock-session"
+
+bindsym $mod+l exec $lock_machine
 
 ### Idle configuration
 #
-# Example configuration:
+# * After 300s execute loginctl lock-session to inform other running
+#   programs that the pc is going to be locked (eg. KeePassXC will lock open databases).
+#   At the same time, swayidle `lock` handler will be triggered and swaylock is started.
+# * After 305s turn off the screen.
+# * As soon as any input device triggers, turn on the screen. Swaylock will be asking
+#   for the user's password.
+# * `lock` is the event-handler for logind session locked event. I set logind.conf to lock
+#   the session all the time that the laptop's lid is closed. This way swayidle starts
+#   swaylock and as soon as the lid is reopened the user's password is asked.
+exec swayidle -w \
+         timeout 300 $lock_machine \
+         timeout 305 'swaymsg "output * dpms off"' \
+              resume 'swaymsg "output * dpms on"' \
+         lock swaylock
 #
-# exec swayidle -w \
-#          timeout 300 'swaylock -f -c 000000' \
-#          timeout 600 'swaymsg "output * dpms off"' \
-#               resume 'swaymsg "output * dpms on"' \
-#          before-sleep 'swaylock -f -c 000000'
-#
-# This will lock your screen after 300 seconds of inactivity, then turn off
-# your displays after another 300 seconds, and turn your screens back on when
-# resumed. It will also lock your screen before your computer goes to sleep.
+# This will lock your screen and keyrings after 300 seconds of inactivity, then
+# turn off your displays after another 305 seconds, and turn your screens back on
+# when resumed.
 
 ### Input configuration
 #
@@ -109,10 +120,6 @@ focus_follows_mouse no
 
     # Screenshot
     bindsym --release Print exec grim -g "$(slurp)" - | wl-copy
-
-    # Lock screen
-    # swaylock configuration file: $HOME/.config/swaylock/config
-    bindsym $mod+l exec swaylock
 
     # Miscellaneous software
 
