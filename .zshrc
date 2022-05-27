@@ -14,7 +14,8 @@ fi
 # Powerline Daemon: Fast and lightweight, with daemon support for even better performance.
 # https://powerline.readthedocs.io/en/latest/usage/shell-prompts.html?#shell-prompts
 powerline-daemon -q
-if [ -z "$TMUX" ]; then
+# Do not execute tmux in tty6, this could be a fallback tty in case tmux doesn't work anymore
+if [[ -z "$TMUX" && "$(tty)" != "/dev/tty6" ]]; then
   exec tmux new-session -A -s workspace
 fi
 
