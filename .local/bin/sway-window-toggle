@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+# Toggle any window in Sway
+#
+# This script is meant to be bound to a shortcut. It allows me to open
+# and close a specific window with the same keys combination.
+# I initially created it to toggle KeePassXC with $meta+grave.
+# As it uses a mark to identify the correct window, ensure you set an
+# unique mark at window creation.
+# In my case I use the following snippet to initially run KeePassXC at
+# start up (.config/sway/config):
+#
+# for_window [ app_id="org.keepassxc.KeePassXC" ] {
+#     sticky enable
+#     floating enable
+#     resize set 40 ppt 84 ppt
+#     mark "toggle_KeePassXC";
+# }
+# exec keepassxc
+
+_usage () {
+    echo >&2 -e "\
+    Usage:\t$(basename ${BASH_SOURCE[0]}) <app_id> <mark> <command>
+    Example:\t$(basename ${BASH_SOURCE[0]}) org.keepassxc.KeePassXC toggle_KeePassXC keepassxc\
+    "
+}
+
+_toggle () {
+
+    local _app_id=$1
+    shift
+    local _mark=$1
+    shift
+    local _command="$@"
+
+    # Check if the window is already shown in any output
+    result=$(swaymsg -t get_tree | jq -r ".. | .app_id? // empty | select(. == \"${_app_id}\")")
+
+    if [[ ! -z $result ]]; then
+        # if it is, then kill the window
+        swaymsg "[con_mark=\"${_mark}\"] focus; kill"
+    else
+        # if it's not, then start the process
+        $_command &
+        disown
+    fi
+
+}
+
+[[ $# -lt 3 ]] && { _usage; exit 1; }
+_toggle "$@"

@@ -133,6 +133,8 @@ exec dbus-update-activation-environment --systemd --all
                         -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' \
                         -b 'Yes, exit sway' 'swaymsg exit'
 
+    # KeePassXC window toggle
+    bindsym --no-repeat Ctrl+grave exec sway-window-toggle org.keepassxc.KeePassXC toggle_KeePassXC keepassxc
 #
 # Power management
 #
@@ -252,6 +254,7 @@ exec dbus-update-activation-environment --systemd --all
         floating enable
         resize set 60 ppt 84 ppt
         sticky enable
+        mark "toggle_KeePassXC"
     }
     exec 'sleep 40; keepassxc'
 
