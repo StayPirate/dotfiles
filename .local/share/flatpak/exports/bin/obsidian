@@ -1,0 +1,3 @@
+#!/bin/sh
+# run obsidian in wayland
+exec /usr/bin/flatpak run --socket=wayland --branch=stable --arch=x86_64 md.obsidian.Obsidian --enable-features=UseOzonePlatform --ozone-platform=wayland "$@"
