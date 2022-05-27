@@ -1,0 +1,414 @@
+# Default config for sway
+#
+# Copy this to ~/.config/sway/config and edit it to your liking.
+#
+# Read `man 5 sway` for a complete reference.
+
+### Variables
+#
+# Logo key. Use Mod1 for Alt.
+set $mod Mod4
+# Home row direction keys, like vim
+#set $left h
+#set $down j
+#set $up k
+#set $right l
+# Your preferred terminal emulator
+#set $term gnome-terminal
+set $term alacritty
+set $filemanager nautilus --new-window
+# Your preferred application launcher
+# Note: it's recommended that you pass the final command to sway
+#set $menu dmenu_path | dmenu | xargs swaymsg exec --
+set $menu bemenu-run --ignorecase --bottom --no-overlap --prompt '' --fn "Hack Nerd Font Mono 14" --hb '#3F3F3F' --hf '#FF0000'
+### Output configuration
+#
+# Wallpaper (more in /usr/share/backgrounds/sway/)
+output * {
+    bg ~/.local/share/wallpapers/solar_system_slices.png fill
+}
+
+# Font
+font pango:"Hack Nerd Font" Mono 10
+
+# Outputs initialization
+#
+# Thinkpad T470p display
+set $laptop_display "Unknown 0x1536 0x00000000"
+# Ultrawide 34' I use for home office
+set $home_office_display "Acer Technologies Acer XR342CKP 0x0000B76F"
+
+# Laptop display
+output $laptop_display {
+    pos 0 1440
+    res 2560x1440
+}
+# Home office main monitor
+output $home_office_display {
+    pos 2560 0
+    res 3840x1440
+    #mode 3440x1440@59.936Hz # Doesn't work... maybe I need to use the display port?
+}
+# Initially put focus on a specific monitor
+# (https://github.com/swaywm/sway/wiki#multihead)
+exec swaymsg focus output $home_office_display
+
+# Enable/Disable laptop monitor when open/close the lid
+bindswitch --locked lid:on output $laptop_display disable
+bindswitch --locked lid:off output $laptop_display enable
+
+# 'systemctl --user import-environment' affects all user units started after setting
+# the environment variables, but not the units that were already running.
+# The following command has the same effect as 'systemctl --user import-environment',
+# but also affects the D-Bus session.
+exec dbus-update-activation-environment --systemd --all
+
+### Idle configuration
+#
+# Example configuration:
+#
+# exec swayidle -w \
+#          timeout 300 'swaylock -f -c 000000' \
+#          timeout 600 'swaymsg "output * dpms off"' \
+#               resume 'swaymsg "output * dpms on"' \
+#          before-sleep 'swaylock -f -c 000000'
+#
+# This will lock your screen after 300 seconds of inactivity, then turn off
+# your displays after another 300 seconds, and turn your screens back on when
+# resumed. It will also lock your screen before your computer goes to sleep.
+
+### Input configuration
+#
+# Example configuration:
+#
+#   input "2:14:SynPS/2_Synaptics_TouchPad" {
+#       dwt enabled
+#       tap enabled
+#       natural_scroll enabled
+#       middle_emulation enabled
+#   }
+#
+# You can get the names of your inputs by running: swaymsg -t get_inputs
+# Read `man 5 sway-input` for more information about this section.
+
+### Key bindings
+#
+# Basics:
+#
+    # Start a terminal
+    bindsym $mod+Return exec $term
+
+    # Start a file manager
+    bindsym $mod+backslash exec $filemanager
+
+    # Kill focused window
+    #bindsym $mod+Shift+q kill
+    bindsym $mod+Escape kill
+
+    # Start your launcher
+    bindsym $mod+d exec $menu
+
+    # Screenshot
+    bindsym --release Print exec grim -g "$(slurp)" - | wl-copy
+
+    # Lock screen
+    # swaylock configuration file: $HOME/.config/swaylock/config
+    bindsym $mod+l exec swaylock
+
+    # Miscellaneous software
+
+    # Drag floating windows by holding down $mod and left mouse button.
+    # Resize them with right mouse button + $mod.
+    # Despite the name, also works for non-floating windows.
+    # Change normal to inverse to use left mouse button for resizing and right
+    # mouse button for dragging.
+    floating_modifier $mod normal
+
+    # Reload the configuration file
+    bindsym $mod+Shift+c reload
+
+    # Exit sway (logs you out of your Wayland session)
+    bindsym $mod+Shift+e exec swaynag \
+                        -t warning \
+                        -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' \
+                        -b 'Yes, exit sway' 'swaymsg exit'
+
+#
+# Power management
+#
+    # Power off
+    bindsym $mod+Shift+h exec systemctl poweroff
+
+    # Reboot
+    bindsym $mod+Shift+r exec systemctl reboot
+#
+# Multimedia keys
+#
+    bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+    bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+    bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+    # As I don't have the micmute key on my keyboard, I use the pause key (upper right)
+    # bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+    bindsym pause exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+    bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
+    bindsym XF86MonBrightnessUp exec brightnessctl set +5%
+    # When press the play button, start spotify if it's closed.
+    bindsym XF86AudioPlay exec 'pgrep spotify 2>/dev/null 1>&2 || spotify; playerctl play-pause'
+    bindsym XF86AudioNext exec playerctl next
+    bindsym XF86AudioPrev exec playerctl previous
+    bindsym XF86Search exec $menu
+#
+# Moving around:
+#
+    # Move your focus around
+    #bindsym $mod+$left focus left
+    #bindsym $mod+$down focus down
+    #bindsym $mod+$up focus up
+    #bindsym $mod+$right focus right
+    # Or use $mod+[up|down|left|right]
+    bindsym $mod+Left focus left
+    bindsym $mod+Down focus down
+    bindsym $mod+Up focus up
+    bindsym $mod+Right focus right
+
+    # Move the focused window with the same, but add Shift
+    #bindsym $mod+Shift+$left move left
+    #bindsym $mod+Shift+$down move down
+    #bindsym $mod+Shift+$up move up
+    #bindsym $mod+Shift+$right move right
+    # Ditto, with arrow keys
+    bindsym $mod+Shift+Left move left
+    bindsym $mod+Shift+Down move down
+    bindsym $mod+Shift+Up move up
+    bindsym $mod+Shift+Right move right
+
+    bindsym Alt+Tab focus next
+    bindsym Alt+Shift+Tab focus prev
+
+    # Jump to the latest urgent window
+    bindsym Alt+a [urgent=latest] focus
+#
+# Workspaces:
+#
+    # Set workspaces' name
+    set $ws_web     "1:web"
+    set $ws_mail    "2:mail"
+    set $ws_chat    "3:chat"
+    set $ws_music   "4:music"
+    set $ws_code    "5:code"
+    set $ws6        "6:6"
+    set $ws7        "7:7"
+    set $ws8        "8:8"
+    set $ws9        "9:9"
+    set $ws10       "10:10"
+    # workspace <name> output <outputs...>
+    #     Specifies that workspace name should be shown on the specified outputs. Multiple outputs can be listed and the
+    #     first available will be used. If the workspace gets placed on an output further down the list and an output 
+    #     that is higher on the list becomes available, the workspace will be moved to the higher priority output.
+    workspace $ws_web   output $home_office_display $laptop_display
+    workspace $ws_mail  output $home_office_display $laptop_display
+    workspace $ws_chat  output $home_office_display $laptop_display
+    workspace $ws_music output $home_office_display $laptop_display
+    workspace $ws_code  output $home_office_display $laptop_display
+    workspace $ws6      output $home_office_display $laptop_display
+    workspace $ws7      output $home_office_display $laptop_display
+    workspace $ws8      output $home_office_display $laptop_display
+    workspace $ws9      output $home_office_display $laptop_display
+    workspace $ws10     output $home_office_display $laptop_display
+    # Switch to workspace
+    bindsym $mod+1 workspace $ws1
+    bindsym $mod+2 workspace $ws2
+    bindsym $mod+3 workspace $ws3
+    bindsym $mod+4 workspace $ws4
+    bindsym $mod+5 workspace $ws5
+    bindsym $mod+6 workspace $ws6
+    bindsym $mod+7 workspace $ws7
+    bindsym $mod+8 workspace $ws8
+    bindsym $mod+9 workspace $ws9
+    bindsym $mod+0 workspace $ws10
+    # Move focused container to workspace
+    bindsym $mod+Shift+1 move container to workspace $ws1
+    bindsym $mod+Shift+2 move container to workspace $ws2
+    bindsym $mod+Shift+3 move container to workspace $ws3
+    bindsym $mod+Shift+4 move container to workspace $ws4
+    bindsym $mod+Shift+5 move container to workspace $ws5
+    bindsym $mod+Shift+6 move container to workspace $ws6
+    bindsym $mod+Shift+7 move container to workspace $ws7
+    bindsym $mod+Shift+8 move container to workspace $ws8
+    bindsym $mod+Shift+9 move container to workspace $ws9
+    bindsym $mod+Shift+0 move container to workspace $ws10
+    # Left hand shortcuts to move among workspaces
+    workspace_auto_back_and_forth no
+    bindsym $mod+Tab workspace back_and_forth
+    bindsym $mod+grave workspace next_on_output
+    bindsym $mod+Shift+grave workspace prev_on_output
+#
+# Startup applications
+#
+    # nm-applet allows nmcli and nmtui to use the secret-service-provider for passwords
+    exec nm-applet --indicator
+
+    for_window [ app_id="org.keepassxc.KeePassXC" ] {
+        floating enable
+        resize set 60 ppt 84 ppt
+        sticky enable
+    }
+    exec 'sleep 40; keepassxc'
+
+    for_window [ app_id="firefox" title="About Mozilla Firefox" ] {
+        floating enable
+    }
+    for_window [ app_id="firefox" title="Picture-in-Picture" ] {
+        floating enable
+    }
+    for_window [ app_id="firefox" title="^$" ] {
+        floating enable
+        move position 85 ppt 88 ppt
+        sticky enable
+        no_focus [ app_id="firefox" title="^$" ]
+    }
+    for_window [ app_id="firefox" ] {
+        move workspace $ws1
+    }
+    exec firefox
+
+    for_window [ app_id="thunderbird" title="^Password Required - Mozilla Thunderbird$" ] {
+        floating enable
+        move workspace $ws2
+    }
+    for_window [ app_id="thunderbird" title="[0-9]+ Reminders?$" ] {
+        floating enable
+        sticky enable
+        no_focus [ app_id="thunderbird" title="[0-9]+ Reminders?$" ]
+    }
+    for_window [ app_id="thunderbird" title="^$" ] {
+        floating enable
+        resize set 20 ppt 8 ppt
+        move position 75 ppt 88 ppt
+        sticky enable
+        no_focus [ app_id="thunderbird" title="^$" ]
+    }
+    for_window [ app_id="thunderbird" ] {
+        move workspace $ws2
+    }
+    exec thunderbird
+
+    for_window [ app_id="telegramdesktop" ] {
+        move workspace $ws3
+        resize set 38 ppt 100 ppt
+        move right
+    }
+    exec telegram-desktop
+
+    for_window [ instance="spotify" ] {
+        move workspace $ws3
+        resize set 62 ppt 100 ppt
+        move left
+    }
+    exec spotify
+
+    for_window [ app_id="^code-oss$" ] {
+        move workspace $ws4
+        move left
+    }
+    for_window [ app_id="^code-oss-zsh$" ] {
+        move workspace $ws4
+        move right
+    }
+    exec code
+    exec alacritty --class "code-oss-zsh" --working-directory ~/Workspace -e tmux new-session -A -s devel
+
+    for_window [ app_id="chromium" ] {
+        move workspace $ws5
+    }
+    exec chromium
+
+    for_window [ app_id="weechat" ] {
+        move workspace $ws6
+    }
+    exec 'sleep 60; alacritty --class weechat -e weechat'
+#
+# Layout stuff:
+#
+    # You can "split" the current object of your focus with
+    # $mod+b or $mod+v, for horizontal and vertical splits
+    # respectively.
+    bindsym $mod+h splith
+    bindsym $mod+v splitv
+
+    # Switch the current container between different layout styles
+    bindsym $mod+s layout stacking
+    bindsym $mod+w layout tabbed
+    bindsym $mod+e layout toggle split
+
+    # Make the current focus fullscreen
+    bindsym $mod+f fullscreen
+
+    # Toggle the current focus between tiling and floating mode
+    bindsym $mod+Shift+space floating toggle
+
+    # Swap focus between the tiling area and the floating area
+    bindsym $mod+space focus mode_toggle
+
+    # Move focus to the parent container
+    bindsym $mod+a focus parent
+#
+# Scratchpad:
+#
+    # Sway has a "scratchpad", which is a bag of holding for windows.
+    # You can send windows there and get them back later.
+
+    # Move the currently focused window to the scratchpad
+    bindsym $mod+less move scratchpad
+
+    # Show the next scratchpad window or hide the focused scratchpad window.
+    # If there are multiple scratchpad windows, this command cycles through them.
+    bindsym $mod+z scratchpad show
+#
+# Resizing containers:
+#
+mode "resize" {
+    # left will shrink the containers width
+    # right will grow the containers width
+    # up will shrink the containers height
+    # down will grow the containers height
+    #bindsym $left resize shrink width 10px
+    #bindsym $down resize grow height 10px
+    #bindsym $up resize shrink height 10px
+    #bindsym $right resize grow width 10px
+
+    # Ditto, with arrow keys
+    bindsym Left resize shrink width 10px
+    bindsym Up resize grow height 10px
+    bindsym Down resize shrink height 10px
+    bindsym Right resize grow width 10px
+
+    # Return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+#
+# Windows colors
+#
+# class                     border  backgr. text    indicator child_border
+client.focused              #be5046 #be5046 #ffffff #be5046   #be5046
+client.focused_inactive     #468499 #468499 #ffffff #468499   #468499
+client.unfocused            #468499 #468499 #ffffff #468499   #468499ee
+#client.urgent              #cb6077 #468499 #ffffff #cb6077   #cb6077
+#client.placeholder         #000000 #468499 #ffffff #000000   #0c0c0c
+#
+# Border style
+#
+default_border pixel 2
+
+#
+# Gaps
+#
+# inner = around views
+gaps inner 8
+# outer = around workspace (vertical = top and bottom)
+gaps vertical -4
+smart_gaps off
+smart_borders off

@@ -1,5 +1,9 @@
 # .zshrc is sourced in interactive shells.
 
+if [[ -z "$TMUX" && -z $DISPLAY && "$(tty)" = "/dev/tty1" ]]; then
+  exec sway
+fi
+
 # Initialize dotfiles the first time zsh is ran from $USER
 if [[ ! -f "${HOME}/.config/dotfiles/first_run" ]]; then
   _dotfiles_init_log=$(mktemp -t dotfiles-init-XXXX.log -p ${XDG_RUNTIME_DIR:-/tmp})
