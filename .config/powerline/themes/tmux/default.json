@@ -2,20 +2,6 @@
 	"segments": {
 		"right": [
 			{
-				"function": "powerline.segments.common.players.spotify",
-				"after": " \uf1bc",
-				"name": "player",
-				"args": {
-					"state_symbols": {
-						"play": "\ue602",
-						"pause": "\uf8e3",
-						"stop": "\uf9da",
-						"fallback": ""
-					},
-				"format": "{state_symbol} {artist} - {title}"
-				}
-			},
-			{
 				"function": "powerline.segments.common.net.network_load",
 				"after": " \uf6ff",
 				"args": {
