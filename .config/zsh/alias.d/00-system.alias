@@ -42,12 +42,6 @@ alias myip="curl https://ipinfo.io/ip"
 
 alias gpgh='gpg --homedir .'
 
-# Eg. unlock_keepassxc && secret-tool search client weechat workstation wintermute 2>&1 | grep -E '^secret' | cut -d " " -f3
-alias unlock_keepassxc="echo 'check the explanation attribute ;)' | secret-tool store --label='dummy-entry' \
-                        explanation 'Because of quirks in the gnome libsecret API, a dummy entry needs to be stored in order to \
-                        guarantee that this keyring was properly unlocked. More details at http://crbug.com/660005 and \
-                        https://github.com/keepassxreboot/keepassxc/issues/4443'"
-
 # Example: 'try hub' and play with the hub cli
 alias try='f() { podman container run --rm -ti ubuntu:latest sh -c "
                    apt-get update &&
