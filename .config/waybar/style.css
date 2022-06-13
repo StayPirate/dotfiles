@@ -29,6 +29,7 @@ window#waybar {
 #battery,
 #disk,
 #network,
+#bluetooth,
 #tray {
 	background: #1a1a1a;
 }
@@ -118,9 +119,15 @@ window#waybar {
 #network {
 	color: #0045b5;
 }
-
 #network.disconnected {
 	color: #AA0000;
+}
+
+#bluetooth {
+	color: #aa0000;
+}
+#bluetooth.connected {
+	color: #0045b5;
 }
 
 #clock,
@@ -130,6 +137,7 @@ window#waybar {
 #cpu,
 #battery,
 #network,
+#bluetooth,
 #disk {
 	padding: 0 10px;
 }

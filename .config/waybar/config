@@ -25,6 +25,7 @@
 		"disk",
 		"custom/left-arrow-light",
 		"custom/left-arrow-dark",
+		"bluetooth",
 		"network#wifi",
 		"network#eth",
 		"network#tun",
@@ -68,8 +69,8 @@
 		"format": "{format_source} {icon} {volume:2}%",
 		"format-muted": "{format_source} <span color='#AA0000'>婢</span>  0%",
 
-		"format-bluetooth": "{format_source} {icon} {volume:2}% ",
-		"format-bluetooth-muted": "{format_source} <span color='#AA0000'>婢</span>  0% ",
+		"format-bluetooth": "{format_source} {icon} {volume:2}% ",
+		"format-bluetooth-muted": "{format_source} <span color='#AA0000'>婢</span>  0% ",
 
 		"format-source": "",
 		"format-source-muted": "<span color='#AA0000'></span>",
@@ -148,7 +149,17 @@
 		"format-ethernet": "旅",
 		"tooltip-format-ethernet": "{ifname}: {ipaddr}\n{bandwidthDownBits}  - {bandwidthUpBits} 祝",
         "format-disconnected": ""
-    }
+    },
+	"bluetooth": {
+		"format": "",
+		"format-connected": "",
+		"format-connected-battery": "",
+		// "format-device-preference": [ "device1", "device2" ], // preference list deciding the displayed device
+		// "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+		"tooltip-format-connected": "{num_connections} connected\n{device_enumerate}",
+		// "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+		"tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_battery_percentage}%"
+   }
 },
 {
 	"layer": "top",
