@@ -86,7 +86,8 @@
 
 		"scroll-step": 5,
 		"on-click": "pamixer -t",
-		"on-click-right": "pavucontrol"
+		"on-click-right": "${XDG_CONFIG_HOME:=~/.config}/waybar/modules/rotate_sinks",
+		"on-click-middle": "pavucontrol"
 	},
 	"memory": {
 		"interval": 5,
