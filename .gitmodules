@@ -66,6 +66,7 @@
 [submodule "tldr-sh-client"]
 	path = .local/bin/repos/tldr-sh-client
 	url = https://github.com/raylee/tldr-sh-client.git
+	branch = main
 [submodule "asciinema"]
 	path = .local/bin/repos/asciinema
 	url = https://github.com/asciinema/asciinema.git
