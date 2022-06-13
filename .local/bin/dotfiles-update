@@ -1,4 +1,3 @@
-#!/usr/bin/env zsh
-source ~/.zshrc >/dev/null 2>&1
-dotfiles pull --recurse-submodules
+#!/usr/bin/env -S zsh -i
+dotfiles fetch --recurse-submodules
 dotfiles submodule update --init --remote --recursive
