@@ -34,6 +34,9 @@ alias -g NOOUT='2>&1 > /dev/null' # Global alias
 #alias -g 2c=' | xclip -in -selection clipboard >/dev/null 2>&1' # Global alias (Xorg)
 alias -g 2c=' | wl-copy --trim-newline --type text/plain' # Global alias (Wayland)
 
+# Default options for a more human readable dmesg's output 
+alias dmesg='sudo dmesg -HTw'
+
 ###
 ### UTILIES
 ###
