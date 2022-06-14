@@ -1,0 +1,55 @@
+{
+  "$schema": "/etc/xdg/swaync/configSchema.json",
+  "positionX": "right",
+  "positionY": "bottom",
+  "control-center-margin-top": 17,
+  "control-center-margin-bottom": 17,
+  "control-center-margin-right": 17,
+  "control-center-margin-left": 0,
+  "timeout": 10,
+  "timeout-low": 5,
+  "timeout-critical": 0,
+  "fit-to-screen": true,
+  "control-center-width": 500,
+  "notification-window-width": 500,
+  "keyboard-shortcuts": true,
+  "image-visibility": "always",
+  "transition-time": 600,
+  "hide-on-clear": true,
+  "hide-on-action": true,
+  "script-fail-notify": true,
+  "notification-visibility": {
+    "no-spotify": {
+      "_comment": "Don't show Spotify panel",
+      "state": "ignored",
+      "urgency": "Low",
+      "app-name": "Spotify"
+    },
+    "mute-greeting": {
+      "_comment": "Don't generate any notification for meaningless _good morning_, _bye bye_ kinda messages on Slack",
+      "state": "ignored",
+      "urgency": "Low",
+      "app-name": "Firefox",
+      "summary": "New message (in|from) .*",
+      "body": "^(?i)(\\w+ \\w+ ?(\\w+): )?((good)? ?morning.{0,5}|.{0,5}bye[ ,]{0,2}(|bye|all|everyone|everybody|guys|folks)?.{0,20}|moins.{0,5}|.{0,15}happy hacking.{0,10}|.{0,10}have a (nice|lovely) .{0,20})$"
+    }
+  },
+  "scripts": {
+    "_comment": "From swaync(5): Only the first matching script will be run.",
+    "_cooment": "In order to sort rules letters need to be used, digits don't work... So, AA is loaded before AB.",
+    "AA-slack-sound": {
+      "_comment": "Do not play sound for slack ignored notification, check rules above.",
+      "exec": "echo 'Greeting message ingored'",
+      "app-name": "Firefox",
+      "summary": "New message (in|from) .*",
+      "body": "^(?i)(\\w+ \\w+ ?(\\w+): )?((good)? ?morning.{0,5}|.{0,5}bye[ ,]{0,2}(|bye|all|everyone|everybody|guys|folks)?.{0,20}|moins.{0,5}|.{0,15}happy hacking.{0,10}|.{0,10}have a (nice|lovely) .{0,20})$",
+      "urgency": "Low"
+    },
+    "AB-slack-sound": {
+      "_comment": "Play a notification sounds for Slack notification from FF",
+      "exec": "paplay /home/crazybyte/.local/share/sounds/slack_notification_sound.ogg",
+      "app-name": "Firefox",
+      "summary": ".*New message (in #|from ).*"
+    }
+  }
+}

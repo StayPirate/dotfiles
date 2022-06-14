@@ -430,3 +430,8 @@ smart_gaps on
 bar {
     swaybar_command waybar
 }
+
+# Sway Notification Center
+# https://github.com/ErikReider/SwayNotificationCenter
+exec swaync
+bindsym $mod+q exec swaync-client -t -sw
