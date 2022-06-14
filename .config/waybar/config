@@ -29,7 +29,10 @@
 		"network#wifi",
 		"network#eth",
 		"network#tun",
-		"network#tap"
+		"network#tap",
+		"custom/left-arrow-light",
+		"custom/left-arrow-dark",
+		"custom/notification"
 	],
 
 	"custom/left-arrow-dark": {
@@ -160,7 +163,24 @@
 		"tooltip-format-connected": "{num_connections} connected\n{device_enumerate}",
 		// "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
 		"tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_battery_percentage}%"
-   }
+   },
+
+   "custom/notification": {
+    "tooltip": false,
+    "format": "{icon}",
+    "format-icons": {
+      "notification": "",
+      "none": "",
+      "dnd-notification": "",
+      "dnd-none": ""
+    },
+    "return-type": "json",
+    "exec-if": "which swaync-client",
+    "exec": "swaync-client -swb",
+    "on-click": "swaync-client -t -sw",
+    "on-click-right": "swaync-client -d -sw",
+    "escape": true
+  }
 },
 {
 	"layer": "top",
