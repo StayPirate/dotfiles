@@ -31,7 +31,8 @@ window#waybar {
 #network,
 #bluetooth,
 #tray,
-#custom-notification {
+#custom-notification,
+#custom-pacman {
 	background: #1a1a1a;
 }
 
@@ -147,6 +148,20 @@ window#waybar {
     animation-direction: alternate;
 }
 
+@keyframes blink-pacman {
+    to {
+        color: #3b9900;
+    }
+}
+#custom-pacman {
+    color: #1a1a1a;
+    animation-name: blink-pacman;
+    animation-duration: 1.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
 #clock,
 #pulseaudio,
 #custom-spotify,
@@ -156,6 +171,7 @@ window#waybar {
 #network,
 #bluetooth,
 #disk,
-#custom-notification {
+#custom-notification,
+#custom-pacman {
 	padding: 0 10px;
 }

@@ -201,6 +201,7 @@
 		"clock#2",
 		"custom/left-arrow-light",
 		"custom/left-arrow-dark",
+		"custom/pacman",
 		"tray"
 	],
 
@@ -241,5 +242,18 @@
 	},
 	"tray": {
 		"icon-size": 18
+	},
+	"custom/pacman": {
+		"format": "ﱾ {}",
+		"tooltip": false,
+		// Run every 5m
+		"interval": 300,
+		// Number of updates
+		"exec": "checkupdates | wc -l",
+		// Only run if there is at least one update available.
+		// This is done in order to only show the icon when updates are ready to be installed.
+		"exec-if": "[[ $(checkupdates | wc -l) -gt 0 ]] || exit 1"
+		// If you always want to see the icon, then you can use the following line instead.
+		//"exec-if": "exit 0"
 	}
 }]
