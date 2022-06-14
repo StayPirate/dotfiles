@@ -44,7 +44,7 @@ setopt AUTO_CD
 # Extended globbing
 setopt EXTENDED_GLOB
 # lets files beginning with a . be matched without explicitly specifying the dot
-setopt GLOBDOTS
+# setopt GLOBDOTS
 # Simple correction of commands
 setopt CORRECT
 # On an ambiguous completion insert the first match immediately.
