@@ -125,8 +125,12 @@
         "interface": "wlp*",
         "format-wifi": "",
 		"tooltip-format-wifi": "{essid} ({signalStrength}%): {ipaddr}\n{bandwidthDownBits}  - {bandwidthUpBits} 祝",
-        "format-disconnected": "睊",
-		"tooltip-format-disconnected": "WiFi Disconnected",
+		/* Waybar wrongly detect when my wifi interface is disconnected, because of that the following
+		   two lines don't work. Instead the format and tooltip-format are shown when disconnected.   */
+        // "format-disconnected": "睊",
+		// "tooltip-format-disconnected": "WiFi Disconnected",
+		"format": "<span color='#AA0000'>睊</span>",
+		"tooltip-format": "WiFi Disconnected",
 		"format-disabled": ""
     },
 	"network#eth": {
