@@ -303,6 +303,10 @@ focus_follows_mouse no
     }
     exec thunderbird
 
+    for_window [ app_id="telegramdesktop" title="Media viewer" ] {
+        move workspace $ws3
+        floating enable
+    }
     for_window [ app_id="telegramdesktop" ] {
         move workspace $ws3
         resize set 38 ppt 100 ppt
