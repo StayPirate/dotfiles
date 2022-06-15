@@ -291,13 +291,6 @@ focus_follows_mouse no
         sticky enable
         no_focus [ app_id="thunderbird" title="[0-9]+ Reminders?$" ]
     }
-    for_window [ app_id="thunderbird" title="^$" ] {
-        floating enable
-        resize set 20 ppt 8 ppt
-        move position 75 ppt 88 ppt
-        sticky enable
-        no_focus [ app_id="thunderbird" title="^$" ]
-    }
     for_window [ app_id="thunderbird" ] {
         move workspace $ws2
     }
