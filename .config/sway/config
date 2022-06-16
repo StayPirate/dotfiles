@@ -267,6 +267,9 @@ focus_follows_mouse no
     for_window [ app_id="firefox" title="About Mozilla Firefox" ] {
         floating enable
     }
+    for_window [ app_id="firefox" title="Firefox - Choose User Profile" ] {
+        floating enable
+    }
     for_window [ app_id="firefox" title="Picture-in-Picture" ] {
         floating enable
     }
@@ -328,12 +331,28 @@ focus_follows_mouse no
     for_window [ app_id="chromium" ] {
         move workspace $ws5
     }
-    exec chromium
 
+    for_window [ app_id="firefox" title="^Slack \| .*" ] {
+        move workspace $ws6
+        move left
+    }
+    for_window [ app_id="chrome-teams.microsoft.com__-Default" ] {
+        move workspace $ws6
+        move right
+    }
     for_window [ app_id="weechat" ] {
         move workspace $ws6
+        splitv
+        move up
+        [ app_id="firefox" title="^Slack \| .*" ] move left
     }
-    exec 'sleep 60; alacritty --class weechat -e weechat'
+    # To open links received via Slack to my main FIrefox profile browser
+    # I installed the openwith [0] addon in the SUSE profile.
+    # [0] https://github.com/darktrojan/openwith
+    exec slack
+    # M$ Teams does not work for video/audio call in FF :(, so I use chromium
+    exec teams
+    exec 'sleep 100; weechat'
 #
 # Layout stuff:
 #

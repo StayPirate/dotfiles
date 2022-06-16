@@ -1,0 +1,25 @@
+/*
+    There are some webapps (eg. Slack) that I like to make them looklike as
+    native fat-client installations. For that case Firefox provides the --app
+    option, but unfortunately it also disable right-click context menu which
+    instead I want to keep enabled.
+
+    The following CSS changes hide all the top bars in Firefox. I use it in
+    cunjuntion of a dedicate profile, that allows me to start website more
+    like native apps.
+
+    This file need to be placed in ~/.mozilla/firefox/<profile>/chrome/userChrome.css 
+*/
+
+/* hides the native tabs */
+#TabsToolbar {
+	  visibility: collapse;
+  }
+
+#titlebar {
+	  visibility: collapse;
+  }
+
+#nav-bar {
+	  visibility: collapse;
+  }

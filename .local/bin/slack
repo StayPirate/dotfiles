@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+firefox -p SUSE https://suse.slack.com &
