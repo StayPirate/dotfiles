@@ -60,7 +60,10 @@ eval "$(pyenv init --path)"
 export XDG_CURRENT_DESKTOP=sway
 
 # Wayland
-export MOZ_ENABLE_WAYLAND=1 # Start Firefox natively on Wayland
+# Start Firefox and Thunderbird natively on Wayland
+export MOZ_ENABLE_WAYLAND=1
+# Remove windows decoration on QT-based apps
+export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
 
 # ssh-agent
 # This var is also specified in .config/environment.d/10-ssh-agent.conf
