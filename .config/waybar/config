@@ -204,6 +204,9 @@
 		"clock#2",
 		"custom/left-arrow-light",
 		"custom/left-arrow-dark",
+		"custom/weather",
+		"custom/left-arrow-light",
+		"custom/left-arrow-dark",
 		"custom/pacman",
 		"tray"
 	],
@@ -260,5 +263,12 @@
 		"exec-if": "[[ $(checkupdates | wc -l) -gt 0 ]] || exit 1"
 		// If you always want to see the icon, then you can use the following line instead.
 		//"exec-if": "exit 0"
+	},
+	"custom/weather": {
+		"exec": "~/.config/waybar/modules/weather",
+		"restart-interval": 5,
+		"return-type": "json",
+		"on-click": "xdg-open https://weather.com/en-IN/weather/today/l/$(location_id)"
+		// "format-alt": "{alt}",
 	}
 }]
