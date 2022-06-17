@@ -224,22 +224,22 @@ focus_follows_mouse no
     workspace $ws9      output $home_office_display $laptop_display
     workspace $ws10     output $home_office_display $laptop_display
     # Switch to workspace
-    bindsym $mod+1 workspace $ws1
-    bindsym $mod+2 workspace $ws2
-    bindsym $mod+3 workspace $ws3
-    bindsym $mod+4 workspace $ws4
-    bindsym $mod+5 workspace $ws5
+    bindsym $mod+1 workspace $ws_web
+    bindsym $mod+2 workspace $ws_mail
+    bindsym $mod+3 workspace $ws_chat
+    bindsym $mod+4 workspace $ws_music
+    bindsym $mod+5 workspace $ws_code
     bindsym $mod+6 workspace $ws6
     bindsym $mod+7 workspace $ws7
     bindsym $mod+8 workspace $ws8
     bindsym $mod+9 workspace $ws9
     bindsym $mod+0 workspace $ws10
     # Move focused container to workspace
-    bindsym $mod+Shift+1 move container to workspace $ws1
-    bindsym $mod+Shift+2 move container to workspace $ws2
-    bindsym $mod+Shift+3 move container to workspace $ws3
-    bindsym $mod+Shift+4 move container to workspace $ws4
-    bindsym $mod+Shift+5 move container to workspace $ws5
+    bindsym $mod+Shift+1 move container to workspace $ws_web
+    bindsym $mod+Shift+2 move container to workspace $ws_mail
+    bindsym $mod+Shift+3 move container to workspace $ws_chat
+    bindsym $mod+Shift+4 move container to workspace $ws_music
+    bindsym $mod+Shift+5 move container to workspace $ws_code
     bindsym $mod+Shift+6 move container to workspace $ws6
     bindsym $mod+Shift+7 move container to workspace $ws7
     bindsym $mod+Shift+8 move container to workspace $ws8
@@ -280,13 +280,13 @@ focus_follows_mouse no
         no_focus [ app_id="firefox" title="^$" ]
     }
     for_window [ app_id="firefox" ] {
-        move workspace $ws1
+        move workspace $ws_web
     }
     exec firefox
 
     for_window [ app_id="thunderbird" title="^Password Required - Mozilla Thunderbird$" ] {
         floating enable
-        move workspace $ws2
+        move workspace $ws_mail
     }
     for_window [ app_id="thunderbird" title="[0-9]+ Reminders?$" ] {
         floating enable
@@ -295,53 +295,49 @@ focus_follows_mouse no
         no_focus [ app_id="thunderbird" title="[0-9]+ Reminders?$" ]
     }
     for_window [ app_id="thunderbird" ] {
-        move workspace $ws2
+        move workspace $ws_mail
     }
     exec thunderbird
 
     for_window [ app_id="telegramdesktop" title="Media viewer" ] {
-        move workspace $ws3
+        move workspace $ws_music
         floating enable
     }
     for_window [ app_id="telegramdesktop" ] {
-        move workspace $ws3
+        move workspace $ws_music
         resize set 38 ppt 100 ppt
         move right
     }
     exec telegram-desktop
 
     for_window [ instance="spotify" ] {
-        move workspace $ws3
+        move workspace $ws_music
         resize set 62 ppt 100 ppt
         move left
     }
     exec spotify
 
     for_window [ app_id="^code-oss$" ] {
-        move workspace $ws4
+        move workspace $ws_code
         move left
     }
     for_window [ app_id="^code-oss-zsh$" ] {
-        move workspace $ws4
+        move workspace $ws_code
         move right
     }
     exec code
     exec alacritty --class "code-oss-zsh" --working-directory ~/Workspace -e tmux new-session -A -s devel
 
-    for_window [ app_id="chromium" ] {
-        move workspace $ws5
-    }
-
     for_window [ app_id="firefox" title="^Slack \| .*" ] {
-        move workspace $ws6
+        move workspace $ws_chat
         move left
     }
     for_window [ app_id="chrome-teams.microsoft.com__-Default" ] {
-        move workspace $ws6
+        move workspace $ws_chat
         move right
     }
     for_window [ app_id="weechat" ] {
-        move workspace $ws6
+        move workspace $ws_chat
         splitv
         move up
         [ app_id="firefox" title="^Slack \| .*" ] move left

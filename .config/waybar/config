@@ -58,10 +58,9 @@
 		"format-icons": {
 			"1:web": "",
 			"2:mail": "",
-			"3:music": "",
-			"4:code": "",
-			"5:meeting": "",
-			"6:chat": "",
+			"3:chat": "",
+			"4:music": "",
+			"5:code": "",
 			"urgent": "<span color='#AA0000'></span>",
 			"focused": "",
 			"default": ""
@@ -94,11 +93,11 @@
 	},
 	"memory": {
 		"interval": 5,
-		"format": "Mem {}%"
+		"format": " {}%"
 	},
 	"cpu": {
 		"interval": 5,
-		"format": "CPU {usage:2}%"
+		"format": " {usage:2}%"
 	},
 	"battery": {
 		"states": {
@@ -118,7 +117,7 @@
 	},
 	"disk": {
 		"interval": 5,
-		"format": "Disk {percentage_used:2}%",
+		"format": " {percentage_used:2}%",
 		"path": "/"
 	},
 	"network#wifi": {
@@ -147,14 +146,14 @@
     },
 	"network#tun": {
         "interface": "tun*",
-		"format-ethernet": "旅",
+		"format-ethernet": "",
 		"tooltip-format-ethernet": "{ifname}: {ipaddr}\n{bandwidthDownBits}  - {bandwidthUpBits} 祝",
         "format-disconnected": ""
     }
 	,
 	"network#tap": {
         "interface": "tap*",
-		"format-ethernet": "旅",
+		"format-ethernet": "",
 		"tooltip-format-ethernet": "{ifname}: {ipaddr}\n{bandwidthDownBits}  - {bandwidthUpBits} 祝",
         "format-disconnected": ""
     },
