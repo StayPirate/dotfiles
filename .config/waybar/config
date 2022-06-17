@@ -252,6 +252,8 @@
 		"tooltip": false,
 		// Run every 5m
 		"interval": 300,
+		// Run pacman to start the update on-click
+		"on-click": "alacritty --class updates -e tmux new-session -A -s updates 'sudo pacman -Syu; zsh'",
 		// Number of updates
 		"exec": "checkupdates | wc -l",
 		// Only run if there is at least one update available.
