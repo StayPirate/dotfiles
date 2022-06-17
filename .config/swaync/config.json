@@ -47,7 +47,7 @@
     },
     "AB-slack-sound": {
       "_comment": "Play a notification sounds for Slack notification from FF",
-      "exec": "paplay /home/crazybyte/.local/share/sounds/slack_notification_sound.ogg",
+      "exec": "slack-notification-alert",
       "app-name": "Firefox",
       "summary": ".*New message (in #|from ).*"
     }
