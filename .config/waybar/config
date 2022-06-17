@@ -238,7 +238,7 @@
 	},
 	"clock#3": {
 		"format": "{:%d %b}",
-		"tooltip": false
+		"tooltip-format": "{calendar}"
 	},
  	"custom/spotify": {
  		"interval": 1,
