@@ -1,5 +1,5 @@
 * {
-	font-size: 16px;
+	font-size: 14px;
 	font-family: monospace;
 }
 
@@ -43,6 +43,18 @@ window#waybar {
 }
 #workspaces button.focused {
 	color: #268bd2;
+}
+@keyframes blink-urgent {
+    to {
+        color: #ff0000;
+    }
+}
+#workspaces button.urgent {
+    animation-name: blink-urgent;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
 }
 #workspaces button:hover {
 	box-shadow: inherit;
@@ -185,14 +197,17 @@ window#waybar {
     color: #dbd9d8;
 }
 
+#network,
+#bluetooth{
+	padding: 0 5px;
+}
+
 #clock,
 #pulseaudio,
 #custom-spotify,
 #memory,
 #cpu,
 #battery,
-#network,
-#bluetooth,
 #disk,
 #custom-notification,
 #custom-pacman,

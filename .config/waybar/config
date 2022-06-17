@@ -10,19 +10,19 @@
 	],
 	"modules-right": [
 		"custom/left-arrow-dark",
-		"pulseaudio",
+		"cpu",
 		"custom/left-arrow-light",
 		"custom/left-arrow-dark",
 		"memory",
 		"custom/left-arrow-light",
 		"custom/left-arrow-dark",
-		"cpu",
+		"disk",
 		"custom/left-arrow-light",
 		"custom/left-arrow-dark",
 		"battery",
 		"custom/left-arrow-light",
 		"custom/left-arrow-dark",
-		"disk",
+		"pulseaudio",
 		"custom/left-arrow-light",
 		"custom/left-arrow-dark",
 		"bluetooth",
@@ -54,31 +54,31 @@
 
 	"sway/workspaces": {
 		"disable-scroll": true,
-		"format": "{icon}",
+		"format": "<b>{icon}</b>",
 		"format-icons": {
-			"1:web": "",
-			"2:mail": "",
-			"3:chat": "",
-			"4:music": "",
-			"5:code": "",
-			"urgent": "<span color='#AA0000'></span>",
-			"focused": "",
-			"default": ""
+			"1:web": " ",
+			"2:mail": " ",
+			"3:chat": " ",
+			"4:music": " ",
+			"5:code": " ",
+			"urgent": " ",
+			"focused": " ",
+			"default": " "
 		}
 	},
 
 	"pulseaudio": {
 		"format": "{format_source} {icon} {volume:2}%",
-		"format-muted": "{format_source} <span color='#AA0000'>婢</span>  0%",
+		"format-muted": "{format_source} <span color='#AA0000'><b>婢</b></span>  0%",
 
-		"format-bluetooth": "{format_source} {icon} {volume:2}% ",
-		"format-bluetooth-muted": "{format_source} <span color='#AA0000'>婢</span>  0% ",
+		"format-bluetooth": "{format_source} {icon} {volume:2}% <b></b>",
+		"format-bluetooth-muted": "{format_source} <span color='#AA0000'><b>婢</b></span>  0% <b></b>",
 
-		"format-source": "",
-		"format-source-muted": "<span color='#AA0000'></span>",
+		"format-source": "<b></b>",
+		"format-source-muted": "<span color='#AA0000'><b></b></span>",
 
 		"format-icons": {
-			"headphones": "",
+			"headphones": "<b></b>",
 			"default": [
 				"奄",
 				"奔",
@@ -93,11 +93,11 @@
 	},
 	"memory": {
 		"interval": 5,
-		"format": " {}%"
+		"format": "<b></b> {}%"
 	},
 	"cpu": {
 		"interval": 5,
-		"format": " {usage:2}%"
+		"format": "<b></b> {usage:2}%"
 	},
 	"battery": {
 		"states": {
@@ -106,7 +106,7 @@
 			"warning": 30,
 			"critical": 10
 		},
-		"format": "{icon} {capacity}%",
+		"format": "<b>{icon}</b> {capacity}%",
 		"format-icons": [
 			"",
 			"",
@@ -117,50 +117,50 @@
 	},
 	"disk": {
 		"interval": 5,
-		"format": " {percentage_used:2}%",
+		"format": "<b></b> {percentage_used:2}%",
 		"path": "/"
 	},
 	"network#wifi": {
         "interface": "wlp*",
-        "format-wifi": "",
+        "format-wifi": "<b></b>",
 		"tooltip-format-wifi": "{essid} ({signalStrength}%): {ipaddr}\n{bandwidthDownBits}  - {bandwidthUpBits} 祝",
 		/* Waybar wrongly detect when my wifi interface is disconnected, because of that the following
 		   two lines don't work. Instead the format and tooltip-format are shown when disconnected.   */
         // "format-disconnected": "睊",
 		// "tooltip-format-disconnected": "WiFi Disconnected",
-		"format": "<span color='#AA0000'>睊</span>",
+		"format": "<span color='#AA0000'><b>睊</b></span>",
 		"tooltip-format": "WiFi Disconnected",
 		"format-disabled": ""
     },
 	"network#eth": {
         "interface": "enp*",
-		"format-ethernet": "",
+		"format-ethernet": "<b></b>",
 		"tooltip-format-ethernet": "{ifname}: {ipaddr}\n{bandwidthDownBits}  - {bandwidthUpBits} 祝",
 		/* Waybar wrongly detect when my eth interface is disconnected, because of that the following
 		   two lines don't work. Instead the format and tooltip-format are shown when disconnected.   */
 		// "format-disconnected": "",
 		// "tooltip-format-disconnected": "Ethernet Disconnected",
-		"format": "<span color='#AA0000'></span>",
+		"format": "<span color='#AA0000'><b></b></span>",
         "tooltip-format": "Ethernet Disconnected",
 		"format-disabled": ""
     },
 	"network#tun": {
         "interface": "tun*",
-		"format-ethernet": "",
+		"format-ethernet": "<b></b>",
 		"tooltip-format-ethernet": "{ifname}: {ipaddr}\n{bandwidthDownBits}  - {bandwidthUpBits} 祝",
         "format-disconnected": ""
     }
 	,
 	"network#tap": {
         "interface": "tap*",
-		"format-ethernet": "",
+		"format-ethernet": "<b></b>",
 		"tooltip-format-ethernet": "{ifname}: {ipaddr}\n{bandwidthDownBits}  - {bandwidthUpBits} 祝",
         "format-disconnected": ""
     },
 	"bluetooth": {
-		"format": "",
-		"format-connected": "",
-		"format-connected-battery": "",
+		"format": "<b></b>",
+		"format-connected": "<b></b>",
+		"format-connected-battery": "<b></b>",
 		// "format-device-preference": [ "device1", "device2" ], // preference list deciding the displayed device
 		// "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
 		"tooltip-format-connected": "{num_connections} connected\n{device_enumerate}",
@@ -170,7 +170,7 @@
 
    "custom/notification": {
     "tooltip": false,
-    "format": "{icon}",
+    "format": "<b>{icon}</b>",
     "format-icons": {
       "notification": "",
       "none": "",
@@ -195,6 +195,9 @@
 	],
 	"modules-right": [
 		"custom/left-arrow-dark",
+		"custom/weather",
+		"custom/left-arrow-light",
+		"custom/left-arrow-dark",
 		"clock#1",
 		"custom/left-arrow-light",
 		"custom/left-arrow-dark",
@@ -202,9 +205,6 @@
 		"custom/left-arrow-light",
 		"custom/left-arrow-dark",
 		"clock#2",
-		"custom/left-arrow-light",
-		"custom/left-arrow-dark",
-		"custom/weather",
 		"custom/left-arrow-light",
 		"custom/left-arrow-dark",
 		"custom/pacman",
