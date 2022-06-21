@@ -157,7 +157,7 @@ focus_follows_mouse no
     bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
     # As I don't have the micmute key on my keyboard, I use the pause key (upper right)
     # bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
-    bindsym pause exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+    bindsym pause exec microphones_mute_toggle
     bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
     bindsym XF86MonBrightnessUp exec brightnessctl set +5%
     # When press the play button, start spotify if it's closed.
