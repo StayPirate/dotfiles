@@ -453,4 +453,4 @@ bindsym $mod+q exec swaync-client -t -sw
 # XDG_CURRENT_DESKTOP is defined in ~/.zshenv
 # https://wiki.archlinux.org/title/PipeWire#xdg-desktop-portal-wlr
 # https://github.com/emersion/xdg-desktop-portal-wlr#running
-exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+exec dbus-update-activation-environment --systemd --all
