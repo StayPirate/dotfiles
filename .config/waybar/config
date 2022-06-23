@@ -11,12 +11,14 @@
 	"modules-right": [
 		"custom/left-arrow-dark",
 		"cpu",
-		"custom/left-arrow-light",
-		"custom/left-arrow-dark",
-		"memory",
+		"temperature#cpu",
 		"custom/left-arrow-light",
 		"custom/left-arrow-dark",
 		"disk",
+		"temperature#disk",
+		"custom/left-arrow-light",
+		"custom/left-arrow-dark",
+		"memory",
 		"custom/left-arrow-light",
 		"custom/left-arrow-dark",
 		"battery",
@@ -99,6 +101,23 @@
 		"interval": 5,
 		"format": "<b></b> {usage:2}%"
 	},
+	"temperature#cpu": {
+		"hwmon-path": "/sys/class/hwmon/hwmon6/temp1_input",
+		"critical-threshold": 95,
+		"interval": 5,
+		"format": " {temperatureC}°C"
+	},
+	"disk": {
+		"interval": 5,
+		"format": "<b></b> {percentage_used:2}%",
+		"path": "/"
+	},
+	"temperature#disk": {
+		"hwmon-path": "/sys/class/hwmon/hwmon3/temp1_input",
+		"critical-threshold": 70,
+		"interval": 5,
+		"format": " {temperatureC}°C"
+	},
 	"battery": {
 		"states": {
 			"full": 100,
@@ -114,11 +133,6 @@
 			"",
 			""
 		]
-	},
-	"disk": {
-		"interval": 5,
-		"format": "<b></b> {percentage_used:2}%",
-		"path": "/"
 	},
 	"network#wifi": {
         "interface": "wlp*",

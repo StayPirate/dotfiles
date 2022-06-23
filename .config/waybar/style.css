@@ -26,8 +26,10 @@ window#waybar {
 #custom-spotify,
 #memory,
 #cpu,
+#temperature.cpu,
 #battery,
 #disk,
+#temperature.disk,
 #network,
 #bluetooth,
 #tray,
@@ -75,8 +77,26 @@ window#waybar {
 #memory {
 	color: #2aa198;
 }
-#cpu {
+#disk,
+#temperature.disk {
+	color: #b58900;
+}
+#cpu,
+#temperature.cpu {
 	color: #6c71c4;
+}
+@keyframes blink-temp {
+    to {
+        color: #aa0000;
+    }
+}
+#temperature.cpu.critical,
+#temperature.disk.critical {
+    animation-name: blink-temp;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
 }
 
 /* Battery idicator is green when in a full capacity status */
@@ -125,10 +145,6 @@ window#waybar {
     animation-timing-function: linear;
     animation-iteration-count: infinite;
     animation-direction: alternate;
-}
-
-#disk {
-	color: #b58900;
 }
 
 #network {
@@ -198,7 +214,11 @@ window#waybar {
 }
 
 #network,
-#bluetooth{
+#bluetooth,
+#temperature.cpu,
+#cpu,
+#temperature.disk,
+#disk {
 	padding: 0 5px;
 }
 
@@ -206,9 +226,7 @@ window#waybar {
 #pulseaudio,
 #custom-spotify,
 #memory,
-#cpu,
 #battery,
-#disk,
 #custom-notification,
 #custom-pacman,
 #custom-weather {
