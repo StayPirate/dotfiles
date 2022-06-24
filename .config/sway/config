@@ -85,6 +85,10 @@ exec swayidle -w \
 # turn off your displays after another 305 seconds, and turn your screens back on
 # when resumed.
 
+# Inhibit idle if any window is set fullscreen
+for_window [class=".*"] inhibit_idle fullscreen
+for_window [app_id=".*"] inhibit_idle fullscreen
+
 ### Input configuration
 #
 # Example configuration:
