@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-firefox -p SUSE https://suse.slack.com &
+firefox --new-window -p SUSE https://suse.slack.com &

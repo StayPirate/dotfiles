@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+chromium --user-data-dir=$HOME/.config/chromium/SUSE --app=https://meet.opensuse.org &
