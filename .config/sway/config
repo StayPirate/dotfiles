@@ -368,6 +368,10 @@ focus_follows_mouse no
     for_window [ class="scrcpy" title="SHIELD Android TV" ] {
         floating enable
     }
+
+    for_window [ class="scrcpy" title="ONEPLUS A3003" ] {
+        resize set 767 px
+    }
 #
 # Layout stuff:
 #
