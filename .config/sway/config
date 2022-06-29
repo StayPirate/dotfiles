@@ -364,6 +364,10 @@ focus_follows_mouse no
     # M$ Teams does not work for video/audio call in FF :(, so I use chromium
     exec teams
     exec 'sleep 100; weechat'
+
+    for_window [ class="scrcpy" title="SHIELD Android TV" ] {
+        floating enable
+    }
 #
 # Layout stuff:
 #

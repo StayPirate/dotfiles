@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+#
+# Screencast the Nvidia Shield via network using scrcpy
+#
+
+type adb >/dev/null 2>&1    || { echo >/dev/stderr "adb is missing, please install it"; exit 1; }
+type scrcpy >/dev/null 2>&1 || { echo >/dev/stderr "scrcpy is missing, please install it"; exit 1; }
+
+adb connect shield.home:5555 && scrcpy -s shield.home:5555 --window-borderles
