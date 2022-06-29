@@ -31,7 +31,7 @@
       "urgency": "Low",
       "app-name": "Firefox",
       "summary": "New message (in|from) .*",
-      "body": "^(?i)(\\w+ \\w+ ?(\\w+): )?((good)? ?morning.{0,5}|.{0,5}bye[ ,]{0,2}(|bye|all|everyone|everybody|guys|folks)?.{0,20}|moins.{0,5}|.{0,15}happy hacking.{0,10}|.{0,10}have a (nice|lovely) .{0,20})$"
+      "body": "^(?i)(\\w+ \\w+ ?(\\w+): )?((good)? ?morning.{0,5}|.{0,5}bye[ ,]{0,2}(|bye|all|everyone|everybody|guys|folks)?.{0,20}|moins?.{0,5}|.{0,15}happy hacking.{0,10}|.{0,10}have a (nice|lovely) .{0,20})$"
     }
   },
   "scripts": {
@@ -42,7 +42,7 @@
       "exec": "echo 'Greeting message ingored'",
       "app-name": "Firefox",
       "summary": "New message (in|from) .*",
-      "body": "^(?i)(\\w+ \\w+ ?(\\w+): )?((good)? ?morning.{0,5}|.{0,5}bye[ ,]{0,2}(|bye|all|everyone|everybody|guys|folks)?.{0,20}|moins.{0,5}|.{0,15}happy hacking.{0,10}|.{0,10}have a (nice|lovely) .{0,20})$",
+      "body": "^(?i)(\\w+ \\w+ ?(\\w+): )?((good)? ?morning.{0,5}|.{0,5}bye[ ,]{0,2}(|bye|all|everyone|everybody|guys|folks)?.{0,20}|moins?.{0,5}|.{0,15}happy hacking.{0,10}|.{0,10}have a (nice|lovely) .{0,20})$",
       "urgency": "Low"
     },
     "AB-slack-sound": {
