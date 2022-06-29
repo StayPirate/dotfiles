@@ -17,25 +17,6 @@
 				}
 			},
 			{
-				"function": "powerline.segments.common.bat.battery",
-				"args": {
-					"gamify": true,
-					"full_heart": "\uf578",
-					"empty_heart": "\uf579",
-					"online": "\uf1e6 ",
-					"offline": "",
-					"steps": 5
-				}
-			},
-			{
-				"function": "powerline.segments.common.time.date",
-				"name": "time",
-				"args": {
-					"format": "%a %d %b %H:%M",
-					"istime": true
-				}
-			},
-			{
 				"function": "powerline.segments.common.net.hostname",
 				"before": "\uf805 (SSH) ",
 				"args": {
