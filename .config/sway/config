@@ -372,6 +372,12 @@ focus_follows_mouse no
     for_window [ class="scrcpy" title="ONEPLUS A3003" ] {
         resize set 767 px
     }
+
+    for_window [ app_id="com.nextcloud.desktopclient.nextcloud" title="Nextcloud" ] {
+        floating enable
+        resize set 15 ppt 30 ppt
+        move position 85 ppt 70 ppt
+    }
 #
 # Layout stuff:
 #
