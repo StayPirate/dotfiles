@@ -180,24 +180,24 @@
 		"tooltip-format-connected": "{num_connections} connected\n{device_enumerate}",
 		// "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
 		"tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_battery_percentage}%"
-   },
+	},
 
-   "custom/notification": {
-    "tooltip": false,
-    "format": "<b>{icon}</b>",
-    "format-icons": {
-      "notification": "",
-      "none": "",
-      "dnd-notification": "",
-      "dnd-none": ""
-    },
-    "return-type": "json",
-    "exec-if": "which swaync-client",
-    "exec": "swaync-client -swb",
-    "on-click": "swaync-client -t -sw",
-    "on-click-right": "swaync-client -d -sw",
-    "escape": true
-  }
+	"custom/notification": {
+		"tooltip": false,
+		"format": "<b>{icon}</b>",
+		"format-icons": {
+			"notification": "",
+			"none": "",
+			"dnd-notification": "",
+			"dnd-none": ""
+		},
+		"return-type": "json",
+		"exec-if": "which swaync-client",
+		"exec": "swaync-client -swb",
+		"on-click": "swaync-client -t -sw",
+		"on-click-right": "swaync-client -d -sw",
+		"escape": true
+	}
 },
 {
 	"layer": "top",
@@ -219,6 +219,9 @@
 		"custom/left-arrow-light",
 		"custom/left-arrow-dark",
 		"clock#2",
+		"custom/left-arrow-light",
+		"custom/left-arrow-dark",
+		"custom/light-temperature",
 		"custom/left-arrow-light",
 		"custom/left-arrow-dark",
 		"custom/pacman",
@@ -284,5 +287,13 @@
 		"return-type": "json",
 		"on-click": "xdg-open https://weather.com/en-IN/weather/today/l/$(location_id)"
 		// "format-alt": "{alt}",
+	},
+	"custom/light-temperature": {
+		"tooltip": true,
+		"return-type": "json",
+		"exec-if": "which light_temperature",
+		"exec": "light_temperature status",
+		"interval": 1,
+		"on-click": "light_temperature toggle"
 	}
 }]

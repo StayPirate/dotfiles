@@ -153,6 +153,9 @@ focus_follows_mouse no
 
     # Reboot
     bindsym $mod+Shift+r exec systemctl reboot
+
+    # Toggle light brightness and temperature
+    bindsym $mod+n exec light_temperature toggle
 #
 # Multimedia keys
 #
@@ -486,3 +489,10 @@ exec dbus-update-activation-environment --systemd --all
 
 # All microphones muted by default
 exec set_all_microphones mute
+
+# Start wl-gammarelay: client and daemon for changing
+# color temperature and brightness under Wayland. 
+# https://github.com/jeremija/wl-gammarelay
+exec wl-gammarelay
+# By default (system startup) set light brightness and temperature to day-mode.
+exec light_temperature day

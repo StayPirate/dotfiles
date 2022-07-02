@@ -35,7 +35,8 @@ window#waybar {
 #tray,
 #custom-notification,
 #custom-pacman,
-#custom-weather {
+#custom-weather,
+#custom-light-temperature {
 	background: #1a1a1a;
 }
 
@@ -213,6 +214,16 @@ window#waybar {
     color: #dbd9d8;
 }
 
+#custom-light-temperature {
+    color: #ffffff;
+}
+#custom-light-temperature.night {
+    color: #373deb;
+}
+#custom-light-temperature.day {
+    color: #ffef0a;
+}
+
 #network,
 #bluetooth,
 #temperature.cpu,
@@ -229,6 +240,7 @@ window#waybar {
 #battery,
 #custom-notification,
 #custom-pacman,
-#custom-weather {
+#custom-weather,
+#custom-light-temperature {
 	padding: 0 10px;
 }

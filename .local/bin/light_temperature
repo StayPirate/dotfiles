@@ -1,0 +1,97 @@
+#!/usr/bin/env bash
+# Adjust the monitor light brightness and temperature to your _fixed_ favorite values via wl-gammarelay [0].
+# In order to be able to manage your *external* monitor backlight you need to install ddcci-driver-linux [1][2]
+# and load the ddcci_backlight module
+#
+# [0] https://github.com/jeremija/wl-gammarelay
+# [1] https://gitlab.com/ddcci-driver-linux/ddcci-driver-linux
+# [2] https://aur.archlinux.org/packages/ddcci-driver-linux-dkms
+
+# Set your favorite temperature values for day and night (min=1000, max=10000)
+temp_day=6500
+temp_night=3500
+# Set your favorite brightness values for day and night (min=0, max=100) 
+# Note that this value is in *percentage*, 100% max brightness.
+bright_day=100
+bright_night=60
+
+# Get the current light temperature
+temperature=$( busctl --user get-property rs.wl-gammarelay / rs.wl.gammarelay Temperature | grep -oE "[0-9]{4,5}" )
+
+helper() {
+    echo "Usage: $( basename "${BASH_SOURCE[0]}" ) <day|night|toggle|status>"
+}
+
+setDay() {
+    setTemperature $temp_day
+    setBrightness $bright_day
+}
+
+setNight() {
+    setTemperature $temp_night
+    setBrightness $bright_night
+}
+
+setTemperature() {
+    busctl --user set-property rs.wl-gammarelay / rs.wl.gammarelay Temperature q $1
+}
+
+setBrightness() {
+    # Brightness needs to be adjusted monitor after monitor because if more
+    # than one is atatched, they may use completly different value range.
+    for monitor in `find  /sys/class/backlight -type l -printf "%f\n"`; do
+        local max_bright=$( cat /sys/class/backlight/${monitor}/max_brightness )
+        local bright_value=$(( $1*$max_bright/100 ))
+        echo 2>/dev/null $1 > /sys/class/backlight/${monitor}/brightness
+    done
+}
+
+toggle() {
+    if [[ "$temperature" < $temp_day ]]; then
+        setDay
+    else
+        setNight
+    fi
+}
+
+waybar_output() {
+    # This function return a json sctructure as it's expected by waybar
+    # https://man.archlinux.org/man/community/waybar/waybar-custom.5.en#RETURN-TYPE
+
+    local text
+    if [[ "$temperature" < $temp_day ]]; then text="<b>望</b>"; else text="<b>盛</b>"; fi
+
+    # Tooltip
+    local tooltip=" ${temperature}K" 
+    # Add current brightness for each monitor in the tooltip
+    for monitor in `find  /sys/class/backlight -type l -printf "%f\n"`; do
+        local bright=$( cat /sys/class/backlight/${monitor}/brightness )
+        tooltip="${tooltip}
+ ${bright} ${monitor}"
+    done
+
+    # Class can be either night or day
+    local class
+    if [[ "$temperature" < $temp_day ]]; then class="night"; else class="day"; fi
+
+    jq  -cn \
+        --arg text "$text" \
+        --arg tooltip "$tooltip" \
+        --arg class "$class" \
+        '{text: $text, tooltip: $tooltip, class: $class}'
+}
+
+main() {
+    # Check if there is exactly one argument or exit
+    [[ "$#" -eq 1 ]] || { helper; exit 0; }
+
+    case "${1:-}" in
+        toggle) toggle ;;
+        night) setNight ;;
+        day) setDay ;;
+        status) waybar_output ;;
+        *) helper; exit 1 ;;
+    esac
+}
+
+main "$@"
