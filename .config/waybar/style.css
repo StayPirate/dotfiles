@@ -229,7 +229,8 @@ window#waybar {
 #temperature.cpu,
 #cpu,
 #temperature.disk,
-#disk {
+#disk,
+#custom-light-temperature {
 	padding: 0 5px;
 }
 
@@ -240,7 +241,6 @@ window#waybar {
 #battery,
 #custom-notification,
 #custom-pacman,
-#custom-weather,
-#custom-light-temperature {
+#custom-weather {
 	padding: 0 10px;
 }

@@ -221,10 +221,8 @@
 		"clock#2",
 		"custom/left-arrow-light",
 		"custom/left-arrow-dark",
-		"custom/light-temperature",
-		"custom/left-arrow-light",
-		"custom/left-arrow-dark",
 		"custom/pacman",
+		"custom/light-temperature",
 		"tray"
 	],
 
@@ -291,7 +289,7 @@
 	"custom/light-temperature": {
 		"tooltip": true,
 		"return-type": "json",
-		"exec-if": "which light_temperature",
+		"exec-if": "which light_temperature && [[ \"$(light_temperature status | jq -r '.class')\" = \"night\" ]]",
 		"exec": "light_temperature status",
 		"interval": 1,
 		"on-click": "light_temperature toggle"
