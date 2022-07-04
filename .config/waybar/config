@@ -222,6 +222,7 @@
 		"custom/left-arrow-light",
 		"custom/left-arrow-dark",
 		"custom/pacman",
+		"custom/flatpak",
 		"custom/light-temperature",
 		"tray"
 	],
@@ -278,6 +279,19 @@
 		"exec-if": "[[ $(checkupdates | wc -l) -gt 0 ]] || exit 1"
 		// If you always want to see the icon, then you can use the following line instead.
 		//"exec-if": "exit 0"
+	},
+	"custom/flatpak": {
+		"format": "ﱾ {}",
+		"tooltip": false,
+		// Run every 5m
+		"interval": 300,
+		// Run flatpak to start the update on-click
+		"on-click": "alacritty --class updates -e tmux new-session -A -s updates 'flatpak --user update; zsh'",
+		// Number of updates #TODO: probably need to adjust the following. Waiting for an update output
+		"exec": "flatpak --user update | wc -l",
+		// Only run if there is at least one update available.
+		// This is done in order to only show the icon when updates are ready to be installed.
+		"exec-if": "flatpak update --user | tail -n 1 | grep -v \"Nothing to do.\""
 	},
 	"custom/weather": {
 		"exec": "~/.config/waybar/modules/weather",

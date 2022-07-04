@@ -35,6 +35,7 @@ window#waybar {
 #tray,
 #custom-notification,
 #custom-pacman,
+#custom-flatpak,
 #custom-weather,
 #custom-light-temperature {
 	background: #1a1a1a;
@@ -178,14 +179,15 @@ window#waybar {
     animation-direction: alternate;
 }
 
-@keyframes blink-pacman {
+@keyframes blink-update {
     to {
         color: #3b9900;
     }
 }
-#custom-pacman {
+#custom-pacman,
+#custom-flatpak {
     color: #1a1a1a;
-    animation-name: blink-pacman;
+    animation-name: blink-update;
     animation-duration: 1.5s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
@@ -241,6 +243,7 @@ window#waybar {
 #battery,
 #custom-notification,
 #custom-pacman,
+#custom-flatpak,
 #custom-weather {
 	padding: 0 10px;
 }
