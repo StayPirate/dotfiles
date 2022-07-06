@@ -358,6 +358,10 @@ focus_follows_mouse no
     for_window [ app_id="chrome-web.skype.com__-Default" ] {
         shortcuts_inhibitor disable
     }
+    # Google Translator
+    for_window [ app_id="chrome-translate.google.com__-Default" ] {
+        shortcuts_inhibitor disable
+    }
     for_window [ title="^meet.opensuse.org is sharing your screen.$" ] {
         # Hide the boring "...is sharing your screen" banner
         move position 10000 0
