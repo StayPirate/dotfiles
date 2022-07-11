@@ -362,6 +362,10 @@ focus_follows_mouse no
     for_window [ app_id="chrome-translate.google.com__-Default" ] {
         shortcuts_inhibitor disable
     }
+    # Discord
+    for_window [ app_id="chrome-discord.com__channels_@me-Default" ] {
+        shortcuts_inhibitor disable
+    }
     for_window [ title="^meet.opensuse.org is sharing your screen.$" ] {
         # Hide the boring "...is sharing your screen" banner
         move position 10000 0
