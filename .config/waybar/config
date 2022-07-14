@@ -271,7 +271,7 @@
 		// Run every 5m
 		"interval": 300,
 		// Run pacman to start the update on-click
-		"on-click": "alacritty --class updates -e tmux new-session -A -s updates 'sudo pacman -Syu; zsh'",
+		"on-click": "alacritty --class pacman-updates -e tmux new-session -A -s updates 'sudo pacman -Syu; zsh'",
 		// Number of updates
 		"exec": "checkupdates | wc -l",
 		// Only run if there is at least one update available.
@@ -286,12 +286,12 @@
 		// Run every 5m
 		"interval": 300,
 		// Run flatpak to start the update on-click
-		"on-click": "alacritty --class updates -e tmux new-session -A -s updates 'flatpak --user update; zsh'",
-		// Number of updates #TODO: probably need to adjust the following. Waiting for an update output
-		"exec": "flatpak --user update | wc -l",
+		"on-click": "alacritty --class flatpack-updates -e tmux new-session -A -s updates 'flatpak --user update; zsh'",
+		// Number of updates
+		"exec": "echo $(($(flatpak --user update | wc -l) - 5))",
 		// Only run if there is at least one update available.
 		// This is done in order to only show the icon when updates are ready to be installed.
-		"exec-if": "flatpak update --user | tail -n 1 | grep -v \"Nothing to do.\""
+		"exec-if": "[[ $(flatpak update --user | wc -l) -gt 6 ]] || exit 1"
 	},
 	"custom/weather": {
 		"exec": "~/.config/waybar/modules/weather",
