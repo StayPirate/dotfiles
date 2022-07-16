@@ -5,7 +5,7 @@
 # It was created to be triggered by the waybar's pulseaudio module.
 
 # Get the active sink device (its index)
-active_sink=$(pactl list short sinks | grep -v $(pactl get-default-sink) | grep -oE '^[0-9]+')
+active_sink=$(pactl list short sinks | grep $(pactl get-default-sink) | grep -oE '^[0-9]+')
 
 # Create an array with all the sink devices (only their indexes)
 sinks=($(pactl list short sinks | grep -oE '^[0-9]+'))
@@ -15,7 +15,7 @@ mod=${#sinks[@]}
 
 for i in "${!sinks[@]}"; do
     if [[ "$active_sink" == "${sinks[$i]}" ]]; then
-        next_sink=$(expr $i % $mod)
-        pactl set-default-sink  ${sinks[next_sink]}
+        next_sink=$(expr $(( $i + 1)) % $mod)
+        pactl set-default-sink ${sinks[next_sink]}
     fi
 done
