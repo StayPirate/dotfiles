@@ -126,7 +126,9 @@ aliases = ibs
 # Plain text password
 #pass =
 user=crazybyte
-credentials_mgr_class=osc.credentials.KeyringCredentialsManager:keyring.backends.SecretService.Keyring
+sshkey=crazybyte_at_SUSE-EandI.pub
+credentials_mgr_class=osc.credentials.TransientCredentialsManager
+#credentials_mgr_class=osc.credentials.KeyringCredentialsManager:keyring.backends.SecretService.Keyring
 
 [https://api.opensuse.org]
 # set aliases for this apiurl
