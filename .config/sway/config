@@ -324,7 +324,7 @@ focus_follows_mouse no
     }
     exec spotify
 
-    for_window [ app_id="^code-oss$" ] {
+    for_window [ app_id="^$" title=" - Code - OSS$" ] {
         move workspace $ws_code
         move left
     }
