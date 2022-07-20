@@ -266,7 +266,7 @@
 		"icon-size": 18
 	},
 	"custom/pacman": {
-		"format": "ﱾ {}",
+		"format": "P ﱾ {}",
 		"tooltip": false,
 		// Run every 5m
 		"interval": 300,
@@ -281,7 +281,7 @@
 		//"exec-if": "exit 0"
 	},
 	"custom/flatpak": {
-		"format": "ﱾ {}",
+		"format": "F ﱾ {}",
 		"tooltip": false,
 		// Run every 5m
 		"interval": 300,
