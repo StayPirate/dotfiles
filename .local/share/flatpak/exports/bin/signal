@@ -1,0 +1,2 @@
+#!/bin/sh
+exec /usr/bin/flatpak run --branch=stable --arch=x86_64 org.signal.Signal --enable-features=UseOzonePlatform --ozone-platform=wayland --socket=wayland "$@"
