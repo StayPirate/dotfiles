@@ -280,6 +280,19 @@ focus_follows_mouse no
     for_window [ app_id="firefox" title="Picture-in-Picture" ] {
         floating enable
     }
+    for_window [ app_id="firefox" title="File Upload" ] {
+        floating enable
+        move position center
+        resize set 40 ppt 60 ppt
+    }
+    for_window [ app_id="firefox" title="Save As" ] {
+        floating enable
+        move position center
+    }
+    for_window [ app_id="firefox" title="Firefox — Sharing Indicator" ] {
+        floating enable
+        move position center
+    }
     for_window [ app_id="firefox" title="^$" ] {
         floating enable
         move position 85 ppt 88 ppt
