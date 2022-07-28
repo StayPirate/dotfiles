@@ -45,19 +45,6 @@
 	path = .local/bin/repos/nvm
 	url = https://github.com/nvm-sh/nvm.git
 	branch = master
-### DOTFILES ###
-[submodule "dotfiles-private"]
-	path = .config/dotfiles/private
-	url = git@github.com:StayPirate/dotfiles-private.git
-	branch = master
-	update = none
-	shallow = true
-[submodule "dotfiles-root"]
-	path = .config/dotfiles/root
-	url = git@github.com:StayPirate/dotfiles-root.git
-	branch = master
-	update = none
-	shallow = true
 ### UTILITIES ###
 [submodule "secbox"]
 	path = .local/bin/repos/secbox
