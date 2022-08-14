@@ -399,6 +399,12 @@ focus_follows_mouse no
         # Hide the boring "...is sharing your screen" banner
         move position 10000 0
     }
+    # Element
+    for_window [ app_id="chrome-app.element.io__-Default" ] {
+        shortcuts_inhibitor disable
+        move workspace $ws_chat
+    }
+
     for_window [ app_id="weechat" ] {
         move workspace $ws_chat
         splitv
