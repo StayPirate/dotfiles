@@ -293,7 +293,7 @@
 		"exec": "echo $(($(flatpak --user update | wc -l) - 5))",
 		// Only run if there is at least one update available.
 		// This is done in order to only show the icon when updates are ready to be installed.
-		"exec-if": "[[ $(flatpak update --user | wc -l) -gt 5 ]] || exit 1"
+		"exec-if": "[[ $(flatpak update --user | grep -F '[Y/n]') ]] || exit 1"
 	},
 	"custom/weather": {
 		"exec": "~/.config/waybar/modules/weather",
