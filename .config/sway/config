@@ -334,7 +334,7 @@ focus_follows_mouse no
     }
     exec telegram-desktop
 
-    for_window [ app_id="^$" title="Signal" ] {
+    for_window [ app_id="signal" title="Signal" ] {
         move workspace $ws_chill
         resize set 25 ppt 100 ppt
         move right
@@ -348,7 +348,7 @@ focus_follows_mouse no
     }
     exec spotify
 
-    for_window [ app_id="^$" title=" - Code - OSS$" ] {
+    for_window [ app_id="code-oss" title=" - Code - OSS$" ] {
         move workspace $ws_code
         move left
     }
