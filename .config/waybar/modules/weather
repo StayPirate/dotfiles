@@ -106,7 +106,7 @@ humidity_text = f'  {humidity}'
 # tooltip text
 tooltip_text = str.format(
     '\t{}\t\n{}\n{}\n\n{}\n{}\n{}{}',
-    f'<span size="xx-large"><b>{icon}</b> {temp}</span>',
+    f'<span size="xx-large"><b>{icon}</b>  {temp}</span>',
     f'<big>{status}</big>',
     f'<small>{temp_feel_text}</small>',
     f'<big>{temp_min_max}</big>',
@@ -119,7 +119,7 @@ tooltip_text = str.format(
 
 # print waybar module data
 out_data = {
-    'text': f'<b>{icon}</b> {temp}',
+    'text': f'<b>{icon}</b>  {temp}',
     'alt': status,
     'tooltip': tooltip_text,
     'class': status_code
