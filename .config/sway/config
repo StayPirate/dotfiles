@@ -312,11 +312,11 @@ focus_follows_mouse no
         floating enable
         move workspace $ws_mail
     }
-    for_window [ app_id="thunderbird" title="[0-9]+ Reminders?$" ] {
+    for_window [ app_id="thunderbird" title="[0-9]+ Reminder" ] {
         floating enable
         resize set 20 ppt 30 ppt
         sticky enable
-        no_focus [ app_id="thunderbird" title="[0-9]+ Reminders?$" ]
+        no_focus [ app_id="thunderbird" title="[0-9]+ Reminder" ]
     }
     for_window [ app_id="thunderbird" ] {
         move workspace $ws_mail
