@@ -94,24 +94,24 @@ visbility_text = f"  {visbility}"
 air_quality_index = html_data("text[data-testid='DonutChartValue']").text()
 # print(air_quality_index)
 
-# hourly rain prediction
-prediction = html_data("section[aria-label='Hourly Forecast']")(
-    "div[data-testid='SegmentPrecipPercentage'] > span"
-).text()
-prediction = prediction.replace("Chance of Rain", "")
-prediction = f"\n\n    (hourly) {prediction}" if len(prediction) > 0 else prediction
-# print(prediction)
+# # hourly rain prediction
+# prediction = html_data("section[aria-label='Hourly Forecast']")(
+#     "div[data-testid='SegmentPrecipPercentage'] > span"
+# ).text()
+# prediction = prediction.replace("Chance of Rain", "")
+# prediction = f"\n\n    (hourly) {prediction}" if len(prediction) > 0 else prediction
+# # print(prediction)
 
 # tooltip text
 tooltip_text = str.format(
-    "\t{}\t\n{}\n{}\n\n{}\n{}\n{}{}",
+    "\t{}\t\n{}\n{}\n\n{}\n{}\n{}",
     f'<span size="xx-large"><b>{icon}</b>  {temp}</span>',
     f"<big>{status}</big>",
     f"<small>{temp_feel_text}</small>",
     f"<big>{temp_min_max}</big>",
     f"{wind_text}\t{humidity_text}",
     f"{visbility_text}\tAQI {air_quality_index}",
-    f"<i>{prediction}</i>",
+#    f"<i>{prediction}</i>",
 )
 
 # print waybar module data
