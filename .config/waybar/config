@@ -138,19 +138,19 @@
 	},
 	"network#wifi": {
         "interface": "wlp*",
-        "format-wifi": "<b></b>",
+        "format-wifi": "<b> </b>",
 		"tooltip-format-wifi": "{essid} ({signalStrength}%): {ipaddr}\n{bandwidthDownBits}  - {bandwidthUpBits} 祝",
 		/* Waybar wrongly detect when my wifi interface is disconnected, because of that the following
 		   two lines don't work. Instead the format and tooltip-format are shown when disconnected.   */
         // "format-disconnected": "睊",
 		// "tooltip-format-disconnected": "WiFi Disconnected",
-		"format": "<span color='#AA0000'><b>睊</b></span>",
+		"format": "<span color='#AA0000'><b>睊 </b></span>",
 		"tooltip-format": "WiFi Disconnected",
 		"format-disabled": ""
     },
 	"network#eth": {
         "interface": "enp*",
-		"format-ethernet": "<b></b>",
+		"format-ethernet": "<b> </b>",
 		"tooltip-format-ethernet": "{ifname}: {ipaddr}\n{bandwidthDownBits}  - {bandwidthUpBits} 祝",
 		/* Waybar wrongly detect when my eth interface is disconnected, because of that the following
 		   two lines don't work. Instead the format and tooltip-format are shown when disconnected.   */
@@ -162,14 +162,14 @@
     },
 	"network#tun": {
         "interface": "tun*",
-		"format-ethernet": "<b></b>",
+		"format-ethernet": "<b> </b>",
 		"tooltip-format-ethernet": "{ifname}: {ipaddr}\n{bandwidthDownBits}  - {bandwidthUpBits} 祝",
         "format-disconnected": ""
     }
 	,
 	"network#tap": {
         "interface": "tap*",
-		"format-ethernet": "<b></b>",
+		"format-ethernet": "<b> </b>",
 		"tooltip-format-ethernet": "{ifname}: {ipaddr}\n{bandwidthDownBits}  - {bandwidthUpBits} 祝",
         "format-disconnected": ""
     },
