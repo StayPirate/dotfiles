@@ -298,8 +298,7 @@
 	"custom/weather": {
 		"exec": "~/.config/waybar/modules/weather",
 		"restart-interval": 5,
-		"return-type": "json",
-		"on-click": "xdg-open https://weather.com/en-IN/weather/today/l/$(location_id)"
+		"return-type": "json"
 		// "format-alt": "{alt}",
 	},
 	"custom/light-temperature": {
