@@ -1,3 +1,11 @@
+/* CSS fix for 0.9.15 when it switched from GtkLabel to GtkButton 
+   https://github.com/Alexays/Waybar/issues/1741#issuecomment-1288336263 */
+label:disabled,
+button:disabled {
+  color: inherit;
+  background-image: none;
+}
+
 * {
 	font-size: 14px;
 	font-family: monospace;
@@ -11,11 +19,13 @@ window#waybar {
 #custom-right-arrow-dark,
 #custom-left-arrow-dark {
 	color: #1a1a1a;
+    padding: 0 0px;
 }
 #custom-right-arrow-light,
 #custom-left-arrow-light {
 	color: #292b2e;
 	background: #1a1a1a;
+    padding: 0 0px;
 }
 
 #workspaces,
