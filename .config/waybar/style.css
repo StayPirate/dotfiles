@@ -47,7 +47,8 @@ window#waybar {
 #custom-pacman,
 #custom-flatpak,
 #custom-weather,
-#custom-light-temperature {
+#custom-light-temperature,
+#scratchpad {
 	background: #1a1a1a;
 }
 
@@ -236,13 +237,18 @@ window#waybar {
     color: #ffef0a;
 }
 
+#scratchpad.empty {
+	background-color: transparent;
+}
+
 #network,
 #bluetooth,
 #temperature.cpu,
 #cpu,
 #temperature.disk,
 #disk,
-#custom-light-temperature {
+#custom-light-temperature,
+#scratchpad {
 	padding: 0 5px;
 }
 

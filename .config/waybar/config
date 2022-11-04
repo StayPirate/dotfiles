@@ -226,6 +226,7 @@
 		"custom/pacman",
 		"custom/flatpak",
 		"custom/light-temperature",
+		"sway/scratchpad",
 		"tray"
 	],
 
@@ -318,5 +319,12 @@
 		"exec": "light_temperature status",
 		"interval": 1,
 		"on-click": "light_temperature toggle"
-	}
+	},
+	"sway/scratchpad": {
+        "format": "{icon} {count}",
+        "show-empty": false,
+        "format-icons": ["", ""],
+        "tooltip": true,
+        "tooltip-format": "{app}: {title}"
+    }
 }]
