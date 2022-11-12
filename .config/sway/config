@@ -359,7 +359,7 @@ focus_follows_mouse no
     exec code
     exec alacritty --class "code-oss-zsh" --working-directory ~/Workspace -e tmux new-session -A -s devel
 
-    for_window [ app_id="firefox" title="^Slack \| .*" ] {
+    for_window [ app_id="firefox" title=" - Slack — Mozilla Firefox$" ] {
         move workspace $ws_chat
         move left
     }
