@@ -270,7 +270,7 @@
 					 }
         },
  	"custom/spotify": {
- 		"interval": 1,
+ 		"restart-interval": 1,
  		"return-type": "json",
  		"exec": "~/.config/waybar/modules/spotify",
 		"escape": true
@@ -308,7 +308,7 @@
 	},
 	"custom/weather": {
 		"exec": "~/.config/waybar/modules/weather",
-		"restart-interval": 5,
+		"restart-interval": 300,
 		"return-type": "json"
 		// "format-alt": "{alt}",
 	},
