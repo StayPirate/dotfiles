@@ -64,12 +64,12 @@ temp_feel_text = f"Feels like {temp_feel}c"
 # min-max temperature
 temp_min = (
     html_data("div[data-testid='wxData'] > span[data-testid='TemperatureValue']")
-    .eq(0)
+    .eq(1)
     .text()
 )
 temp_max = (
     html_data("div[data-testid='wxData'] > span[data-testid='TemperatureValue']")
-    .eq(1)
+    .eq(0)
     .text()
 )
 temp_min_max = f"  {temp_min}\t  {temp_max}"
@@ -92,6 +92,7 @@ visbility_text = f"  {visbility}"
 
 # air quality index
 air_quality_index = html_data("text[data-testid='DonutChartValue']").text()
+air_quality_text = f"  {air_quality_index}"
 # print(air_quality_index)
 
 # # hourly rain prediction
@@ -106,11 +107,11 @@ air_quality_index = html_data("text[data-testid='DonutChartValue']").text()
 tooltip_text = str.format(
     "\t{}\t\n{}\n{}\n\n{}\n{}\n{}",
     f'<span size="xx-large"><b>{icon}</b>  {temp}</span>',
-    f"<big>{status}</big>",
-    f"<small>{temp_feel_text}</small>",
-    f"<big>{temp_min_max}</big>",
-    f"{wind_text}\t{humidity_text}",
-    f"{visbility_text}\tAQI {air_quality_index}",
+    f'<big>{status}</big>',
+    f'<small>{temp_feel_text}</small>',
+    f'<big>{temp_min_max}</big>',
+    f'<span size="large">{wind_text}\t{humidity_text}</span>',
+    f'<span size="large">{visbility_text}\t{air_quality_text}</span>',
 #    f"<i>{prediction}</i>",
 )
 
