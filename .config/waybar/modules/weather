@@ -86,8 +86,9 @@ humidity_text = f"  {humidity}"
 # print(humidity_text)
 
 # visibility
-visbility = html_data("span[data-testid='VisibilityValue']").text()
-visbility_text = f"  {visbility}"
+visbility_rounded = html_data("span[data-testid='VisibilityValue']").text().split(".")[0]
+visbility_unit = html_data("span[data-testid='VisibilityValue']").text().split(" ")[1]
+visbility_text = f"  {visbility_rounded} {visbility_unit}"
 # print(visbility_text)
 
 # air quality index
