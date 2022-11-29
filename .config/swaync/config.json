@@ -44,10 +44,10 @@
   },
   "scripts": {
     "_comment": "From swaync(5): Only the first matching script will be run.",
-    "_cooment": "In order to sort rules letters need to be used, digits don't work... So, AA is loaded before AB.",
+    "_comment": "In order to sort rules letters need to be used, digits don't work... So, AA is loaded before AB.",
     "AA-slack-sound": {
       "_comment": "Do not play sound for slack ignored notification, check rules above.",
-      "exec": "echo 'Greeting message ingored'",
+      "exec": "echo 'Greeting message ignored'",
       "app-name": "Firefox",
       "summary": "New message (in|from) .*",
       "body": "^(?i)(\\w+ \\w+ ?(\\w+): )?((good)? ?morning.{0,5}|.{0,5}bye[ ,]{0,2}(|bye|all|everyone|everybody|guys|folks)?.{0,20}|moins?.{0,5}|.{0,15}happy hacking.{0,10}|.{0,10}have a (nice|lovely) .{0,20})$",
