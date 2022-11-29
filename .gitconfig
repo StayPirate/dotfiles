@@ -9,6 +9,8 @@
 	clean = git-lfs clean -- %f
 [commit]
 	gpgsign = true
+[tag]
+	gpgSign = true
 [diff]
 	colorMoved = default
 [pager]
