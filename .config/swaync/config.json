@@ -33,6 +33,13 @@
       "app-name": "Firefox",
       "summary": "New message (in|from) .*",
       "body": "^(?i)(\\w+ \\w+ ?(\\w+): )?((good)? ?morning.{0,5}|.{0,5}bye[ ,]{0,2}(|bye|all|everyone|everybody|guys|folks)?.{0,20}|moins?.{0,5}|.{0,15}happy hacking.{0,10}|.{0,10}have a (nice|lovely) .{0,20})$"
+    },
+    "slack-show-only": {
+      "_comment": "Show Slack messages but do not add them to the CC",
+      "state": "transient",
+      "urgency": "Low",
+      "app-name": "Firefox",
+      "summary": "New message (in|from) .*"
     }
   },
   "scripts": {
