@@ -4,4 +4,4 @@
 # Play the notification sound
 paplay $HOME/.local/share/sounds/slack_notification_sound.ogg
 # Set urgent flag to the Slack window 
-swaymsg '[ app_id="firefox" title="^Slack \| .*" ] urgent enable'
+swaymsg '[ app_id="firefox" title=" - Slack — Mozilla Firefox$" ] urgent enable'
