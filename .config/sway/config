@@ -329,21 +329,14 @@ focus_follows_mouse no
     }
     for_window [ app_id="org.telegram.desktop" ] {
         move workspace $ws_chill
-        resize set 35 ppt 100 ppt
+        resize set 38 ppt 100 ppt
         move right
     }
     exec telegram-desktop
 
-    for_window [ app_id="signal" title="Signal" ] {
-        move workspace $ws_chill
-        resize set 25 ppt 100 ppt
-        move right
-    }
-    exec signal
-
     for_window [ instance="spotify" ] {
         move workspace $ws_chill
-        resize set 40 ppt 100 ppt
+        resize set 62 ppt 100 ppt
         move left
     }
     exec spotify
