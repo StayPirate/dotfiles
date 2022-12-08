@@ -1,0 +1,10 @@
+[Unit]
+Description=Start monitor night light
+Requires=light_temperature_night.service
+
+[Timer]
+Unit=light_temperature_night.service
+OnCalendar=*-*-* 20:00:00
+
+[Install]
+WantedBy=timers.target

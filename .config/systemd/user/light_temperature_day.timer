@@ -1,0 +1,10 @@
+[Unit]
+Description=Start monitor day light
+Requires=light_temperature_day.service
+
+[Timer]
+Unit=light_temperature_day.service
+OnCalendar=*-*-* 8:00:00
+
+[Install]
+WantedBy=timers.target
