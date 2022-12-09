@@ -40,9 +40,11 @@ setBrightness() {
     # Brightness needs to be adjusted monitor after monitor because if more
     # than one is atatched, they may use completly different value range.
     for monitor in `find  /sys/class/backlight -type l -printf "%f\n"`; do
-        local max_bright=$( cat /sys/class/backlight/${monitor}/max_brightness )
-        local bright_value=$(( $1*$max_bright/100 ))
-        echo 2>/dev/null $1 > /sys/class/backlight/${monitor}/brightness
+        if test -e /sys/class/backlight/$monitor/max_brightness; then
+            local max_bright=$( cat /sys/class/backlight/${monitor}/max_brightness )
+            local bright_value=$(( $1*$max_bright/100 ))
+            echo 2>/dev/null $bright_value > /sys/class/backlight/${monitor}/brightness
+        fi
     done
 }
 
