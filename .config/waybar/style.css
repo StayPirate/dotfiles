@@ -9,6 +9,11 @@ button:disabled {
 * {
 	font-size: 14px;
 	font-family: monospace;
+    border: none;
+    border-style: none;
+    border-radius: 0;
+    padding: 0 0 0 0px;
+    margin: 0 0 0 0px;
 }
 
 window#waybar {
@@ -19,13 +24,11 @@ window#waybar {
 #custom-right-arrow-dark,
 #custom-left-arrow-dark {
 	color: #1a1a1a;
-    padding: 0 0px;
 }
 #custom-right-arrow-light,
 #custom-left-arrow-light {
 	color: #292b2e;
 	background: #1a1a1a;
-    padding: 0 0px;
 }
 
 #workspaces,
