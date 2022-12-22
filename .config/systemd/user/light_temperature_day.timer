@@ -5,6 +5,8 @@ Requires=light_temperature_day.service
 [Timer]
 Unit=light_temperature_day.service
 OnCalendar=*-*-* 8:00:00
+AccuracySec=1us
+Persistent=true
 
 [Install]
 WantedBy=timers.target
