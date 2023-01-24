@@ -275,6 +275,12 @@ focus_follows_mouse no
     }
     exec 'sleep 40; keepassxc'
 
+    for_window [ app_id="firefox" title="Enter name of file to save to" ] {
+        floating enable
+        sticky enable
+        resize set 40 ppt 60 ppt
+        move position center
+    }
     for_window [ app_id="firefox" title="About Mozilla Firefox" ] {
         floating enable
     }
