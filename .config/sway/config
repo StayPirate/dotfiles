@@ -371,6 +371,17 @@ focus_follows_mouse no
         move workspace $ws_chat
     }
 
+    # mpv
+    for_window [ app_id="mpv" ] {
+        floating enable
+        move position center
+    }
+    # Celluloid
+    for_window [ app_id="io.github.celluloid_player.Celluloid" ] {
+        floating enable
+        move position center
+    }
+
     for_window [ app_id="weechat" ] {
         move workspace $ws_chat
         splitv
