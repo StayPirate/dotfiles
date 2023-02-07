@@ -49,6 +49,7 @@ window#waybar {
 #custom-notification,
 #custom-pacman,
 #custom-flatpak,
+#custom-pip_local,
 #custom-weather,
 #custom-light-temperature,
 #scratchpad {
@@ -199,7 +200,8 @@ window#waybar {
     }
 }
 #custom-pacman,
-#custom-flatpak {
+#custom-flatpak,
+#custom-pip_local {
     color: #1a1a1a;
     animation-name: blink-update;
     animation-duration: 1.5s;
@@ -263,6 +265,7 @@ window#waybar {
 #custom-notification,
 #custom-pacman,
 #custom-flatpak,
+#custom-pip_local,
 #custom-weather {
 	padding: 0 10px;
 }

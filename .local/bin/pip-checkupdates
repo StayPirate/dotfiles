@@ -1,0 +1,65 @@
+#!/usr/bin/bash
+
+helper() {
+    echo >&2 "Usage: $( basename "${BASH_SOURCE[0]}" ) <number|update>"
+}
+
+available_updates_number() {
+# Return the number of outdated packages, and ignore packages
+# listed in _blacklisted_packages. Sometimes you may want to ignore
+# packages due to the fact that they cannot be updated via pip.
+# A reason could be that the new version cannot be installed due to
+# unsatisfied dependencies.
+
+    local -a _outdated_packages
+    local -a _need_update_packages
+    local -a _blacklisted_packages
+
+    _blacklisted_packages+=()
+
+    for outdated_package in $(pip --disable-pip-version-check list --user --outdated --format=json | \
+      python -c "import json, sys; print('\n'.join([x['name'] for x in json.load(sys.stdin)]))"); do \
+        _outdated_packages+=("$outdated_package")
+    done
+
+    local _blacklisted
+    _blacklisted=0
+
+    for outdated_package in "${_outdated_packages[@]}"; do
+      for blacklisted_package in "${_blacklisted_packages[@]}"; do
+        if [[ "$outdated_package" == "$blacklisted_package" ]]; then
+          _blacklisted=1
+        fi
+      done
+
+      if [[ "$_blacklisted" == "0" ]]; then
+        _need_update_packages+=("$outdated_package")
+      fi
+
+      _blacklisted=0
+    done
+
+    echo ${#_need_update_packages[@]}
+}
+
+pip_update() {
+    pip --disable-pip-version-check list --user --outdated --format=json | \
+      python -c "import json, sys; print('\n'.join([x['name'] for x in json.load(sys.stdin)]))" | \
+      xargs -n1 pip install -U
+}
+
+main() {
+    # Silently exit if pip is not available
+    type pip > /dev/null 2>&1 || exit 0
+
+    # Check if there is exactly one argument or exit
+    [[ "$#" -eq 1 ]] || { helper; exit 0; }
+
+    case "${1:-}" in
+        number) available_updates_number;;
+        update) pip_update ;;
+        *) helper; exit 0 ;;
+    esac
+}
+
+main "$@"
