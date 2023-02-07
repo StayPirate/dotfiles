@@ -295,7 +295,7 @@
 		//"exec-if": "exit 0"
 	},
 	"custom/flatpak": {
-		"format": "F ﱾ {}",
+		"format": " {}",
 		"tooltip": false,
 		// Run every 5m
 		"interval": 300,
