@@ -31,7 +31,7 @@ location_id = "29e38aa63ef13cf295613d974415bcf80163991ec625b4d7c4f649f79c74b7c5"
 
 # get html page
 url = "https://weather.com/en-IN/weather/today/l/" + location_id
-html_data = PyQuery(url)
+html_data = PyQuery(url=url)
 
 # current temperature
 temp = html_data("span[data-testid='TemperatureValue']").eq(0).text()
