@@ -280,7 +280,7 @@
 		"icon-size": 18
 	},
 	"custom/pacman": {
-		"format": "P ﱾ {}",
+		"format": "󰮯 {}",
 		"tooltip": false,
 		// Run every 5m
 		"interval": 300,
