@@ -311,7 +311,7 @@
 		"format": " {}",
 		"tooltip": false,
 		// Run every 1h
-		"interval": 3600,
+		"interval": 300,
 		// Run pip to start the update on-click
 		"on-click": "alacritty --class pip-updates -e tmux new-session -A -s updates 'pip-checkupdates update; zsh'",
 		// Number of updates
