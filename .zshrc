@@ -168,8 +168,6 @@ autoload -Uz cert-fp
 compinit -d "${XDG_CACHE_HOME}/zcompdump"
 autoload -Uz custom_colors # load ~/.config/zsh/dir_colors
 custom_colors
-# SARS-CoV-2 stats
-autoload -Uz corona
 ######
 
 ### LOAD PLUGINS ###

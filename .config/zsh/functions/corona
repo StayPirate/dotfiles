@@ -1,7 +1,0 @@
-# Get SARS-CoV-2 (Coronavirus disease 2019) stats from CLI
-# https://github.com/sagarkarira/coronavirus-tracker-cli
-if [ $# -eq 0 ]; then
-    curl "https://corona-stats.online/?top=15&minimal=true"
-else
-    curl "https://corona-stats.online/${1}"
-fi
