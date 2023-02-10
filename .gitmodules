@@ -29,6 +29,11 @@
 	url = https://github.com/powerline/powerline.git
 	branch = develop
 	shallow = true
+### FUZZY FINDER ###
+[submodule ".config/zsh/plugins/fzf"]
+	path = .config/zsh/plugins/fzf
+	url = https://github.com/junegunn/fzf.git
+	branch = master
 ### PYTHON PYENV ###
 [submodule "pyenv"]
 	path = .config/pyenv/pyenv

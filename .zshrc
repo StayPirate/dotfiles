@@ -135,40 +135,10 @@ chpwd() { load-nvmrc }
 
 ### FZF ###
 if type fzf >/dev/null ; then
-
-  # First, try to load system-wide zsh widgets. If not available, then load local repository ones.
-  # Fuzzy completion
-  declare -a completion_scripts=(
-    "/usr/share/fzf/completion.zsh"           # Archlinux
-    "/usr/share/zsh/site-functions/fzf"       # Fedora
-    "/usr/share/zsh/vendor-completions/_fzf"  # Debian
-  )
-  # Key bindings
-  declare -a keybindings_scripts=(
-    "/usr/share/fzf/key-bindings.zsh"         # Archlinux
-    "/usr/share/fzf/shell/key-bindings.zsh"   # Fedora
-  )
-
-  local _fzf_completion=0
-  for completion_script in "${completion_scripts[@]}"; do
-      source $completion_script >/dev/null 2>&1 && _fzf_completion=1
-  done
-  if [ $_fzf_completion -eq 0 ]; then
-    source ~/.config/zsh/plugins/fzf/completion.zsh >/dev/null 2>&1
-  fi
-  unset _fzf_completion
-
-  local _fzf_keybindings=0
-  for keybindings_script in "${keybindings_scripts[@]}"; do
-    source $keybindings_script >/dev/null 2>&1 && _fzf_keybindings=1
-  done
-  if [ $_fzf_keybindings -eq 0 ]; then
-    source ~/.config/zsh/plugins/fzf/key-bindings.zsh >/dev/null 2>&1
-  fi
-  unset _fzf_keybindings
-
+  source ~/.config/zsh/plugins/fzf/shell/completion.zsh >/dev/null 2>&1
+  source ~/.config/zsh/plugins/fzf/shell/key-bindings.zsh >/dev/null 2>&1
   # Override key-bindings with a custom one which uses `history` instead of `fc`
-  source ~/.config/zsh/plugins/fzf/key-bindings-custom.zsh >/dev/null 2>&1
+  source ~/.config/zsh/plugins/fzf-custom/history_widget.zsh >/dev/null 2>&1
 fi
 ######
 
