@@ -102,7 +102,7 @@ focus_follows_mouse no
     bindsym $mod+d exec $menu
 
     # Screenshot
-    bindsym --release Print exec grim -g "$(slurp)" - | wl-copy
+    bindsym --release Print exec flameshot launcher
 
     # Miscellaneous software
 
@@ -384,6 +384,12 @@ focus_follows_mouse no
 
     # Solaar
     for_window [ app_id="solaar" ] {
+        floating enable
+        move position center
+    }
+
+    # Flameshot
+    for_window [ app_id="flameshot" ] {
         floating enable
         move position center
     }
