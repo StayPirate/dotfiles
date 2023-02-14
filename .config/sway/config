@@ -141,6 +141,7 @@ focus_follows_mouse no
     bindsym XF86AudioRaiseVolume exec 'pactl set-sink-volume @DEFAULT_SINK@ +5% && paplay $HOME/.local/share/sounds/change_volume.ogg'
     bindsym XF86AudioLowerVolume exec 'pactl set-sink-volume @DEFAULT_SINK@ -5% && paplay $HOME/.local/share/sounds/change_volume.ogg'
     bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+    bindsym Insert exec ~/.config/waybar/modules/rotate_sinks
     bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
     bindsym XF86MonBrightnessUp exec brightnessctl set +5%
     # When press the play button, start spotify if it's closed.
