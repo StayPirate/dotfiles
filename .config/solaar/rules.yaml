@@ -1,0 +1,17 @@
+%YAML 1.3
+---
+- Key: [Snipping Tool, pressed]
+- Execute: [flameshot, launcher]
+...
+---
+- Key: [Mute Microphone, pressed]
+- Execute: [set_all_microphones, toggle]
+...
+---
+- Key: [Voice Dictation, pressed]
+- Execute: [set_all_microphones, unmute]
+...
+---
+- Key: [Voice Dictation, released]
+- Execute: [set_all_microphones, mute]
+...
