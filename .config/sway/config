@@ -31,7 +31,7 @@ output * {
 # Font
 font pango:"Hack Nerd Font" Mono 10
 
-include $(hostname).conf
+include "$(hostnamectl hostname).conf"
 
 # Lock screen
 # I run `loginctl lock-session` as it sends over dbus a message to inform
