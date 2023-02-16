@@ -531,10 +531,10 @@ exec dbus-update-activation-environment --systemd --all
 # All microphones muted by default
 exec set_all_microphones mute
 
-# Start wl-gammarelay: client and daemon for changing
+# Start wl-gammarelay-rs: client and daemon for changing
 # color temperature and brightness under Wayland. 
-# https://github.com/jeremija/wl-gammarelay
-exec wl-gammarelay
+# https://github.com/MaxVerevkin/wl-gammarelay-rs
+exec wl-gammarelay-rs
 # By default (system startup) set light brightness and temperature to day-mode.
 exec light_temperature day
 

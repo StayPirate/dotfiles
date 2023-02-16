@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# Adjust the monitor light brightness and temperature to your _fixed_ favorite values via wl-gammarelay [0].
+# Adjust the monitor light brightness and temperature to your _fixed_ favorite values via wl-gammarelay-rs [0].
 # In order to be able to manage your *external* monitor backlight you need to install ddcci-driver-linux [1][2]
 # and load the ddcci_backlight module
 #
-# [0] https://github.com/jeremija/wl-gammarelay
+# [0] https://github.com/MaxVerevkin/wl-gammarelay-rs
 # [1] https://gitlab.com/ddcci-driver-linux/ddcci-driver-linux
 # [2] https://aur.archlinux.org/packages/ddcci-driver-linux-dkms
 
