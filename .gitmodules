@@ -53,7 +53,7 @@
 ### UTILITIES ###
 [submodule "secbox"]
 	path = .local/bin/repos/secbox
-	url = git@github.com:StayPirate/secbox.git
+	url = https://github.com/StayPirate/secbox.git
 	branch = master
 [submodule "tldr-sh-client"]
 	path = .local/bin/repos/tldr-sh-client
