@@ -9,4 +9,7 @@ exec /usr/bin/flatpak run \
 		--filesystem=xdg-config/Code\ -\ OSS:create \
 		--filesystem=~/.vscode-oss:create \
 		--filesystem=xdg-cache \
-	com.visualstudio.code-oss
+	com.visualstudio.code-oss \
+		--enable-features=WaylandWindowDecorations \
+		--ozone-platform-hint=auto \
+		--enable-features=WebRTCPipeWireCapturer
