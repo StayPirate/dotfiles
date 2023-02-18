@@ -90,7 +90,7 @@
 
 		"scroll-step": 5,
 		"on-click": "${XDG_CONFIG_HOME:=~/.config}/waybar/modules/rotate_sinks",
-		"on-click-right": "pamixer -t",
+		"on-click-right": "set_all_microphones toggle",
 		"on-click-middle": "pavucontrol"
 	},
 	"memory": {
