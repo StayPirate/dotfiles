@@ -5,7 +5,7 @@ exec /usr/bin/flatpak run \
         --branch=stable \
         --arch=x86_64 \
         --nofilesystem=host \
-        --filesystem=~/Workspace \
+        --filesystem=home \
 		--filesystem=xdg-config/Code\ -\ OSS:create \
 		--filesystem=~/.vscode-oss:create \
 		--filesystem=xdg-cache \
