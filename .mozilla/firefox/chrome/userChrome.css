@@ -8,7 +8,12 @@
     cunjuntion of a dedicate profile, that allows me to start website more
     like native apps.
 
-    This file need to be placed in ~/.mozilla/firefox/<profile>/chrome/userChrome.css 
+    This file need to be placed in ~/.mozilla/firefox/<profile>/chrome/userChrome.css
+    or in case of flatpak in 
+    ~/.var/app/org.mozilla.firefox/.mozilla/firefox/<profile>/chrome/userChrome.css
+
+    Moreover, toolkit.legacyUserProfileCustomizations.stylesheets option has to be
+    manually set to True in about:config
 */
 
 /* hides the native tabs */
