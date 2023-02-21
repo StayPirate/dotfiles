@@ -63,6 +63,10 @@
 	path = .local/bin/repos/asciinema
 	url = https://github.com/asciinema/asciinema.git
 	branch = master
+[submodule "notify-send.sh"]
+	path = .local/bin/repos/notify-send.sh
+	url = https://github.com/vlevit/notify-send.sh.git
+	branch = master
 ### GDB PLUGIN ###
 [submodule "pwndbg"]
 	path = .local/bin/repos/pwndbg

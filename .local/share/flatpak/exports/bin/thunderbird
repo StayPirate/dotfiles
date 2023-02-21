@@ -1,2 +1,2 @@
 #!/bin/sh
-exec /usr/bin/flatpak run --branch=stable --arch=x86_64 --device=all org.mozilla.Thunderbird "$@"
+exec /usr/bin/flatpak run --branch=stable --arch=x86_64 --device=all --filesystem=~/.local/bin/repos/notify-send.sh/ org.mozilla.Thunderbird "$@"
