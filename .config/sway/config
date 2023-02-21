@@ -292,6 +292,12 @@ focus_follows_mouse no
         sticky enable
         no_focus [ app_id="thunderbird" title="[0-9]+ Reminder" ]
     }
+    # Thunderbird Mailbox-Alert Addon
+    for_window [ app_id="thunderbird" title="^$" ] {
+        floating enable
+        move position center
+        move workspace $ws_mail
+    }
     for_window [ app_id="thunderbird" ] {
         move workspace $ws_mail
     }
