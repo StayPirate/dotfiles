@@ -10,16 +10,11 @@ DOTFILES_SSH=github.com:StayPirate/dotfiles.git
 DOTFILES_PRIVATE_HTTPS=https://github.com/StayPirate/dotfiles-private.git
 DOTFILES_PRIVATE_SSH=git@github.com:StayPirate/dotfiles-private.git
 
-DOFTILES_ROOT_HTTPS=https://github.com/StayPirate/dotfiles-root.git
-DOFTILES_ROOT_SSH=git@github.com:StayPirate/dotfiles-root.git
-
 dotfiles() { git --git-dir="${HOME}/.config/dotfiles/public" --work-tree="${HOME}" "${@}"; }
 dotfiles-private() { git --git-dir="${HOME}/.config/dotfiles/private" --work-tree="${HOME}" "${@}"; }
-dotfiles-root() { sudo git --git-dir="${HOME}/.config/dotfiles/root" --work-tree=/ "${@}"; }
 
 export -f dotfiles
 export -f dotfiles-private
-export -f dotfiles-root
 
 # Enabling pyenv-virtualenv plugin in pyenv
 # it needs to be done here as the `${HOME}/.config/pyenv/pyenv/plugins` folder is created only after the pyenv submodule
@@ -64,32 +59,19 @@ dotfiles remote set-url --push origin git@github.com:StayPirate/dotfiles.git > /
 # in git.
 dotfiles config --local status.showUntrackedFiles no > /dev/stderr
 
-# Lets try to clone dotfiles-private and dotfiles-root as bare repositories as well.
+# Lets try to clone dotfiles-private as bare repositories as well.
 # These are private repositories, so it will fail if the user is not authorized to access them (ssh-key).
-
-# If git clone succeeded
-if git clone --bare $DOTFILES_PRIVATE_HTTPS ~/.config/dotfiles/private 2>&1; then
-    # If the bare repo si correctly instantiated
-    if [[ -f $HOME/.config/dotfiles/private/HEAD ]]; then
+#
+# If dotfiles-private repo does not exists
+if [[ ! -f $HOME/.config/dotfiles/private/HEAD ]]; then
+    # If git clone succeeded
+    if git clone --bare $DOTFILES_PRIVATE_SSH ~/.config/dotfiles/private 2>&1; then
         # Set remote push url via git
-        dotfiles-private remote set-url --push origin git@$DOTFILES_PRIVATE_SSH > /dev/stderr
+        dotfiles-private remote set-url --push origin $DOTFILES_PRIVATE_SSH > /dev/stderr
         # Do not shown untracked files
         dotfiles-private config --local status.showUntrackedFiles no > /dev/stderr
         # Copy all the files in the repository to $HOME. Please note that -f to overwrite existing files
         dotfiles-private checkout -f
-    fi
-fi
-
-# If git clone succeeded
-if git clone --bare $DOTFILES_ROOT_HTTPS ~/.config/dotfiles/root 2>&1; then
-    # If the bare repo si correctly instantiated
-    if [[ -f $HOME/.config/dotfiles/root/HEAD ]]; then
-        # Set remote push url via git
-        dotfiles-root remote set-url --push origin git@$DOTFILES_ROOT_SSH > /dev/stderr
-        # Do not shown untracked files
-        dotfiles-root config --local status.showUntrackedFiles no > /dev/stderr
-        # Copy all the files in the repository to $HOME. Please note that -f to overwrite existing files
-        dotfiles-root checkout -f
     fi
 fi
 
@@ -111,6 +93,6 @@ for unit in `find $HOME/.config/systemd/user -maxdepth 1 -type f -printf "%f\n"`
 done
 
 # Ensure execution flag is granted to custom executables
-for executable in `ls -A $HOME/.local/bin/*`; do
+for executable in `find $HOME/.local/bin -maxdepth 1 -type f`; do
     chmod +x "${executable}"
 done
