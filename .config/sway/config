@@ -31,6 +31,12 @@ output * {
 # Font
 font pango:"Hack Nerd Font" Mono 10
 
+# Set compose key to Right Alt
+# https://wiki.archlinux.org/title/sway#Compose_key
+# list of alternative keys at:
+#   grep "compose:" /usr/share/X11/xkb/rules/base.lst
+input * xkb_options compose:ralt
+
 include "$(hostnamectl hostname).conf"
 
 # Lock screen
