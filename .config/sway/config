@@ -241,7 +241,8 @@ focus_follows_mouse no
 
     for_window [ app_id="org.keepassxc.KeePassXC" ] {
         floating enable
-        resize set 60 ppt 84 ppt
+        resize set 46 ppt 70 ppt
+        move position center
         sticky enable
         mark "toggle_KeePassXC"
     }
@@ -254,6 +255,9 @@ focus_follows_mouse no
         move position center
     }
     for_window [ app_id="firefox" title="About Mozilla Firefox" ] {
+        floating enable
+    }
+    for_window [ app_id="firefox" title="Library" ] {
         floating enable
     }
     for_window [ app_id="firefox" title="Firefox - Choose User Profile" ] {
@@ -434,6 +438,15 @@ focus_follows_mouse no
         resize set 15 ppt 30 ppt
         move position 85 ppt 70 ppt
     }
+    for_window [ app_id="virt-manager" title="Virtual Machine Manager" ] {
+        floating enable
+        resize set 970 px 650 px
+        move position center
+    }
+    for_window [ app_id="virt-manager" ] {
+        floating enable
+    }
+
 #
 # Layout stuff:
 #
