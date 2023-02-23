@@ -2,3 +2,5 @@ alias pacman-search="pacman -Slq | \
                      fzf -m --preview 'cat <(pacman -Si {1}) <(pacman -Fl {1} | \
                      awk \"{print \$2}\")' | \
                      xargs -ro sudo pacman -S --needed"
+
+alias p="paru"
