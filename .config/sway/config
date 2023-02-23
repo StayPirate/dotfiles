@@ -417,10 +417,10 @@ focus_follows_mouse no
         move up
         [ app_id="firefox" title="^Slack \| .*" ] move left
     }
-    # To open links received via Slack to my main FIrefox profile browser
+    # To open links received via Slack to my main Firefox profile browser
     # I installed the openwith [0] addon in the SUSE profile.
     # [0] https://github.com/darktrojan/openwith
-    exec slack
+    exec 'sleep 5; slack'
     # M$ Teams does not work for video/audio call in FF :(, so I use chromium
     exec teams
     exec 'sleep 100; weechat'
