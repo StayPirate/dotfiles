@@ -17,7 +17,7 @@ echo "        ░        ░ ░                   ░      ░  ░   ░  ░ 
 echo "      ░                                                           "
 echo -e "${_no_color}"
 echo "                    - dotfiles installation script -                   "
-echo "                [https://github.com/StayPirate/dotfiles]              "
+echo "                [ https://github.com/StayPirate/dotfiles ]             "
 echo -e "\n\n"
 dotfiles() { git --git-dir="${HOME}/.config/dotfiles/public" --work-tree="${HOME}" "${@}"; }
 export -f dotfiles
@@ -70,6 +70,17 @@ if [[ $? -ne 0 ]]; then
     if [[ $? -ne 0 ]]; then
         echo -e "${_orange}[*]${_no_color} Something went wrong during the branch checkout, please check the logs."
     fi
+fi
+
+# Refresh font cache to include user's fonts
+if type fc-cache >/dev/null 2>&1; then
+    if fc-cache -f -v >/dev/null 2>&1; then
+        echo -e "[.] Font cache refreshed."
+    else
+        echo -e "${_orange}[*]${_no_color} Font cache cannot be refreshed."
+    fi
+else
+    echo -e "${_orange}[*]${_no_color} Font cache not refreshed: fc-cache not found."
 fi
 
 # Initialize submodules
