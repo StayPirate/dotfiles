@@ -1,7 +1,7 @@
 # .zshrc is sourced in interactive shells.
 
 if [[ -z "$TMUX" && -z $DISPLAY && "$(tty)" = "/dev/tty1" ]]; then
-  exec sway
+  exec sway --unsupported-gpu
 fi
 
 # Initialize dotfiles the first time zsh is ran from $USER
