@@ -241,7 +241,7 @@ focus_follows_mouse no
 
     for_window [ app_id="org.keepassxc.KeePassXC" ] {
         floating enable
-        resize set 46 ppt 70 ppt
+        resize set 1300 px 830 px
         move position center
         sticky enable
         mark "toggle_KeePassXC"
