@@ -438,6 +438,8 @@ focus_follows_mouse no
         resize set 15 ppt 30 ppt
         move position 85 ppt 70 ppt
     }
+    exec nextcloud
+
     for_window [ app_id="virt-manager" title="Virtual Machine Manager" ] {
         floating enable
         resize set 970 px 650 px
