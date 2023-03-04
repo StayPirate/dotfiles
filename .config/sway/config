@@ -339,7 +339,7 @@ focus_follows_mouse no
         move workspace $ws_code
         move right
     }
-    exec code
+    exec code-oss
     exec alacritty --class "code-oss-zsh" --working-directory ~/Workspace -e tmux new-session -A -s devel
 
     for_window [ app_id="firefox" title=" - Slack — Mozilla Firefox$" ] {

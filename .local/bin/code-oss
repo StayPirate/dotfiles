@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+exec com.visualstudio.code-oss \
+	--enable-features=WaylandWindowDecorations \
+	--ozone-platform-hint=auto \
+	--enable-features=WebRTCPipeWireCapturer \
+	"$@"
