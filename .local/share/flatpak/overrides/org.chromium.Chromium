@@ -1,0 +1,2 @@
+[Context]
+filesystems=!home;xdg-config/chromium-flags.conf:ro;xdg-download;
