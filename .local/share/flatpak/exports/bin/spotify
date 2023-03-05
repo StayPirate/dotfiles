@@ -1,6 +1,0 @@
-#!/bin/sh
-# Still not works well with wayland, let's keep the cmdline ready for the future
-# exec /usr/bin/flatpak run --socket=wayland --branch=stable --arch=x86_64 com.spotify.Client --enable-features=UseOzonePlatform --ozone-platform=wayland "$@"
-#
-# Run in Xwayland in the meantime :(
-exec /usr/bin/flatpak run --branch=stable --arch=x86_64 com.spotify.Client "$@"
