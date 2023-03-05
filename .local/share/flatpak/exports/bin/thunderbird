@@ -1,2 +1,0 @@
-#!/bin/sh
-exec /usr/bin/flatpak run --branch=stable --arch=x86_64 --device=all --filesystem=~/.local/bin/repos/notify-send.sh/:ro --filesystem=~/.local/share/icons/custom_icons/:ro --filesystem=~/.local/share/sounds/email.ogg:ro org.mozilla.Thunderbird "$@"
