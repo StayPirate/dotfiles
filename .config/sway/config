@@ -35,7 +35,17 @@ font pango:"Hack Nerd Font" Mono 10
 # https://wiki.archlinux.org/title/sway#Compose_key
 # list of alternative keys at:
 #   grep "compose:" /usr/share/X11/xkb/rules/base.lst
-input * xkb_options compose:ralt
+input type:keyboard {
+    xkb_options compose:ralt
+}
+
+input type:touchpad {
+    tap enabled
+    tap_button_map lmr
+    dwt enabled
+    scroll_method two_finger
+    pointer_accel 0.4
+}
 
 include "$(hostnamectl hostname).conf"
 
