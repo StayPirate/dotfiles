@@ -47,6 +47,14 @@ input type:touchpad {
     pointer_accel 0.4
 }
 
+bindgesture swipe:3:right workspace next
+bindgesture swipe:3:left workspace prev
+bindgesture swipe:3:up scratchpad show
+bindgesture swipe:3:down scratchpad show
+bindgesture pinch:2:inward floating enable
+bindgesture pinch:2:outward floating disable
+bindgesture swipe:4:right exec $lock_machine
+
 include "$(hostnamectl hostname).conf"
 
 # Lock screen
