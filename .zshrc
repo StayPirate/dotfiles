@@ -53,6 +53,12 @@ setopt MENU_COMPLETE
 setopt INTERACTIVECOMMENTS
 ######
 
+### GPG initialization for pinentry-tty and pinentry-curses
+# https://www.gnupg.org/documentation/manuals/gnupg/Invoking-GPG_002dAGENT.html
+# https://wiki.archlinux.org/title/GnuPG#Configure_pinentry_to_use_the_correct_TTY
+# https://unix.stackexchange.com/a/608921 ($GPG_TTY = not a tty)
+export GPG_TTY=$TTY
+
 ### KEY BINDING
 # http://zsh.sourceforge.net/Doc/Release/Zsh-Line-Editor.html#Movement
 bindkey -e
