@@ -47,8 +47,8 @@ input type:touchpad {
     pointer_accel 0.4
 }
 
-bindgesture swipe:3:right workspace next
-bindgesture swipe:3:left workspace prev
+bindgesture swipe:3:right workspace prev
+bindgesture swipe:3:left workspace next
 bindgesture swipe:3:up scratchpad show
 bindgesture swipe:3:down scratchpad show
 bindgesture pinch:2:inward floating enable
