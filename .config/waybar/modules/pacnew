@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+#
+# Show if there are not assessed pacnew files
+
+# If locate is not installed exit
+type locate 2>/dev/null 1>&2 || exit 1
+
+# If there are now pacnew files exit
+[[ "$(locate .pacnew | wc -l)" -le "0" ]] && exit 1 
+
+# Return:
+#   text: number of pacnew files
+#   tooltip: list of pacnew files pathnames
+echo -e "{\"text\":\"$(locate .pacnew | wc -l)\", \"tooltip\":\""$(locate .pacnew)"\"}"

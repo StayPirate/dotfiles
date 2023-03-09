@@ -48,6 +48,7 @@ window#waybar {
 #tray,
 #custom-notification,
 #custom-pacman,
+#custom-pacnew,
 #custom-flatpak,
 #custom-pip_local,
 #custom-weather,
@@ -200,6 +201,7 @@ window#waybar {
     }
 }
 #custom-pacman,
+#custom-pacnew,
 #custom-flatpak,
 #custom-pip_local {
     color: #1a1a1a;
@@ -264,6 +266,7 @@ window#waybar {
 #battery,
 #custom-notification,
 #custom-pacman,
+#custom-pacnew,
 #custom-flatpak,
 #custom-pip_local,
 #custom-weather {
