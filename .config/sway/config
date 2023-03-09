@@ -456,7 +456,7 @@ focus_follows_mouse no
         resize set 15 ppt 30 ppt
         move position 85 ppt 70 ppt
     }
-    exec nextcloud
+    exec 'sleep 30; nextcloud'
 
     for_window [ app_id="virt-manager" title="Virtual Machine Manager" ] {
         floating enable
