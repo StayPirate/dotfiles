@@ -10,13 +10,15 @@
 # Set your favorite temperature values for day and night (min=1000, max=10000)
 temp_day=6500
 temp_night=3500
-# Set your favorite brightness values for day and night (min=0, max=100) 
-# Note that this value is in *percentage*, 100% max brightness.
-bright_day=100
-bright_night=60
+# Set your favorite brightness values for day and night (min=0, max=1) 
+# Note that this value is in *percentage*, 1 = 100% max brightness.
+bright_day=1
+bright_night=0.8
 
 # Get the current light temperature
 temperature=$( busctl --user get-property rs.wl-gammarelay / rs.wl.gammarelay Temperature | grep -oE "[0-9]{4,5}" )
+# Get the current light brightness
+brightness=$( busctl --user get-property rs.wl-gammarelay / rs.wl.gammarelay Brightness | grep -oE "[0-9.]{1,5}" )
 
 helper() {
     echo "Usage: $( basename "${BASH_SOURCE[0]}" ) <day|night|toggle|status>"
@@ -37,15 +39,7 @@ setTemperature() {
 }
 
 setBrightness() {
-    # Brightness needs to be adjusted monitor after monitor because if more
-    # than one is atatched, they may use completly different value range.
-    for monitor in `find  /sys/class/backlight -type l -printf "%f\n"`; do
-        if test -e /sys/class/backlight/$monitor/max_brightness; then
-            local max_bright=$( cat /sys/class/backlight/${monitor}/max_brightness )
-            local bright_value=$(( $1*$max_bright/100 ))
-            echo 2>/dev/null $bright_value > /sys/class/backlight/${monitor}/brightness
-        fi
-    done
+    busctl --user set-property rs.wl-gammarelay / rs.wl.gammarelay Brightness d $1
 }
 
 toggle() {
@@ -64,13 +58,8 @@ waybar_output() {
     if [[ "$temperature" < $temp_day ]]; then text="<b>望</b>"; else text="<b>盛</b>"; fi
 
     # Tooltip
-    local tooltip=" ${temperature}K" 
-    # Add current brightness for each monitor in the tooltip
-    for monitor in `find  /sys/class/backlight -type l -printf "%f\n"`; do
-        local bright=$( cat /sys/class/backlight/${monitor}/brightness )
-        tooltip="${tooltip}
- ${bright} ${monitor}"
-    done
+    local tooltip=" ${temperature}K
+ ${brightness}" 
 
     # Class can be either night or day
     local class
