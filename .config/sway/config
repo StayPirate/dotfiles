@@ -257,6 +257,9 @@ focus_follows_mouse no
     # nm-applet allows nmcli and nmtui to use the secret-service-provider for passwords
     exec nm-applet --indicator
 
+    # KeePassXC
+    exec 'keepassxc $HOME/Nextcloud/Backups/Keepass/gianluca_gabrielli-$(hostname).kdbx'
+
     for_window [ app_id="org.keepassxc.KeePassXC" ] {
         floating enable
         resize set 1300 px 830 px
@@ -264,7 +267,6 @@ focus_follows_mouse no
         sticky enable
         mark "toggle_KeePassXC"
     }
-    exec 'sleep 40; keepassxc'
 
     for_window [ app_id="firefox" title="Enter name of file to save to" ] {
         floating enable
@@ -441,7 +443,7 @@ focus_follows_mouse no
     exec 'sleep 5; slack'
     # M$ Teams does not work for video/audio call in FF :(, so I use chromium
     exec 'sleep 5; teams'
-    exec 'sleep 100; weechat'
+    exec 'is-kpxc-ready && weechat'
 
     for_window [ class="scrcpy" title="SHIELD Android TV" ] {
         floating enable
@@ -456,7 +458,7 @@ focus_follows_mouse no
         resize set 15 ppt 30 ppt
         move position 85 ppt 70 ppt
     }
-    exec 'sleep 30; nextcloud'
+    exec 'is-kpxc-ready && nextcloud'
 
     for_window [ app_id="virt-manager" title="Virtual Machine Manager" ] {
         floating enable

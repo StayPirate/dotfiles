@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+found=0
+
+while [[ "$found" == "0" ]]; do
+    # if KPXC is running
+    if ps axco command | grep keepassxc 2>/dev/null 1>&2; then
+        # Try to unlock the database and wait until is unlocked
+        secret-tool search --unlock test test test test
+        found=1
+    else
+        # if KPXC is not yet running, wait 5s and try again
+        echo >&2 "not yet"
+        sleep 5
+    fi
+done
