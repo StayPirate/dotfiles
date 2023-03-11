@@ -258,7 +258,7 @@ focus_follows_mouse no
     exec nm-applet --indicator
 
     # KeePassXC
-    exec 'keepassxc $HOME/Nextcloud/Backups/Keepass/gianluca_gabrielli-$(hostname).kdbx'
+    exec 'keepassxc $HOME/Nextcloud/Backups/Keepass/gianluca_gabrielli.kdbx'
 
     for_window [ app_id="org.keepassxc.KeePassXC" ] {
         floating enable
