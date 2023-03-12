@@ -13,17 +13,20 @@ while true; do
                         org.freedesktop.UPower.Device Percentage | \
                         grep -Eo "[0-9]{1,3}" )
 
-    # If the value matches one of the values defined in CRITICAL_LVL, then file a notification and only while discharging
-    printf '%s\0' "${CRITIAL_LVL[@]}" | grep >/dev/null -F -x -z -- $battery_level && [[ "$battery_level_prev" -gt "${battery_level}" ]] && \
-        notify-send -u critical -i "$HOME/.local/share/icons/battery/battery-critical.png" "Critical Battery Level" "The battery reached a critical level: $battery_level%"
+    # Skip the first itearion to avoid "fully charged" notification to be filed at every boot
+    if [[ ! -z ${battery_level_prev+x} ]]; then
+        # If the value matches one of the values defined in CRITICAL_LVL, then file a notification and only while discharging
+        printf '%s\0' "${CRITIAL_LVL[@]}" | grep >/dev/null -F -x -z -- $battery_level && [[ "$battery_level_prev" -gt "${battery_level}" ]] && \
+            notify-send -u critical -i "$HOME/.local/share/icons/battery/battery-critical.png" "Critical Battery Level" "The battery reached a critical level: $battery_level%"
 
-    # If the value matches one of the values defined in LOW_LVL, then file a notification and only while discharging
-    printf '%s\0' "${LOW_LVL[@]}" | grep >/dev/null -F -x -z -- $battery_level && [[ "$battery_level_prev" -gt "${battery_level}" ]] && \
-        notify-send -u low -i "$HOME/.local/share/icons/battery/battery-low.png" "Low Battery Level" "Battery level: $battery_level%"
+        # If the value matches one of the values defined in LOW_LVL, then file a notification and only while discharging
+        printf '%s\0' "${LOW_LVL[@]}" | grep >/dev/null -F -x -z -- $battery_level && [[ "$battery_level_prev" -gt "${battery_level}" ]] && \
+            notify-send -u low -i "$HOME/.local/share/icons/battery/battery-low.png" "Low Battery Level" "Battery level: $battery_level%"
 
-    # File a notification when the battery level reaches 100%
-    [[ "${battery_level}" == "100" ]] && [[ "$battery_level_prev" != "${battery_level}" ]] && \
-        notify-send -u normal -i "$HOME/.local/share/icons/battery/battery-full.png" "Battery" "Battery fully charged"
+        # File a notification when the battery level reaches 100%
+        [[ "${battery_level}" == "100" ]] && [[ "$battery_level_prev" -lt "${battery_level}" ]] && \
+            notify-send -u normal -i "$HOME/.local/share/icons/battery/battery-full.png" "Battery" "Battery fully charged"
+    fi
 
     # Store previus iteration value, it's used to avoid the same notification occurres multiple times
     battery_level_prev=$battery_level
