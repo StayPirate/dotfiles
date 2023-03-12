@@ -13,12 +13,12 @@ while true; do
                         org.freedesktop.UPower.Device Percentage | \
                         grep -Eo "[0-9]{1,3}" )
 
-    # If the value matches one of the values defined in CRITICAL_LVL, then file a notification
-    printf '%s\0' "${CRITIAL_LVL[@]}" | grep >/dev/null -F -x -z -- $battery_level && [[ "$battery_level_prev" != "${battery_level}" ]] && \
+    # If the value matches one of the values defined in CRITICAL_LVL, then file a notification and only while discharging
+    printf '%s\0' "${CRITIAL_LVL[@]}" | grep >/dev/null -F -x -z -- $battery_level && [[ "$battery_level_prev" -gt "${battery_level}" ]] && \
         notify-send -u critical -i "$HOME/.local/share/icons/battery/battery-critical.png" "Critical Battery Level" "The battery reached a critical level: $battery_level%"
 
-    # If the value matches one of the values defined in LOW_LVL, then file a notification
-    printf '%s\0' "${LOW_LVL[@]}" | grep >/dev/null -F -x -z -- $battery_level && [[ "$battery_level_prev" != "${battery_level}" ]] && \
+    # If the value matches one of the values defined in LOW_LVL, then file a notification and only while discharging
+    printf '%s\0' "${LOW_LVL[@]}" | grep >/dev/null -F -x -z -- $battery_level && [[ "$battery_level_prev" -gt "${battery_level}" ]] && \
         notify-send -u low -i "$HOME/.local/share/icons/battery/battery-low.png" "Low Battery Level" "Battery level: $battery_level%"
 
     # File a notification when the battery level reaches 100%
