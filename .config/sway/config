@@ -469,6 +469,13 @@ focus_follows_mouse no
         floating enable
     }
 
+    for_window [ title="Steam" ] {
+        floating enable
+    }
+    for_window [ title="Friends List" ] {
+        floating enable
+    }
+
 #
 # Layout stuff:
 #
