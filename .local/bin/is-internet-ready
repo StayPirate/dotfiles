@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+while ! timeout 1 sh -c "echo > /dev/tcp/google.com/80" >/dev/null 2>&1; do
+        echo >&2 "${BASH_SOURCE[0]}: Internet not yet available"
+        sleep 1
+done
