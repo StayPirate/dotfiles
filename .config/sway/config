@@ -551,7 +551,11 @@ client.unfocused            #468499 #468499 #ffffff #468499   #468499ee
 # Border style
 #
 default_border pixel 2
-smart_borders on
+# smart_borders on|no_gaps|off
+#   If smart_borders are on, borders will only be enabled if the workspace has more than one visible child.
+#   If smart_borders is set to no_gaps, borders will only be enabled if the workspace has more than one
+#   visible child and gaps equal to zero.
+smart_borders off
 
 #
 # Gaps
@@ -561,7 +565,10 @@ gaps inner 15
 # outer = around workspace (vertical = top and bottom)
 # gaps vertical -4
 # gaps outer -10
-smart_gaps on
+# smart_gaps on|off|toggle|inverse_outer
+#   If smart_gaps are on gaps will only be enabled if a workspace has more than one child. If smart_gaps are
+#   inverse_outer outer gaps will only be enabled if a workspace has exactly one child.
+smart_gaps off
 
 # Status Bar (waybar):
 # https://github.com/Alexays/Waybar
