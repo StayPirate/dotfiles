@@ -374,12 +374,12 @@ focus_follows_mouse no
         move right
     }
     # Jitsi on Chromium
-    for_window [ app_id="chrome-meet.opensuse.org__-Default" ] {
+    for_window [ title="Jitsi Meet$" ] {
         shortcuts_inhibitor disable
         move workspace $ws_chat
     }
     # Jitsi on Firefox
-    for_window [ app_id="firefox" title="openSUSE Meet — Mozilla Firefox" ] {
+    for_window [ app_id="firefox" title="Meet — Mozilla Firefox" ] {
         move workspace $ws_chat
     }
     # Whatsapp application
