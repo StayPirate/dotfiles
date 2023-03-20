@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 # This script is executed whenever a slack notification is triggered from swaync
 
-# Play the notification sound
-paplay $HOME/.local/share/sounds/slack_notification_sound.ogg
 # Set urgent flag to the Slack window 
-swaymsg '[ app_id="firefox" title=" - Slack — Mozilla Firefox$" ] urgent enable'
+swaymsg '[ title="Slack$" ] urgent enable'

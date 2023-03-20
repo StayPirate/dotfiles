@@ -1,2 +1,1 @@
-#!/usr/bin/env bash
-firefox --new-window -p SUSE https://suse.slack.com &
+../share/flatpak/exports/bin/com.slack.Slack

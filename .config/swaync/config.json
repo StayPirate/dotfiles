@@ -57,8 +57,7 @@
       "_comment": "which lead to have a overcrowded notification center. So transiet.",
       "state": "transient",
       "override-urgency": "low",
-      "summary": "New message (in|from) .*",
-      "desktop-entry": "org.mozilla.firefox"
+      "desktop-entry": "Slack"
     },
     "telegram-desktop": {
       "_comment": "Show telegram-desktop messages",
@@ -76,10 +75,9 @@
     "_comment": "From swaync(5): Only the first matching script is ran",
     "_comment": "In order to sort rules letters need to be used, digits don't work. So, AA is loaded before AB.",
     "AA-slack-sound": {
-      "_comment": "Play a notification sounds for Slack notification from FF",
+      "_comment": "Set the urgent flag for the sway-workspace where Slack is opened",
       "exec": "slack-notification-alert",
-      "desktop-entry": "org.mozilla.firefox",
-      "summary": "New message (in|from) .*"
+      "desktop-entry": "Slack"
     }
   }
 }
