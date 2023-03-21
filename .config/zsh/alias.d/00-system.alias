@@ -52,8 +52,9 @@ alias try='f() { podman container run --rm -ti ubuntu:latest sh -c "
                    bash
             "}; f'
 
-# Show 500+ Mb folders. Use "heavy" for local folder, or "heavy subfolder" for a subfolder.
-alias heavy='f() { du -h --max-depth=1 -x --exclude="/dev|/proc|/sys|/tmp|/run" "${1:=.}" 2>/dev/null | \
-                   sort -h | \
-                   grep -E "^[0-9.]+G.*|^[5-9][0-9]{2}M.*"
-            }; f'
+# Replace heavy with dua (https://github.com/Byron/dua-cli)
+# and keep the "heavy" alias for backward compatibility
+alias heavy="dua"
+# Always use dua in interactive mode
+alias dua="dua i"
+type dua 2>&1 >/dev/null && alias du="dua"
