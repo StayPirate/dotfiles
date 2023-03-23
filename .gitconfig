@@ -51,3 +51,7 @@
 ; Only include if the repository is sieve-susede
 [includeIf "gitdir:~/Workspace/sieve-susede/.git"]
 	path = ~/Workspace/sieve-susede/.githooks/sieveshell.gitconfig
+
+; Only include if the repository is sieve-disroot
+[includeIf "gitdir:~/Workspace/sieve-disroot/.git"]
+        path = ~/Workspace/sieve-disroot/.githooks/sieveshell.gitconfig
