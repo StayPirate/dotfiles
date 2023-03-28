@@ -15,3 +15,11 @@
 - Key: [Voice Dictation, released]
 - Execute: [set_all_microphones, mute]
 ...
+---
+- Key: [Mouse Gesture Button, pressed]
+- Execute: [set_all_microphones, unmute]
+...
+---
+- Key: [Mouse Gesture Button, released]
+- Execute: [set_all_microphones, mute]
+...

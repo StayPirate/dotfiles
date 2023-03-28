@@ -1,5 +1,5 @@
 - 1.1.8
-- _NAME: MX MCHNCL M
+- _NAME: MX Mechanical Mini
   _absent: [hi-res-scroll, lowres-scroll-mode, hires-smooth-invert, hires-smooth-resolution, hires-scroll-mode, scroll-ratchet, smart-shift, thumb-scroll-invert,
     thumb-scroll-mode, onboard_profiles, report_rate, pointer_speed, dpi, speed-change, backlight-timed, reprogrammable-keys, persistent-remappable-keys,
     crown-smooth, divert-crown, divert-gkeys, m-key-leds, mr-key-led, gesture2-gestures, gesture2-divert, gesture2-params, sidetone, equalizer]
@@ -42,13 +42,13 @@
   _battery: 4100
   _dpi-sliding: 16
   _modelId: B03400000000
-  _sensitive: {divert-keys: false, dpi: true, hires-scroll-mode: false, hires-smooth-invert: false, hires-smooth-resolution: false, reprogrammable-keys: false,
+  _sensitive: {divert-keys: true, dpi: true, hires-scroll-mode: false, hires-smooth-invert: false, hires-smooth-resolution: false, reprogrammable-keys: false,
     scroll-ratchet: false, thumb-scroll-invert: true}
   _serial: 9A21C3A7
   _unitId: 9A21C3A7
   _wpid: B034
   change-host: null
-  divert-keys: {82: 0, 83: 0, 86: 0, 195: 0, 196: 0}
+  divert-keys: {82: 0, 83: 0, 86: 0, 195: 1, 196: 0}
   dpi: 1600
   hires-scroll-mode: false
   hires-smooth-invert: false
