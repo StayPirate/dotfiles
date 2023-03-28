@@ -476,6 +476,12 @@ focus_follows_mouse no
         floating enable
     }
 
+    # Streamdeck
+    for_window [ title="Stream Deck UI" ] {
+        floating enable
+        move position center
+    }
+
 #
 # Layout stuff:
 #
@@ -605,3 +611,7 @@ exec solaar --window=hide
 
 # Battery notification daemon
 exec battery-notifications
+
+# Start streamdeck from its venv.
+# It requires that a venv named 'streamdeck-ui' is created first
+exec PYENV_VERSION=streamdeck-ui streamdeck -n 2>/dev/null
