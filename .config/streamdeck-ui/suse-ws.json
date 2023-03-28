@@ -181,7 +181,9 @@
                     "14": {}
                 }
             },
-            "page": 0
+            "page": 0,
+            "brightness": 50,
+            "brightness_dimmed": 0
         }
     }
 }
