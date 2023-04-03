@@ -1,0 +1,312 @@
+# credentials
+credentials:
+  # if "general.use_keyring" is true, the username field is mandatory, it will be used to do the lookup
+  # with password and token fields
+  - service: 'smash'
+    username: 'crazybyte'
+    password: 'smash-token'
+    token: 'smash-token'
+
+# SMASH settings
+smash:
+  api_server: 'smash.suse.de'                        # API server hostname
+  host: 'smash.suse.de'                              # website hostname
+  build_service: 'IBS'                               # build service used in SMASH
+
+  # dependency list. In the form <target>:<depends_on>
+  dependencies:
+    'kernel-azure': 'kernel-source'
+    'kernel-debug': 'kernel-source'
+    'kernel-default': 'kernel-source'
+    'kernel-default-base': 'kernel-source'
+    'kernel-docs': 'kernel-source'
+    'kernel-ec2': 'kernel-source'
+    'kernel-obs-build': 'kernel-source'
+    'kernel-preempt': 'kernel-source'
+    'kernel-rt': 'kernel-source'
+    'kernel-rt_debug': 'kernel-source'
+    'kernel-source-azure': 'kernel-source'
+    'kernel-source-rt': 'kernel-source'
+    'kernel-syms': 'kernel-source'
+    'kernel-syms-azure': 'kernel-source'
+    'kernel-syms-rt': 'kernel-source'
+    'SUSE:Carwos:1/kernel-source-rt': 'SUSE:SLE-15-SP2:Update/kernel-source'
+    '*:Products:SLERT:Update/kernel-source-rt': '*/kernel-source'
+    '*:Products:SLERT:Update/kernel-rt': '*/kernel-source'
+    '*:Products:SLERT:Update/kernel-rt_debug': '*/kernel-source'
+    '*:Products:SLERT:Update/kernel-syms-rt': '*/kernel-source'
+    'SUSE:SLE-12:Update/ruby': 'SUSE:SLE-12:Update/ruby2.1'
+    'SUSE:SLE-15:Update/ruby': 'SUSE:SLE-15:Update/ruby2.5'
+
+
+# SMELT settings
+smelt:
+  api_server: 'smelt.suse.de'
+
+# common settings
+general:
+  # logging
+  logging:
+    # enable or disable logging
+    enable: true
+
+    # log level. One of: 'info', 'debug', 'warning', 'error', 'critical'
+    level: 'debug'
+
+  # use keyring for looking up credentials. If true, the username field must be set, and the other fields value
+  # will be used for service lookup
+  use_keyring: true
+
+  # max simultaneous thread to use
+  workers: 10
+
+  # user agent to use for parsing webpages
+  user_agent: 'Mozilla/5.0 (X11; Linux x86_64; rv:104.0) Gecko/20100101 Firefox/104.0'
+
+  # enable paginated output with less
+  paging: true
+
+  # enable colored output
+  enable_colors: true
+
+  # cache options
+  cache:
+    # cache directory
+    directory: '/home/crazybyte/.cache/imtools'
+
+    # cache freshness. Available units:
+    # - s: seconds
+    # - m: minutes
+    # - h: hours
+    # - d: days
+    # - w: weeks
+    # If unit is omitted defaults to seconds
+    freshness: '1d'
+
+  # maintenance options
+  maintenance:
+    # automatically run maintenance when needed
+    enable: false
+
+    # update interval. Available units:
+    # - s: seconds
+    # - m: minutes
+    # - h: hours
+    # - d: days
+    # - w: weeks
+    # If unit is omitted defaults to seconds
+    interval: '1d'
+
+# 'grep' subcommand settings
+grep:
+  # group mode: groups all similar matches into one. If False print every match
+  group: true
+
+  # group mode: display match information in a list instead of a table
+  list: true
+
+  # group mode: show full path. If False, only show relative path to source directory
+  full_path: false
+
+  # group mode: ignore trailing whitespace when comparing two matches
+  ignore_whitespace: true
+
+# 'search' subcommand settings
+search:
+  # providers to enable
+  providers:
+    - 'ibs'
+    - 'obs'
+    - 'bundled'
+    - 'channels'
+
+services:
+  # OBS
+  - #  service name
+    name: 'OBS'
+
+    # API server URL
+    url: 'api.opensuse.org'
+
+    projects:
+      include:
+        # only include these projects in results. Glob patterns (*) can be used.
+        - 'openSUSE:Factory'
+        - 'openSUSE:Backports:SLE-15-SP4'
+        - 'openSUSE:Backports:SLE-15-SP5'
+      exclude:
+        # exclude these projects from results. Matching rules are the same as the 'include' section
+        - '*:Rings:*'
+        - '*:Staging:*'
+        - '*:RISCV'
+        - '*:SLECandidates'
+        - '*:ToTest'
+        - '*:ARM'
+        - '*:zSystems'
+        - '*:PowerPC'
+
+    # packages
+    packages:
+      - 'openSUSE:Factory/nodejs16'
+      - 'openSUSE:Factory/nodejs17'
+
+  # IBS
+  - # service name
+    name: 'IBS'
+
+    # API server URL
+    url: 'api.suse.de'
+
+    projects:
+      # only include these projects in results. Glob patterns (*) can be used.
+      include:
+        - 'SUSE:*'
+        - 'NON_Public:*'
+      exclude:
+        # exclude these projects from results. Matching rules are the same as the 'include' section
+        - 'SUSE:Factory:Head'
+        - 'SUSE:Carwos:1:*'
+        - 'SUSE:Carwos:2:*'
+        - 'SUSE:Maintenance:*'
+        - 'SUSE:Updates:*'
+        - '*:Staging:*'
+        - '*:Rings:*'
+        - '*:MOVED_OLDPROJECT'
+        - '*:Test'
+        - '*:BCI'
+        - '*:CR'
+        - '*:ToTest'
+
+    # packages
+    packages:
+      - 'nodejs4'
+      - 'nodejs6'
+      - 'nodejs8'
+      - 'nodejs10'
+      - 'nodejs12'
+      - 'nodejs14'
+      - 'nodejs16'
+
+# repositories configuration
+repositories:
+  # SUSE:Channels repository
+  - # repository name
+    name: 'channels'
+    # repository type
+    type: 'ibs'
+    # repository unique identifier, used in 'checkout' operation
+    id: 'SUSE:Channels'
+    # repository directory
+    directory: '~/.local/share/SUSE/SUSE:Channels'
+
+  # SUSE unpacked kernel repository
+  - # repository name
+    name: 'kernel-source'
+    # repository type
+    type: 'git'
+    # repository unique identifier, used in 'checkout' operation
+    id: 'git://kerncvs.suse.de/kernel.git'
+    # repository directory, relative to 'repositories.directory' field
+    directory: '~/.local/share/SUSE/kernel'
+    # repository branches to process
+    branches: &kernel-branches
+      - 'SLE12-SP5'
+      - 'SLE15-SP3'
+      - 'SLE15-SP4'
+      - 'cve/linux-3.0'
+      - 'cve/linux-4.4'
+      - 'cve/linux-4.12'
+      - 'cve/linux-5.3'
+      - 'stable'
+
+  # SUSE packed kernel repository
+  - name: 'kernel-patches'
+    # repository type
+    type: 'git'
+    # repository unique identifier, used in 'checkout' operation
+    id: 'git://kerncvs.suse.de/kernel-source.git'
+    # repository directory, relative to 'repositories.directory' field
+    directory: '~/.local/share/SUSE/kernel-source'
+    # repository branches to process
+    branches: *kernel-branches
+
+containers:
+  # repository: optional, will be added to container: {repository}/{container_name}
+  repository: 'security'
+
+  # container home directory
+  home: '/root'
+
+  # container shell
+  shell: '/bin/bash'
+
+  sle-creds: &sle-creds
+    '~/.local/share/SUSE/secrets/SCCcredentials': '/etc/zypp/credentials.d/SCCcredentials'
+    '~/.local/share/SUSE/secrets/SUSEConnect': '/etc/SUSEConnect'
+
+  # container list to use
+  list:
+    # openSUSE Leap 15.2
+    - image: 'leap:15.2'
+      alias: 'leap152'
+    # openSUSE Leap 15.3
+    - image: 'leap:15.3'
+      alias: 'leap153'
+    # openSUSE Tumbleweed
+    - image: 'tumbleweed'
+      alias: 'tw'
+    # SLE 12 SP3
+    - image: 'sle:12.3'
+      alias: 'sle123'
+      volumes: *sle-creds
+    # SLE 12 SP4
+    - image: 'sle:12.4'
+      alias: 'sle124'
+      volumes: *sle-creds
+    # SLE 12 SP5
+    - image: 'sle:12.5'
+      alias: 'sle125'
+      volumes: *sle-creds
+    # SLE 15
+    - image: 'sle:15.0'
+      alias: 'sle15'
+      volumes: *sle-creds
+    # SLE 15 SP1
+    - image: 'sle:15.1'
+      alias: 'sle151'
+      volumes: *sle-creds
+    # SLE 15 SP2
+    - image: 'sle:15.2'
+      alias: 'sle152'
+      volumes: *sle-creds
+    # SLE 15 SP3
+    - image: 'sle:15.3'
+      alias: 'sle153'
+      volumes: *sle-creds
+    # SLE 15 SP4
+    - image: 'sle:15.4'
+      alias: 'sle154'
+      volumes: *sle-creds
+
+# tools settings
+tools:
+  # osc command. Note: shell aliases are not supported, so specify a command present in $PATH
+  osc: 'secbox --no-tty osc'
+
+  # container manager
+  container_manager: 'podman'
+
+  # tar command
+  tar: 'tar'
+
+  # unzip command
+  unzip: 'unzip'
+
+  # cpio command
+  cpio: 'cpio'
+
+  # quilt command
+  quilt: 'secbox --no-tty quilt'
+
+  # phar command
+  phar: 'secbox --no-tty phar'
