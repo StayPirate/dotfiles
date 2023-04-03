@@ -162,16 +162,16 @@ focus_follows_mouse no
 #
 # Multimedia keys
 #
-    bindsym XF86AudioRaiseVolume exec 'pactl set-sink-volume @DEFAULT_SINK@ +5% && paplay $HOME/.local/share/sounds/change_volume.ogg'
-    bindsym XF86AudioLowerVolume exec 'pactl set-sink-volume @DEFAULT_SINK@ -5% && paplay $HOME/.local/share/sounds/change_volume.ogg'
+    bindsym --locked XF86AudioRaiseVolume exec 'pactl set-sink-volume @DEFAULT_SINK@ +5% && paplay $HOME/.local/share/sounds/change_volume.ogg'
+    bindsym --locked XF86AudioLowerVolume exec 'pactl set-sink-volume @DEFAULT_SINK@ -5% && paplay $HOME/.local/share/sounds/change_volume.ogg'
     bindsym --locked XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
     bindsym Insert exec ~/.config/waybar/modules/rotate_sinks
     bindsym XF86MonBrightnessDown exec 'busctl --user -- call rs.wl-gammarelay / rs.wl.gammarelay UpdateBrightness d -0.2'
     bindsym XF86MonBrightnessUp exec 'busctl --user call rs.wl-gammarelay / rs.wl.gammarelay UpdateBrightness d 0.2'
     # When press the play button, start spotify if it's closed.
-    bindsym XF86AudioPlay exec 'pgrep spotify 2>/dev/null 1>&2 || spotify; playerctl play-pause'
-    bindsym XF86AudioNext exec playerctl next
-    bindsym XF86AudioPrev exec playerctl previous
+    bindsym --locked XF86AudioPlay exec 'pgrep spotify 2>/dev/null 1>&2 || spotify; playerctl play-pause'
+    bindsym --locked XF86AudioNext exec playerctl next
+    bindsym --locked XF86AudioPrev exec playerctl previous
     bindsym XF86Search exec $menu
 
     # As I don't have the micmute key on my keyboard, I use the pause key (upper right)
