@@ -114,7 +114,8 @@ grep:
 search:
   # providers to enable
   providers:
-    - 'ibs'
+# 'ibs' is not needed since I already use 'channels'
+#    - 'ibs'
     - 'obs'
     - 'bundled'
     - 'channels'
