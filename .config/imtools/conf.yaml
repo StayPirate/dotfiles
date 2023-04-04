@@ -38,7 +38,6 @@ smash:
     'SUSE:SLE-12:Update/ruby': 'SUSE:SLE-12:Update/ruby2.1'
     'SUSE:SLE-15:Update/ruby': 'SUSE:SLE-15:Update/ruby2.5'
 
-
 # SMELT settings
 smelt:
   api_server: 'smelt.suse.de'
@@ -50,8 +49,8 @@ general:
     # enable or disable logging
     enable: true
 
-    # log level. One of: 'info', 'debug', 'warning', 'error', 'critical'
-    level: 'debug'
+    # log level. One of: 'debug', 'info', 'warning', 'error', 'critical'
+    level: 'info'
 
   # use keyring for looking up credentials. If true, the username field must be set, and the other fields value
   # will be used for service lookup
@@ -72,7 +71,7 @@ general:
   # cache options
   cache:
     # cache directory
-    directory: '/home/crazybyte/.cache/imtools'
+    directory: '${XDG_CACHE_HOME}/.cache/imtools'
 
     # cache freshness. Available units:
     # - s: seconds
