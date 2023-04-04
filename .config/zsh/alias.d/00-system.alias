@@ -19,6 +19,7 @@ alias lt='ls -lAhtr --color=auto'
 alias grep='grep --colour=auto'
 alias egrep='egrep --colour=auto'
 alias fgrep='fgrep --colour=auto'
+type rg 2>&1 >/dev/null && alias grep="rg"
 
 alias root="sudo su -"
 
