@@ -72,3 +72,6 @@ export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 
 # Streamdeck configuration file location
 export STREAMDECK_UI_CONFIG=~/.config/streamdeck-ui/$(uname -n).json
+
+# LS and EXA time format
+export TIME_STYLE="+%d-%m-%Y %H:%M:%S %z"
