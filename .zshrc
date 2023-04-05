@@ -176,6 +176,12 @@ autoload -Uz custom_colors # load ~/.config/zsh/dir_colors
 custom_colors
 ######
 
+### hass-cli autocompletion ###
+# https://github.com/home-assistant-ecosystem/home-assistant-cli#auto-completion
+# Needs to be run after compinit is loaded
+eval "$(_HASS_CLI_COMPLETE=zsh_source hass-cli)"
+######
+
 ### LOAD PLUGINS ###
 # zsh-syntax-highlighting
 # https://github.com/zsh-users/zsh-syntax-highlighting

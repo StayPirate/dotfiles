@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+podman container run \
+        --rm \
+        --name hass-cli \
+        --network=host \
+        -e HASS_SERVER="https://crazybyte.duckdns.org" \
+        -e HASS_TOKEN=$(cat ~/.config/hass-cli/token) \
+        -e _HASS_CLI_COMPLETE \
+        -e COMP_WORDS \
+        -e COMP_CWORD \
+        -e _HASS_CLI_COMPLETE \
+    localhost/hass-cli:local $*
