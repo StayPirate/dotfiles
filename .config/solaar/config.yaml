@@ -5,7 +5,7 @@
     crown-smooth, divert-crown, divert-gkeys, m-key-leds, mr-key-led, gesture2-gestures, gesture2-divert, gesture2-params, sidetone, equalizer]
   _battery: 4100
   _modelId: B36700000000
-  _sensitive: {backlight: false, change-host: false, divert-keys: true, fn-swap: false, multiplatform: false}
+  _sensitive: {backlight: true, change-host: false, divert-keys: true, fn-swap: false, multiplatform: false}
   _serial: D67C0E58
   _unitId: D67C0E58
   _wpid: B367
