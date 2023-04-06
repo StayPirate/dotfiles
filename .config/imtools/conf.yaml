@@ -63,7 +63,7 @@ general:
   user_agent: 'Mozilla/5.0 (X11; Linux x86_64; rv:104.0) Gecko/20100101 Firefox/104.0'
 
   # enable paginated output with less
-  paging: true
+  paging: false
 
   # enable colored output
   enable_colors: true
@@ -85,7 +85,7 @@ general:
   # maintenance options
   maintenance:
     # automatically run maintenance when needed
-    enable: false
+    enable: true
 
     # update interval. Available units:
     # - s: seconds
