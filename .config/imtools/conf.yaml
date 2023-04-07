@@ -213,6 +213,7 @@ repositories:
       - 'SLE12-SP5'
       - 'SLE15-SP3'
       - 'SLE15-SP4'
+      - 'SLE15-SP5'
       - 'cve/linux-3.0'
       - 'cve/linux-4.4'
       - 'cve/linux-4.12'
