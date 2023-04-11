@@ -3,4 +3,4 @@
 # Credits to Marina for this handy trick :)
 alias spintarella='f(){ isc wipebinaries --all SUSE:Maintenance:$1/patchinfo }; f'
 
-alias -g publ=' | grep -vE "^[ x.]+ [a-zA-Z0-9_.-]+ [a-zA-Z0-9_\-]+ \(published)$" | grep -vE "^( \|).*" |  head -n -16'
+alias -g publ=' | grep -vP "^[ x.]+ [a-zA-Z0-9_.-]+ [a-zA-Z0-9_\-]+ \(published\)$" | grep -vP "^\( \|\).*" | grep -vP "^ \| .*" | head -n -16'
