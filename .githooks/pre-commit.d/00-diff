@@ -1,0 +1,11 @@
+#!/usr/bin/env -S zsh -i
+
+git diff --staged
+
+# Intereactive hook. Allows to read user input by assigning stdin to keyboard
+exec < /dev/tty
+
+echo
+read "_continue?Would you proceed to commit? [Y/n] "
+
+[[ "$_continue" =~ ^[Yy]$ || "$_continue" =~ ^$ ]] || exit 1

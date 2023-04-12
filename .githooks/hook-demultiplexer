@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+# Allow multiple hooks.
+#
+# To use it copy this script in "~/.githooks" with the executable bit set. Then and set
+# core.hooksPath to ~/.githooks: 'git config --global core.hooksPath ~/.githooks'.
+# The name of the file, here described with the 'hook-name' placeholder, should be
+# the name of the wanted hook (see man githooks to know available hooks).
+# Then place your scripts with executable bit set in ".git/hooks/hook-name.d/".
+
+for file in "${BASH_SOURCE[0]}.d"/*; do
+    echo -e "\n#####\n##### GITHOOK / $(basename ${BASH_SOURCE[0]}): ${file}\n#####\n"
+    "$file" || exit $?
+done
