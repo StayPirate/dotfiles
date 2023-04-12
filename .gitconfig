@@ -48,12 +48,5 @@
 [http "https://gitlab.suse.de"]
 	sslCAInfo = ~/.ca-certificates/SUSE/SUSE_CA_suse.de_chain.crt
 
-; Only include if the repository is sieve-susede
-[includeIf "gitdir:~/Workspace/sieve-susede/.git"]
-	path = ~/Workspace/sieve-susede/.githooks/sieveshell.gitconfig
-
-; Only include if the repository is sieve-disroot
-[includeIf "gitdir:~/Workspace/sieve-disroot/.git"]
-        path = ~/Workspace/sieve-disroot/.githooks/sieveshell.gitconfig
 [core]
 	hooksPath = ~/.githooks
