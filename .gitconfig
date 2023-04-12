@@ -55,3 +55,5 @@
 ; Only include if the repository is sieve-disroot
 [includeIf "gitdir:~/Workspace/sieve-disroot/.git"]
         path = ~/Workspace/sieve-disroot/.githooks/sieveshell.gitconfig
+[core]
+	hooksPath = ~/.githooks
