@@ -1,7 +1,3 @@
 # Load secbox aliases
 # https://github.com/StayPirate/secbox#aliases
 eval "$(secbox --alias)"
-
-# Since the prepare-submission requires to have a valid token for bugzilla
-# this alias automatically refreshes it before each run. 
-alias prepare-submission='bugzilla-login && secbox prepare-submission.rb'
