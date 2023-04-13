@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+type podman >/dev/null 2>&1 || {
+    echo >2 "Podman not installed, Gitleaks check is skipped."
+    exit 0
+}
+
+# Update Gitleaks image to :latest
+podman pull ghcr.io/gitleaks/gitleaks:latest >/dev/null 2>&1 && echo "ghcr.io/gitleaks/gitleaks:latest is up-to-date"
+
+# Fix git env to allow bare repositories to work in the container
+[ -z ${GIT_DIR+x} ] || GIT_DIR=$(echo $GIT_DIR | sed 's?'$(pwd)'?/path?')
+[ -z ${GIT_INDEX_FILE+x} ] || GIT_INDEX_FILE=$(echo $GIT_INDEX_FILE | sed 's?'$(pwd)'?/path?')
+
+# Run Gitleaks on current repository
+podman run \
+       --rm \
+       --userns=keep-id \
+       -v /etc/localtime:/etc/localtime:ro \
+       -v $(pwd):/path \
+       -v ${XDG_CONFIG_HOME:-~/.config}/gitleaks/config.toml:/config.toml \
+       -e GIT_DIR \
+       -e GIT_INDEX_FILE \
+       gitleaks/gitleaks:latest \
+           -c /config.toml \
+           protect \
+           --verbose \
+           --staged \
+           --redact \
+           --source="/path"
