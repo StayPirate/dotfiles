@@ -1,6 +1,13 @@
 ### exa is a modern replacement for ls
 # https://github.com/ogham/exa
 
+# `exa` doen't currently support TIME_STYLE +Format. Since I'm using "+%d-%m-%Y %H:%M:%S %z" with `ls`
+# then I need to overwrite this with `--time-style long-iso`.
+# This may change in the future when #867 [0] would be merged. See also #923 [1].
+#
+# [0] https://github.com/ogham/exa/pull/867
+# [1] https://github.com/ogham/exa/issues/923
+
 type exa > /dev/null 2>&1 && {
 	alias ls='exa --icons --group-directories-first' # Also used with the chpwd hook in ~/.zshrc 
 	alias la='exa -la --group-directories-first --time-style long-iso --git'
