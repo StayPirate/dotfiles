@@ -129,7 +129,7 @@ compctl -s "$(tldr 2>/dev/null --list)" tldr
 ######
 
 # Load aliases
-for f in `find ~/.config/zsh/alias.d -name "*.alias"`; do
+for f in `find ~/.config/zsh/alias.d -name "*.alias" | sort -n`; do
   source "$f"
 done
 
