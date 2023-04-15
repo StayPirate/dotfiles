@@ -55,7 +55,7 @@ bindgesture pinch:2:inward floating enable
 bindgesture pinch:2:outward floating disable
 bindgesture swipe:4:right exec $lock_machine
 
-include "$(hostnamectl hostname).conf"
+include "$(uname -n).conf"
 
 # Lock screen
 # I run `loginctl lock-session` as it sends over dbus a message to inform
