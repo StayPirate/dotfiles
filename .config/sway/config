@@ -432,19 +432,12 @@ focus_follows_mouse no
         move position center
     }
 
-    for_window [ app_id="weechat" ] {
-        move workspace $ws_chat
-        splitv
-        move up
-        [ app_id="firefox" title="^Slack \| .*" ] move left
-    }
     # To open links received via Slack to my main Firefox profile browser
     # I installed the openwith [0] addon in the SUSE profile.
     # [0] https://github.com/darktrojan/openwith
     exec 'is-internet-ready && slack'
     # M$ Teams does not work for video/audio call in FF :(, so I use chromium
     exec 'is-internet-ready && teams'
-    exec 'is-kpxc-ready && weechat'
 
     for_window [ class="scrcpy" title="SHIELD Android TV" ] {
         floating enable
