@@ -257,9 +257,6 @@ focus_follows_mouse no
     # nm-applet allows nmcli and nmtui to use the secret-service-provider for passwords
     exec nm-applet --indicator
 
-    # KeePassXC
-    exec 'keepassxc $HOME/Nextcloud/Backups/Keepass/gianluca_gabrielli.kdbx'
-
     for_window [ app_id="org.keepassxc.KeePassXC" ] {
         floating enable
         resize set 1300 px 830 px
@@ -462,7 +459,6 @@ focus_follows_mouse no
         resize set 15 ppt 30 ppt
         move position 85 ppt 70 ppt
     }
-    exec 'is-kpxc-ready && nextcloud'
 
     for_window [ app_id="virt-manager" title="Virtual Machine Manager" ] {
         floating enable

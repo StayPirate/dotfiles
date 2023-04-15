@@ -1,0 +1,15 @@
+[Unit]
+Description=Flatpaked Nextcloud Client
+Wants=keepassxc.service
+After=keepassxc.service
+
+[Service]
+# Wait until Sway is started or the process won't appear in the systray
+ExecStartPre=/bin/bash -c '(while ! ps -C sway 2>/dev/null; do echo "Wait for Sway to be started..."; sleep 5; done)'
+ExecStart=/bin/bash -c '${HOME}/.local/bin/nextcloud'
+ExecStop=/usr/bin/flatpak kill com.nextcloud.desktopclient.nextcloud
+Restart=always
+RestartSec=1
+
+[Install]
+WantedBy=default.target

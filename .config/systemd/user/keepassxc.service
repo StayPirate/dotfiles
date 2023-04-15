@@ -1,0 +1,12 @@
+[Unit]
+Description=Flatpaked KeePassXC
+
+[Service]
+# Wait until Sway is started or the process won't appear in the systray
+ExecStartPre=/bin/bash -c '(while ! ps -C sway 2>/dev/null; do echo "Wait for Sway to be started..."; sleep 5; done)'
+ExecStart=/bin/bash -c '${HOME}/.local/bin/keepassxc ${HOME}/Nextcloud/Backups/Keepass/gianluca_gabrielli.kdbx'
+ExecStop=/usr/bin/flatpak kill org.keepassxc.KeePassXC
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
