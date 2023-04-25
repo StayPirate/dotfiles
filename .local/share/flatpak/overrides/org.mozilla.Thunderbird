@@ -1,3 +1,6 @@
 [Context]
 devices=all;
 filesystems=~/.local/share/sounds/email.ogg:ro;~/.local/bin/repos/notify-send.sh:ro;!~/.gnupg;~/.local/share/icons/custom_icons:ro;
+
+[Session Bus Policy]
+org.freedesktop.Notifications=talk
