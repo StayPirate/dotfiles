@@ -237,4 +237,4 @@ alias se='# Usage:
             osc se $_s "$1" | while read -r line; do func2 "$line"; done
           }; func1'
 
-alias im="PYENV_VERSION=imtools ~/Workspace/py-environment/imtools/im.py"
+alias im="PYENV_VERSION=imtools REQUESTS_CA_BUNDLE=~/.ca-certificates/SUSE/SUSE_Trust_Root.crt ~/Workspace/py-environment/imtools/im.py"
