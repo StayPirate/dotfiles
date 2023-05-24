@@ -33,6 +33,8 @@ export YAOURT_COLORS="nb=1:pkg=1:ver=1;32:lver=1;45:installed=1;42:grp=1;34:od=1
 
 # Set delta as default git pager if available
 type delta > /dev/null 2>&1 && export GIT_PAGER=delta
+# Set vim as default git editor if available
+type vim > /dev/null 2>&1 && export GIT_EDITOR=vim
 # less history
 export LESSHISTFILE="${XDG_CACHE_HOME}/less/history"
 export LESSHISTSIZE=10000
