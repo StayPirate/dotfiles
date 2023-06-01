@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+while true; do
+  bat_state=$(solaar show "$1" 2>/dev/null | /usr/bin/grep "Battery" | /usr/bin/grep -Eo "[0-9]{1,2}" | sort -un)
+
+  [[ -z $bat_state ]] && {
+      echo >&2 "Device not found"
+      exit 1
+  }
+
+  # Only alert if the battery percentage is 20, 15, 10, 5.
+  if [[ $bat_state -le 20 ]] && [[ $(($bat_state%5)) == 0 ]]; then
+    # If it's the first script iteration, or if the batery level decreased
+    if [[ -z ${bat_state_prev+x} ]] || [[ "$bat_state_prev" -gt "${bat_state}" ]]; then
+      device_name=$(solaar show "$1" 2>/dev/null | /usr/bin/grep "Name:" | /usr/bin/grep -v "Friendly" | cut -d ":" -f 2 | cut -b 2-)
+
+      # Set urgency level
+      urgency=low
+      [[ $bat_state -le 5 ]] && urgency=critical
+
+      # Send notification
+      notify-send \
+        --app-name=Solaar \
+        --urgency=$urgency \
+        --icon="$HOME/.local/share/icons/battery/battery-$urgency.png" \
+        "$device_name" \
+        "Battery is $bat_state%"
+    fi
+  fi
+
+  bat_state_prev=$bat_state
+
+  # Check every 5 minutes
+  sleep 300
+done

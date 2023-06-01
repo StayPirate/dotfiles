@@ -601,6 +601,11 @@ exec light_temperature day
 # Start Solaar for logitech devices management
 # https://pwr-solaar.github.io/Solaar/
 exec solaar --window=hide
+# Monitor devices' battery
+# Mouse
+exec solaar-battery master
+# Keyboard
+exec solaar-battery mechanical
 
 # Battery notification daemon
 exec battery-notifications
