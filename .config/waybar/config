@@ -66,6 +66,13 @@
 			"urgent": " ",
 			"focused": " ",
 			"default": " "
+		},
+		"persistent_workspaces": {
+			"1:web": [],
+			"2:mail": [],
+			"3:chat": [],
+			"4:code": [],
+			"5:chill": []
 		}
 	},
 
