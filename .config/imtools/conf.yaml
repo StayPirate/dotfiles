@@ -85,7 +85,7 @@ general:
   # maintenance options
   maintenance:
     # automatically run maintenance when needed
-    enable: true
+    enable: false
 
     # update interval. Available units:
     # - s: seconds
