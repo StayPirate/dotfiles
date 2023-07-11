@@ -126,7 +126,11 @@ focus_follows_mouse no
     bindsym $mod+d exec $menu
 
     # Screenshot
-    bindsym --release Print exec flameshot launcher
+    # QT_QPA_PLATFORM=xcb is used to run flameshot in xwayland. This is a workaround
+    # described on GH [0] to make it works with multiple screen.
+    #
+    # [0] https://github.com/flameshot-org/flameshot/issues/1184#issuecomment-744761384 
+    bindsym --release Print exec QT_QPA_PLATFORM=xcb flameshot launcher
 
     # Miscellaneous software
 
