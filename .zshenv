@@ -77,3 +77,19 @@ export STREAMDECK_UI_CONFIG=~/.config/streamdeck-ui/$(uname -n).json
 
 # LS and EXA time format
 export TIME_STYLE="+%d-%m-%Y %H:%M:%S %z"
+
+# Only for workstations mounting an NVIDIA GPU.
+#
+# Switch to vulkan renderer to fix the flickering issue with nvidia and
+# wayland compositors. It requires vulkan-validation-layers [0] and the following
+# kernel options:
+#    nvidia_drm.modeset=1 nvidia.NVreg_RegistryDwords=EnableBrightnessControl=1
+# More inspiring workaround here [1].
+#
+# [0] https://archlinux.org/packages/extra/x86_64/vulkan-validation-layers
+# [1] https://github.com/crispyricepc/sway-nvidia/blob/main/wlroots-env-nvidia.sh
+lsmod | grep -i nvidia 2>&1 >/dev/null && {
+    export WLR_RENDERER=vulkan
+    export WLR_NO_HARDWARE_CURSORS=1
+    export XWAYLAND_NO_GLAMOR=1
+}
