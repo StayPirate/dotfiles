@@ -109,7 +109,7 @@
 		"format": "<b></b> {usage:2}%"
 	},
 	"temperature#cpu": {
-		"hwmon-path": "/sys/class/hwmon/hwmon6/temp1_input",
+		"hwmon-path": [ "/sys/class/hwmon/hwmon6/temp1_input", "/sys/class/hwmon/hwmon8/temp1_input" ],
 		"critical-threshold": 95,
 		"interval": 5,
 		"format": " {temperatureC}°C",
