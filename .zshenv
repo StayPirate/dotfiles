@@ -88,7 +88,7 @@ export TIME_STYLE="+%d-%m-%Y %H:%M:%S %z"
 #
 # [0] https://archlinux.org/packages/extra/x86_64/vulkan-validation-layers
 # [1] https://github.com/crispyricepc/sway-nvidia/blob/main/wlroots-env-nvidia.sh
-lsmod | grep -i nvidia 2>&1 >/dev/null && {
+lsmod 2>/dev/null | grep -i nvidia 2>&1 >/dev/null && {
     export WLR_RENDERER=vulkan
     export WLR_NO_HARDWARE_CURSORS=1
     export XWAYLAND_NO_GLAMOR=1
