@@ -22,6 +22,7 @@
 		"custom/left-arrow-light",
 		"custom/left-arrow-dark",
 		"battery",
+		//"upower#boseqc35",
 		"custom/left-arrow-light",
 		"custom/left-arrow-dark",
 		"pulseaudio",
@@ -142,6 +143,13 @@
 			"",
 			""
 		]
+	},
+	"upower#boseqc35": {
+		"native-path": "/org/bluez/hci0/dev_04_52_C7_7E_67_82",
+		"icon-size": 20,
+		"hide-if-empty": true,
+		"tooltip": true,
+		"tooltip-spacing": 20
 	},
 	"network#wifi": {
         "interface": "wlp*",
