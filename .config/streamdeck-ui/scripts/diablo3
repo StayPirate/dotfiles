@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+# Turn off all the lights in the studio
+curl -L \
+  -H "Authorization: Bearer $(cat ~/.config/hass-cli/token)" \
+  -H "Content-Type: application/json" \
+  -d '{"area_id": "studio"}' \
+  https://crazybyte.duckdns.org/api/services/light/turn_off
+
+# Turn on the desk strip led on red
+curl -L \
+  -H "Authorization: Bearer $(cat ~/.config/hass-cli/token)" \
+  -H "Content-Type: application/json" \
+  -d '{"entity_id": "light.wled", "color_name": "red", "brightness_pct": "100"}' \
+  https://crazybyte.duckdns.org/api/services/light/turn_on
+
+# Move the the gaiming workspace
+swaymsg "workspace 6"
+
+# Start lutris
+lutris &

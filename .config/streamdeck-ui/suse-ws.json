@@ -12,7 +12,10 @@
                         "write": "",
                         "keys": ""
                     },
-                    "1": {},
+                    "1": {
+                        "icon": "/home/crazybyte/.config/streamdeck-ui/icons/diablo-3.png",
+                        "command": "/home/crazybyte/.config/streamdeck-ui/scripts/diablo3"
+                    },
                     "2": {},
                     "3": {},
                     "4": {},
