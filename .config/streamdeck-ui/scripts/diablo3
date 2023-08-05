@@ -8,11 +8,14 @@ curl -L \
   https://crazybyte.duckdns.org/api/services/light/turn_off
 
 # Turn on the desk strip led on red
+# via HA
 curl -L \
   -H "Authorization: Bearer $(cat ~/.config/hass-cli/token)" \
   -H "Content-Type: application/json" \
-  -d '{"entity_id": "light.wled", "color_name": "red", "brightness_pct": "100"}' \
+  -d '{"entity_id": "light.wled", "color_name": "red", "brightness_pct": "100", "effect": "Solid"}' \
   https://crazybyte.duckdns.org/api/services/light/turn_on
+# or directly by calling wled
+#curl -L "http://wled-desk.home/win&A=255&T=1&R=255&G=0&B=0&W=0&FX=0"
 
 # Move the the gaiming workspace
 swaymsg "workspace 6"
