@@ -27,7 +27,10 @@
                         "icon": "/home/crazybyte/.config/streamdeck-ui/icons/synthwave.jpg"
                     },
                     "8": {},
-                    "9": {},
+                    "9": {
+                        "icon": "/home/crazybyte/.config/streamdeck-ui/icons/ventilatore.png",
+                        "command": "hass-cli service call switch.toggle --arguments entity_id=switch.presa_ventilatore"
+                    },
                     "10": {
                         "icon": "/home/crazybyte/.config/streamdeck-ui/icons/elgato_left.png",
                         "switch_page": 3
