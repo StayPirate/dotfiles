@@ -1,0 +1,22 @@
+# Follow these rules to enable this config file:
+#   1. Replace YOUR_API_KEY with a valid API key for your user.
+#      1.1. From the bugzilla web UI, log in, navigate to Preferences->API Keys, and generate a key.
+#   2. Copy this file from bugzillarc.placeholder to bugzillarc, same folder.
+
+# The next 3 stanzas are needed for insect [0].
+# [0] https://gitlab.suse.de/security/tools/-/blob/master/python/bin/insect
+[core]
+server = DEFAULT
+
+[server.DEFAULT]
+url = bugzilla.suse.com
+apiurl = apibugzilla.suse.com
+api_key = YOUR_API_KEY
+
+[DEFAULT]
+url = bugzilla.suse.com
+
+# The following stanza is needed for bugzilla-cli [1].
+# [1] https://github.com/python-bugzilla/python-bugzilla
+[bugzilla.suse.com]
+api_key = YOUR_API_KEY
