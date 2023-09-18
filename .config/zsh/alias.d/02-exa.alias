@@ -1,18 +1,19 @@
-### exa is a modern replacement for ls
-# https://github.com/ogham/exa
+### eza (previously exa) is a modern replacement for `ls`
+# https://github.com/eza-community/eza
+# Archived: https://github.com/ogham/exa
 
-# `exa` doen't currently support TIME_STYLE +Format. Since I'm using "+%d-%m-%Y %H:%M:%S %z" with `ls`
+# `eza` doen't currently support TIME_STYLE +Format. Since I'm using "+%d-%m-%Y %H:%M:%S %z" with `ls`
 # then I need to overwrite this with `--time-style long-iso`.
-# This may change in the future when #867 [0] would be merged. See also #923 [1].
+# A bug was initially reported to exa at #923 [0], then moved to the eza #371 [1].
 #
-# [0] https://github.com/ogham/exa/pull/867
-# [1] https://github.com/ogham/exa/issues/923
+# [0] https://github.com/ogham/exa/issues/923
+# [1] https://github.com/eza-community/eza/issues/371
 
-type exa > /dev/null 2>&1 && {
-	alias ls='exa --icons --group-directories-first' # Also used with the chpwd hook in ~/.zshrc 
-	alias la='exa -la --group-directories-first --time-style long-iso --git'
-	alias ll='exa -l --group-directories-first --time-style long-iso --git'
-	alias lt='exa -la --sort modified --group-directories-first --time-style long-iso --git'
-	alias lS='exa -la --sort size --group-directories-first --time-style long-iso --git'
-	alias tree='exa -l --icons --tree --group-directories-first --time-style long-iso --git'
+type eza > /dev/null 2>&1 && {
+	alias ls='eza --icons --group-directories-first' # Also used with the chpwd hook in ~/.zshrc
+	alias la='eza -la --group-directories-first --time-style long-iso --git'
+	alias ll='eza -l --group-directories-first --time-style long-iso --git'
+	alias lt='eza -la --sort modified --group-directories-first --time-style long-iso --git'
+	alias lS='eza -la --sort size --group-directories-first --time-style long-iso --git'
+	alias tree='eza -l --icons --tree --group-directories-first --time-style long-iso --git'
 }
