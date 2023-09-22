@@ -14,6 +14,9 @@ fi
 # Powerline Daemon: Fast and lightweight, with daemon support for even better performance.
 # https://powerline.readthedocs.io/en/latest/usage/shell-prompts.html?#shell-prompts
 powerline-daemon -q
+if [[ $- =~ i && -z "$TMUX" && -n "$SSH_CONNECTION" ]]; then
+  exec tmux new-session -A -s remote
+fi
 # Do not execute tmux in tty6, this could be a fallback tty in case tmux doesn't work anymore
 if [[ -z "$TMUX" && "$(tty)" != "/dev/tty6" ]]; then
   exec tmux new-session -A -s workspace
@@ -201,7 +204,7 @@ source "${HOME}/.config/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
 # https://github.com/Powerlevel9k/powerlevel9k
 POWERLEVEL9K_MODE='nerdfont-complete'
 POWERLEVEL9K_LINUX_MANJARO_ICON='\uf303'
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon ssh root_indicator dir dir_writable vcs nvm virtualenv)
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon root_indicator dir dir_writable vcs nvm virtualenv ssh)
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(context command_execution_time status)
 POWERLEVEL9K_CONTEXT_TEMPLATE="%n"
 #POWERLEVEL9K_ALWAYS_SHOW_USER=true
