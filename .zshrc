@@ -19,6 +19,9 @@ if [[ -z "$TMUX" && "$(tty)" != "/dev/tty6" ]]; then
   exec tmux new-session -A -s workspace
 fi
 
+# Put the cmdline at the bottom of the terminal
+# https://www.reddit.com/r/zsh/comments/dsh1g3/new_powerlevel10k_feature_transient_prompt/f6rmpgc/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+echo ${(pl.$LINES..\n.)}
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -223,4 +226,5 @@ ZLE_RPROMPT_INDENT=0
 OWERLEVEL9K_INSTANT_PROMPT=verbose
 POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
 POWERLEVEL9K_TRANSIENT_PROMPT=always
+POWERLEVEL9K_INSTANT_PROMPT_COMMAND_LINES=0
 source "${HOME}/.config/zsh/themes/powerlevel10k/powerlevel10k.zsh-theme"
