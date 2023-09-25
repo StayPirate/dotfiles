@@ -59,3 +59,7 @@ alias heavy="dua"
 # Always use dua in interactive mode
 alias dua="dua i"
 type dua 2>&1 >/dev/null && alias du="dua"
+
+# Check what is tainting your kernel
+# https://www.kernel.org/doc/html/latest/admin-guide/tainted-kernels.html
+alias what-taint='for i in $(seq 18); do echo $(($i-1)) $(($(cat /proc/sys/kernel/tainted)>>($i-1)&1)); done; echo "Compare at https://www.kernel.org/doc/html/latest/admin-guide/tainted-kernels.html#table-for-decoding-tainted-state"'
