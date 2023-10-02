@@ -1,0 +1,12 @@
+### eza (previously exa) is a modern replacement for `ls`
+# https://github.com/eza-community/eza
+# Archived: https://github.com/ogham/exa
+
+type eza > /dev/null 2>&1 && {
+	alias ls='eza --icons --group-directories-first' # Also used with the chpwd hook in ~/.zshrc
+	alias la='eza -la --group-directories-first --git'
+	alias ll='eza -l --group-directories-first --git'
+	alias lt='eza -la --sort modified --group-directories-first --git'
+	alias lS='eza -la --sort size --group-directories-first --git'
+	alias tree='eza -l --icons --tree --group-directories-first --git'
+}
