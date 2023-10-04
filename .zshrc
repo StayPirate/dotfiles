@@ -22,9 +22,12 @@ if [[ -z "$TMUX" && "$(tty)" != "/dev/tty6" ]]; then
   exec tmux new-session -A -s workspace
 fi
 
-# Put the cmdline at the bottom of the terminal
+# Put the cmdline at the bottom of the terminal when zsh starts
 # https://www.reddit.com/r/zsh/comments/dsh1g3/new_powerlevel10k_feature_transient_prompt/f6rmpgc/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
-echo ${(pl.$LINES..\n.)}
+# Improved at https://github.com/romkatv/powerlevel10k/issues/2442#issuecomment-1746204964
+autoload -Uz clear-screen-soft-bottom
+clear-screen-soft-bottom
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -72,6 +75,12 @@ bindkey -e
 bindkey '\e[1;5C' forward-word;     # CTRL+[right]
 bindkey '\e[1;5D' backward-word;    # CTRL+[left]
 bindkey " " magic-space             # do history expansion on space
+
+# When hit CTRL+L (clear-screen) I want to put the $PROMPT at the bottom
+# of the terminal. Otherwise, at clear-screen time it's shown at the top.
+zle -N clear-screen-soft-bottom
+bindkey '^L' clear-screen-soft-bottom       # CTRL+L shortcut override
+alias clear=clear-screen-soft-bottom        # clear command override
 
 # create a zkbd compatible hash;
 # to add other keys to this hash, see: man 5 terminfo
