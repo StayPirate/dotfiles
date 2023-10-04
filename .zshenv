@@ -41,7 +41,10 @@ export LESSHISTSIZE=10000
 
 # Use bat as a colorizing pager for man
 # https://github.com/sharkdp/bat/#man
-type bat > /dev/null 2>&1 && export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+type bat > /dev/null 2>&1 && {
+    export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+    export MANROFFOPT="-c"
+}
 
 # Powerline
 # Load powerline python module
