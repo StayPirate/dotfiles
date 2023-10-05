@@ -341,12 +341,12 @@
 		// Run every 5m
 		"interval": 300,
 		// Run flatpak to start the update on-click
-		"on-click": "alacritty --class flatpack-updates -e tmux new-session -A -s updates 'flatpak --user update; zsh'",
+		"on-click": "alacritty --class flatpack-updates -e tmux new-session -A -s updates 'flatpak update; zsh'",
 		// Number of updates
-		"exec": "flatpak --user update | \\grep -E \"^ ?[0-9]{1,2}\\.\" | wc -l",
+		"exec": "flatpak update | \\grep -E \"^ ?[0-9]{1,2}\\.\" | wc -l",
 		// Only run if there is at least one update available.
 		// This is done in order to only show the icon when updates are ready to be installed.
-		"exec-if": "[[ $(flatpak update --user | grep -F '[Y/n]') ]] || exit 1"
+		"exec-if": "[[ $(flatpak update | grep -F '[Y/n]') ]] || exit 1"
 	},
 	"custom/pip_local": {
 		"format": " {}",
