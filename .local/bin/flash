@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+
+usage() {
+    echo "$(basename "${BASH_SOURCE[0]}") is a simple wrapper for 'dd' and it is intended to help users to flash ISOs to USB devices."
+    echo "Usage:"
+    echo "    $(basename "${BASH_SOURCE[0]}") <image>"
+    exit
+}
+
+get_device_name() {
+    lsblk --list --noheadings --nodeps --output NAME | \
+    sed -e 's/^/\/dev\//' | \
+    fzf --layout=reverse --header "Which device would you like to flash?" | \
+    cut -d " " -f 1
+}
+
+setup_colors() {
+    no_format='' red='' blue=''
+    if [[ -t 2 ]] && [[ "${TERM:-}" != "dumb" ]]; then
+        no_format='\033[0m'
+        blue='\033[1;94m'
+        red='\033[1;41m'
+    fi
+}
+
+# Check script dependencies
+type fzf >/dev/null 2>&1 || {
+    echo >&2 "fzf not found, please install it first."
+    exit
+}
+
+# If wrong numbers of arguments are passed, print the usage and exit.
+[[ $# -eq 0 ]] || [[ $# -gt 1 ]] && usage
+
+# Load colorized output
+setup_colors
+
+# Select the device you want to flash
+to_flash_dev=$(get_device_name)
+
+# Ask for user's confirmation
+echo -e "You are going to flash ${blue}${1}${no_format} to ${red}${to_flash_dev}${no_format}."
+read -ep "ARE YOU SURE? [N/y] " -n 1 -r
+[[ $REPLY =~ ^[Yy]$ ]] || exit
+
+[[ -w ${to_flash_dev} ]] || {
+    echo -e >&2 "You don't have write permission for ${red}${to_flash_dev}${no_format}. Please run $(basename "${BASH_SOURCE[0]}") with sudo."
+    exit
+}
+
+# Flash the drive
+dd bs=4M if=${1} of=${to_flash_dev} conv=fsync oflag=direct status=progress
+sync
