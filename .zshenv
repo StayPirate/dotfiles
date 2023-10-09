@@ -96,3 +96,6 @@ lsmod 2>/dev/null | grep -i nvidia 2>&1 >/dev/null && {
     export WLR_NO_HARDWARE_CURSORS=1
     export XWAYLAND_NO_GLAMOR=1
 }
+
+# minicom: enable colors and metakey
+export MINICOM="-m -c on"

@@ -1,0 +1,1 @@
+alias minicom='sudo -E minicom'
