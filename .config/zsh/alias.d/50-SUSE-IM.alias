@@ -62,8 +62,8 @@ export SUSE_CHANNELS=~/.local/share/SUSE/SUSE:Channels
 alias sc='cd $SUSE_CHANNELS'
 # Enter the SUSE Channels local copy and update
 alias scc='cd $SUSE_CHANNELS && \
-  zsh -ic "isc up $SUSE_CHANNELS > /dev/null && \
-  echo -e \"${SUSE_CHANNELS##*/}\tUpdated\""'
+  isc up $SUSE_CHANNELS > /dev/null && \
+  echo -e "${SUSE_CHANNELS##*/}\tUpdated"'
 
 alias sepkg='f() {
 # Search packages that build binaries that contains the searched substring (case-insensitive)
