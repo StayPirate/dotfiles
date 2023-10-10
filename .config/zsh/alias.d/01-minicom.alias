@@ -1,1 +1,2 @@
-alias minicom='sudo -E minicom'
+# I don't need the following alias anymore because I added my user to the `uucp` group.
+#alias minicom='sudo -E minicom'

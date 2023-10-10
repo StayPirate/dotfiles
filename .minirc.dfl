@@ -1,2 +1,4 @@
 # Machine-generated file - use "minicom -s" to change parameters.
 pu port             /dev/ttyUSB0
+pu logfname         /home/crazybyte/.cache/minicom.log
+pu lock             /run/user/1000
