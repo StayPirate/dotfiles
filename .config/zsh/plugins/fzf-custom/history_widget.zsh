@@ -19,6 +19,7 @@ if [ -n "$selected" ]; then
     fi
 fi
 zle reset-prompt
+clear-screen-soft-bottom
 return $ret
 }
 zle     -N   fzf-custom-history-widget
