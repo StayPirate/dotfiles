@@ -8,5 +8,5 @@ type eza > /dev/null 2>&1 && {
 	alias ll='eza -l --group-directories-first --git --git-repos'
 	alias lt='eza -la --sort modified --group-directories-first --git --git-repos'
 	alias lS='eza -la --sort size --group-directories-first --git --git-repos'
-	alias tree='eza -l --icons --tree --group-directories-first'
+	alias tree='eza  --tree --no-icons --no-permissions --no-user --no-time --no-filesize --no-git --no-quotes'
 }
