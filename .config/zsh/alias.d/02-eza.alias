@@ -4,9 +4,9 @@
 
 type eza > /dev/null 2>&1 && {
 	alias ls='eza --icons --group-directories-first' # Also used with the chpwd hook in ~/.zshrc
-	alias la='eza -la --group-directories-first --git --git-repos --smart-group'
-	alias ll='eza -l --group-directories-first --git --git-repos --smart-group'
-	alias lt='eza -la --sort modified --group-directories-first --git --git-repos --smart-group'
-	alias lS='eza -la --sort size --group-directories-first --git --git-repos --smart-group'
+	alias la='eza -la --group-directories-first --git --git-repos --group --smart-group'
+	alias ll='eza -l --group-directories-first --git --git-repos --group --smart-group'
+	alias lt='eza -la --sort modified --group-directories-first --git --git-repos --group --smart-group'
+	alias lS='eza -la --sort size --group-directories-first --git --git-repos --group --smart-group'
 	alias tree='eza  --tree --no-icons --no-permissions --no-user --no-time --no-filesize --no-git --no-quotes'
 }
