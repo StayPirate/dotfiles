@@ -171,8 +171,8 @@ focus_follows_mouse no
     bindsym XF86MonBrightnessDown exec 'busctl --user -- call rs.wl-gammarelay / rs.wl.gammarelay UpdateBrightness d -0.2'
     bindsym XF86MonBrightnessUp exec 'busctl --user call rs.wl-gammarelay / rs.wl.gammarelay UpdateBrightness d 0.2'
     # When press the play button, start spotify if it's closed.
-    bindsym --locked XF86AudioPlay exec 'pgrep spotify 2>/dev/null 1>&2 || spotify; playerctl play-pause'
-    bindsym --locked Alt+Down exec 'pgrep spotify 2>/dev/null 1>&2 || spotify; playerctl play-pause'
+    bindsym --locked XF86AudioPlay exec playerctl play-pause
+    bindsym --locked Alt+Down exec playerctl play-pause
     bindsym --locked XF86AudioNext exec playerctl next
     bindsym --locked Alt+Right exec playerctl next
     bindsym --locked XF86AudioPrev exec playerctl previous
