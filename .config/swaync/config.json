@@ -21,12 +21,9 @@
   "layer": "overlay",
 
   "widgets": [
-    "menubar",
-    "mpris",
-    "buttons-grid",
-    "volume",
     "title",
     "dnd",
+    "mpris",
     "notifications"
   ],
   "widget-config": {
@@ -45,54 +42,6 @@
     "mpris": {
       "image-size": 96,
       "image-radius": 12
-    },
-    "volume": {
-      "label": "󰕾 ",
-      "show-per-app": true,
-      "animation-type": "slide_down",
-      "animation-duration": 250
-    },
-    "menubar": {
-      "menu#power": {
-        "label": "  Power Menu",
-        "position": "left",
-        "animation-type": "slide_down",
-        "animation-duration": 250,
-        "actions": [
-          {
-            "label": " Shutdown",
-            "command": "systemctl poweroff"
-          },
-          {
-            "label": " Reboot",
-            "command": "systemctl reboot"
-          },
-          {
-            "label": " Lock",
-            "command": "swaylock"
-          }
-        ]
-      }
-    },
-    "buttons-grid": {
-      "actions": [
-          {
-              "label": "",
-              "command": "set_all_microphones toggle"
-          },
-          {
-            "label": "婢",
-            "command": "pactl set-sink-mute @DEFAULT_SINK@ toggle"
-          },
-          {
-            "label": "奔",
-            "command": "pactl set-sink-volume @DEFAULT_SINK@ -5%"
-          },
-          {
-            "label": "墳",
-            "command": "pactl set-sink-volume @DEFAULT_SINK@ +5%"
-          }
-      ]
     }
   },
 
