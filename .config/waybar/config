@@ -35,7 +35,8 @@
 		"network#tap",
 		"custom/left-arrow-light",
 		"custom/left-arrow-dark",
-		"custom/notification"
+		"custom/notification",
+		"group/group-power"
 	],
 
 	"custom/left-arrow-dark": {
@@ -214,6 +215,35 @@
 		"on-click": "swaync-client -t -sw",
 		"on-click-right": "swaync-client -d -sw",
 		"escape": true
+	},
+
+	"group/group-power": {
+		"orientation": "inherit",
+		"drawer": {
+			"transition-duration": 500,
+			"children-class": "",
+			"transition-left-to-right": true
+		},
+		"modules": [
+			"custom/power", // First element is the "group leader" and won't ever be hidden
+			"custom/lock",
+			"custom/reboot"
+		]
+	},
+	"custom/lock": {
+		"format": "",
+		"tooltip": false,
+		"on-click": "swaylock"
+	},
+	"custom/reboot": {
+		"format": "",
+		"tooltip": false,
+		"on-click": "systemctl reboot"
+	},
+	"custom/power": {
+		"format": "",
+		"tooltip": false,
+		"on-click": "systemctl poweroff"
 	}
 },
 {
