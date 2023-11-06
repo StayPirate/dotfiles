@@ -293,6 +293,9 @@ include "$(uname -n).conf"
     for_window [ app_id="firefox" title="Firefox - Choose User Profile" ] {
         floating enable
     }
+    for_window [ app_id="firefox" title="^Developer Tools*" ] {
+        floating disable
+    }
     for_window [ app_id="firefox" title="Picture-in-Picture" ] {
         floating enable
     }
