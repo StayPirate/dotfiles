@@ -71,7 +71,7 @@
 			//"focused": " ",
 			"default": " "
 		},
-		"persistent_workspaces": {
+		"persistent-workspaces": {
 			"1:web": [],
 			"2:mail": [],
 			"3:chat": [],
