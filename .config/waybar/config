@@ -25,7 +25,9 @@
 		//"upower#boseqc35",
 		"custom/left-arrow-light",
 		"custom/left-arrow-dark",
-		"pulseaudio",
+		"group/group-audio",
+		//"pulseaudio",
+		//"pulseaudio/slider",
 		"custom/left-arrow-light",
 		"custom/left-arrow-dark",
 		"bluetooth",
@@ -78,12 +80,25 @@
 		}
 	},
 
-	"pulseaudio": {
-		"format": "{format_source} {icon} {volume:2}%",
-		"format-muted": "{format_source} <span color='#AA0000'><b>婢</b></span>  0%",
+	"group/group-audio": {
+		"orientation": "inherit",
+		"drawer": {
+			"transition-duration": 500,
+			"children-class": "",
+			"transition-left-to-right": true
+		},
+		"modules": [
+			"pulseaudio",
+			"pulseaudio/slider"
+		]
+	},
 
-		"format-bluetooth": "{format_source} {icon} {volume:2}% <b></b>",
-		"format-bluetooth-muted": "{format_source} <span color='#AA0000'><b>婢</b></span>  0% <b></b>",
+	"pulseaudio": {
+		"format": "{volume:3}% <span size='x-large' rise='-3000'>󰓃</span> {format_source}",
+		"format-muted": "  0% <span color='#AA0000' size='x-large' rise='-3000'>󰓃</span> {format_source}",
+
+		"format-bluetooth": "{volume:3}% <span size='large' rise='-1500'></span> {format_source}",
+		"format-bluetooth-muted": "  0% <span color='#AA0000' size='large' rise='-1500'></span> {format_source}",
 
 		"format-source": "<b></b>",
 		"format-source-muted": "<span color='#AA0000'><b></b></span>",
@@ -244,6 +259,13 @@
 		"format": "",
 		"tooltip": false,
 		"on-click": "systemctl poweroff"
+	},
+
+	"pulseaudio/slider": {
+		"min": 0,
+		"max": 100,
+		"scroll-step": 5,
+		"orientation": "horizontal"
 	}
 },
 {
