@@ -387,15 +387,6 @@ include "$(uname -n).conf"
         move workspace $ws_chat
         #move right
     }
-    # Jitsi on Chromium
-    for_window [ title="Jitsi Meet$" ] {
-        shortcuts_inhibitor disable
-        move workspace $ws_chat
-    }
-    # Jitsi on Firefox
-    for_window [ app_id="firefox" title="Meet — Mozilla Firefox" ] {
-        move workspace $ws_chat
-    }
     # Whatsapp application
     for_window [ app_id="chrome-web.whatsapp.com__-Default" ] {
         shortcuts_inhibitor disable
