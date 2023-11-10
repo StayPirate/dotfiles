@@ -232,8 +232,7 @@ focus_follows_mouse no
     set $ws6        "6:6"
     set $ws7        "7:7"
     set $ws8        "8:8"
-    set $ws9        "9:9"
-    set $ws10       "10:10"
+    set $ws_kali    "9:kali"
     # Switch to workspace
     bindsym $mod+1 workspace $ws_web
     bindsym $mod+2 workspace $ws_mail
@@ -243,8 +242,7 @@ focus_follows_mouse no
     bindsym $mod+6 workspace $ws6
     bindsym $mod+7 workspace $ws7
     bindsym $mod+8 workspace $ws8
-    bindsym $mod+9 workspace $ws9
-    bindsym $mod+0 workspace $ws10
+    bindsym $mod+9 workspace $ws_kali
     # Move focused container to workspace
     bindsym $mod+Shift+1 move container to workspace $ws_web
     bindsym $mod+Shift+2 move container to workspace $ws_mail
@@ -254,8 +252,7 @@ focus_follows_mouse no
     bindsym $mod+Shift+6 move container to workspace $ws6
     bindsym $mod+Shift+7 move container to workspace $ws7
     bindsym $mod+Shift+8 move container to workspace $ws8
-    bindsym $mod+Shift+9 move container to workspace $ws9
-    bindsym $mod+Shift+0 move container to workspace $ws10
+    bindsym $mod+Shift+9 move container to workspace $ws_kali
     # Left hand shortcuts to move among workspaces
     workspace_auto_back_and_forth no
     bindsym $mod+Tab workspace back_and_forth
@@ -460,13 +457,18 @@ include "$(uname -n).conf"
         move position 85 ppt 70 ppt
     }
 
+    for_window [ app_id="virt-manager" ] {
+        floating enable
+    }
     for_window [ app_id="virt-manager" title="Virtual Machine Manager" ] {
         floating enable
         resize set 970 px 650 px
         move position center
     }
-    for_window [ app_id="virt-manager" ] {
-        floating enable
+    # Kali-Linux VM
+    for_window [ app_id="virt-manager" title="^Kali.*" ] {
+        floating disable
+        move workspace $ws_kali
     }
 
     for_window [ title="Steam" ] {
