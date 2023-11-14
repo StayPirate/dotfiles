@@ -37,8 +37,8 @@
 		"network#tap",
 		"custom/left-arrow-light",
 		"custom/left-arrow-dark",
-		"custom/notification",
-		"group/group-power"
+		"group/group-power",
+		"custom/notification"
 	],
 
 	"custom/left-arrow-dark": {
