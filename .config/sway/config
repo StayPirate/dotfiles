@@ -322,23 +322,23 @@ include "$(uname -n).conf"
     }
     exec 'is-internet-ready && firefox'
 
-    for_window [ app_id="thunderbird" title="^Password Required - Mozilla Thunderbird$" ] {
+    for_window [ app_id="org.mozilla.Thunderbird" ] {
+        move workspace $ws_mail
+    }
+    for_window [ app_id="org.mozilla.Thunderbird" title="^Password Required - Mozilla Thunderbird$" ] {
         floating enable
         move workspace $ws_mail
     }
-    for_window [ app_id="thunderbird" title="[0-9]+ Reminder" ] {
+    for_window [ app_id="org.mozilla.Thunderbird" title="[0-9]+ Reminder" ] {
         floating enable
         resize set 20 ppt 30 ppt
         sticky enable
-        no_focus [ app_id="thunderbird" title="[0-9]+ Reminder" ]
+        no_focus [ app_id="org.mozilla.Thunderbird" title="[0-9]+ Reminder" ]
     }
     # Thunderbird Mailbox-Alert Addon
-    for_window [ app_id="thunderbird" title="^$" ] {
+    for_window [ app_id="org.mozilla.Thunderbird" title="^$" ] {
         floating enable
         move position center
-        move workspace $ws_mail
-    }
-    for_window [ app_id="thunderbird" ] {
         move workspace $ws_mail
     }
     exec 'is-internet-ready && thunderbird'
