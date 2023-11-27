@@ -6,8 +6,8 @@ type podman >/dev/null 2>&1 || {
 }
 
 # Skip this check on the following repos
-REPOS_TO_SKIP=("HTB-Notes"
-              "NotExsistingRepositoryName")
+REPOS_TO_SKIP=("KB"
+              "OSCP-Notes")
 
 for repo in ${REPOS_TO_SKIP[@]}; do
     if [ "$(basename $(pwd))" == "$repo" ]; then
