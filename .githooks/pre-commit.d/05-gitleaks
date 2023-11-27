@@ -1,9 +1,20 @@
 #!/usr/bin/env bash
 
 type podman >/dev/null 2>&1 || {
-    echo >2 "Podman not installed, Gitleaks check is skipped."
+    echo >&2 "Podman not installed, Gitleaks check is skipped."
     exit 0
 }
+
+# Skip this check on the following repos
+REPOS_TO_SKIP=("HTB-Notes"
+              "NotExsistingRepositoryName")
+
+for repo in ${REPOS_TO_SKIP[@]}; do
+    if [ "$(basename $(pwd))" == "$repo" ]; then
+        echo >&2 "Gitleaks check is skipped for ${repo}."
+        exit 0
+    fi
+done
 
 # Update Gitleaks image to :latest
 podman pull ghcr.io/gitleaks/gitleaks:latest >/dev/null 2>&1 && echo "ghcr.io/gitleaks/gitleaks:latest is up-to-date"
