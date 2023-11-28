@@ -259,7 +259,7 @@
 	"custom/power": {
 		"format": "",
 		"tooltip": false,
-		"on-click": "systemctl poweroff"
+		"on-click": "swaynag -m \"Are you sure you want to shutdown the system?\" -z \"Shutdown\" \"systemctl poweroff\" -t warning --background \"FFFFFF00\" --text \"FF0000\" --button-background \"FF0000\" --border \"AF0000\" --button-gap 0"
 	},
 
 	"pulseaudio/slider": {
