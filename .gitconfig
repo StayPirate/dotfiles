@@ -52,3 +52,5 @@
 	hooksPath = ~/.githooks
 [init]
 	defaultBranch = master
+[safe]
+	directory = *
