@@ -1,0 +1,2 @@
+[Context]
+filesystems=!home;!/media;xdg-documents/3D Models;!/run/media;!xdg-run/gvfs;
