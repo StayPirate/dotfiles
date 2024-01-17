@@ -380,7 +380,7 @@ include "$(uname -n).conf"
         move workspace $ws_chat
         #move left
     }
-    for_window [ app_id="chrome-teams.microsoft.com__-Default" ] {
+    for_window [ app_id="^chromium-browser.*\.config\\/chromium\\/SUSE.*" ] {
         # Starting from Chromium 103.0.5060.53, the 'Win' key is blocked in kiosk (app) mode.
         # The following command makes the compositor to not pass-through the keystroke to the client.
         shortcuts_inhibitor disable
@@ -440,8 +440,8 @@ include "$(uname -n).conf"
     # I installed the openwith [0] addon in the SUSE profile.
     # [0] https://github.com/darktrojan/openwith
     exec 'is-internet-ready && slack'
-    # M$ Teams does not work for video/audio call in FF :(, so I use chromium
-    exec 'is-internet-ready && teams'
+    # Business calendar and meetings platform
+    exec 'is-internet-ready && chromium-suse'
 
     for_window [ class="scrcpy" title="SHIELD Android TV" ] {
         floating enable

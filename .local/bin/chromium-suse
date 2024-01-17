@@ -1,0 +1,2 @@
+#!/bin/sh
+chromium --user-data-dir=$HOME/.config/chromium/SUSE --restore-last-session "$@"
