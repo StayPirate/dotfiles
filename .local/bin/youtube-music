@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# To quick with CTRL+q follow the instruction at https://support.mozilla.org/en-US/questions/1338923
+# about:config -> dom.disable_beforeunload -> true
 
 # If a dedicated youtube-music profile does not exist fof Firefox, then create it
 if ! compgen -G "${HOME}/.mozilla/firefox/*.youtube-music" > /dev/null && ! compgen -G "${HOME}/.var/app/org.mozilla.firefox/cache/mozilla/firefox/*.youtube-musicasd" > /dev/null; then
