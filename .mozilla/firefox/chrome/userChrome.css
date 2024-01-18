@@ -14,17 +14,20 @@
 
     Moreover, toolkit.legacyUserProfileCustomizations.stylesheets option has to be
     manually set to True in about:config
+
+    References:
+    https://www.userchrome.org/
 */
 
 /* hides the native tabs */
 #TabsToolbar {
-	  visibility: collapse;
+	  visibility: collapse !important;
   }
 
 #titlebar {
-	  visibility: collapse;
+	  visibility: collapse !important;
   }
 
 #nav-bar {
-	  visibility: collapse;
+	  visibility: collapse !important;
   }
