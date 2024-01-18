@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+# If a dedicated youtube-music profile does not exist fof Firefox, then create it
+if ! compgen -G "${HOME}/.mozilla/firefox/*.youtube-music" > /dev/null && ! compgen -G "${HOME}/.var/app/org.mozilla.firefox/cache/mozilla/firefox/*.youtube-musicasd" > /dev/null; then
+    firefox --createprofile youtube-music
+fi
+
+firefox -p youtube-music https://music.youtube.com --kiosk

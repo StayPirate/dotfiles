@@ -275,6 +275,11 @@ include "$(uname -n).conf"
         mark "toggle_KeePassXC"
     }
 
+    # Youtube Music (Kiosk Mode)
+    for_window [ app_id="firefox" title="YouTube Music — Mozilla Firefox" ] {
+        move workspace $ws_chill
+        fullscreen disable
+    }
     for_window [ app_id="firefox" title="Enter name of file to save to" ] {
         floating enable
         sticky enable
