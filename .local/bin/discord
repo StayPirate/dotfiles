@@ -1,1 +1,2 @@
-../share/flatpak/exports/bin/com.discordapp.Discord
+#!/bin/sh
+exec /usr/bin/flatpak run --branch=stable --arch=x86_64 com.discordapp.Discord --ozone-platform-hint=auto --enable-features=WaylandWindowDecorations --enable-features=WebRTCPipeWireCapturer "$@"
