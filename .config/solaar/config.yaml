@@ -1,8 +1,9 @@
-- 1.1.10
+- 1.1.11
 - _NAME: MX Mechanical Mini
   _absent: [hi-res-scroll, lowres-scroll-mode, hires-smooth-invert, hires-smooth-resolution, hires-scroll-mode, scroll-ratchet, smart-shift, thumb-scroll-invert,
-    thumb-scroll-mode, onboard_profiles, report_rate, pointer_speed, dpi, speed-change, backlight-timed, reprogrammable-keys, persistent-remappable-keys,
-    crown-smooth, divert-crown, divert-gkeys, m-key-leds, mr-key-led, gesture2-gestures, gesture2-divert, gesture2-params, sidetone, equalizer, adc_power_management]
+    thumb-scroll-mode, onboard_profiles, report_rate, report_rate_extended, pointer_speed, dpi, speed-change, backlight_level, backlight_duration_hands_out,
+    backlight_duration_hands_in, backlight_duration_powered, backlight-timed, led_control, led_zone_, reprogrammable-keys, persistent-remappable-keys, crown-smooth,
+    divert-crown, divert-gkeys, m-key-leds, mr-key-led, gesture2-gestures, gesture2-divert, gesture2-params, sidetone, equalizer, adc_power_management]
   _battery: 4100
   _modelId: B36700000000
   _sensitive: {backlight: true, change-host: false, divert-keys: true, fn-swap: false, multiplatform: false}
@@ -11,38 +12,36 @@
   _wpid: B367
   backlight: true
   change-host: null
-  disable-keyboard-keys: {1: false, 4: false, 8: false, 16: false}
-  divert-keys: {212: 0, 226: 0, 227: 0, 231: 0, 232: 0, 233: 0, 259: 1, 264: 1, 266: 1, 267: 0, 268: 0, 269: 0, 270: 0, 271: 0, 272: 0, 273: 0, 274: 0,
-    277: 0, 279: 0, 280: 0, 281: 0, 282: 0, 283: 0, 284: 1, 286: 0, 316: 0, 321: 0}
+  disable-keyboard-keys: {0x1: false, 0x4: false, 0x8: false, 0x10: false}
+  divert-keys: {0xd4: 0x0, 0xe2: 0x0, 0xe3: 0x0, 0xe7: 0x0, 0xe8: 0x0, 0xe9: 0x0, 0x103: 0x1, 0x108: 0x1, 0x10a: 0x1, 0x10b: 0x0, 0x10c: 0x0, 0x10d: 0x0,
+    0x10e: 0x0, 0x10f: 0x0, 0x110: 0x0, 0x111: 0x0, 0x112: 0x0, 0x115: 0x0, 0x117: 0x0, 0x118: 0x0, 0x119: 0x0, 0x11a: 0x0, 0x11b: 0x0, 0x11c: 0x1, 0x11e: 0x0,
+    0x13c: 0x0, 0x141: 0x0}
   fn-swap: true
-  multiplatform: 0
+  multiplatform: 0x0
 - _NAME: MX Master 3 Wireless Mouse
-  _absent: [hi-res-scroll, lowres-scroll-mode, onboard_profiles, report_rate, pointer_speed, speed-change, backlight, backlight-timed, fn-swap, persistent-remappable-keys,
-    disable-keyboard-keys, crown-smooth, divert-crown, divert-gkeys, m-key-leds, mr-key-led, multiplatform, gesture2-gestures, gesture2-divert, gesture2-params,
-    sidetone, equalizer, adc_power_management]
-  _battery: 4096
   _modelId: B02340820000
   _sensitive: {divert-keys: true, dpi: true, reprogrammable-keys: false, smart-shift: true}
   _serial: 2E660772
   _unitId: 2E660772
   _wpid: '4082'
   change-host: null
-  divert-keys: {82: 0, 83: 0, 86: 0, 195: 1, 196: 0}
-  dpi: 1600
+  divert-keys: {0x52: 0x0, 0x53: 0x0, 0x56: 0x0, 0xc3: 0x1, 0xc4: 0x0}
+  dpi: 0x640
   hires-scroll-mode: false
   hires-smooth-invert: false
   hires-smooth-resolution: true
-  reprogrammable-keys: {80: 80, 81: 81, 82: 82, 83: 83, 86: 86, 195: 195, 196: 196}
-  scroll-ratchet: 2
-  smart-shift: 10
+  reprogrammable-keys: {0x50: 0x50, 0x51: 0x51, 0x52: 0x52, 0x53: 0x53, 0x56: 0x56, 0xc3: 0xc3, 0xc4: 0xc4}
+  scroll-ratchet: 0x2
+  smart-shift: 0xa
   thumb-scroll-invert: false
   thumb-scroll-mode: false
 - _NAME: MX Master 3S
-  _absent: [hi-res-scroll, lowres-scroll-mode, onboard_profiles, report_rate, pointer_speed, speed-change, backlight, backlight-timed, fn-swap, persistent-remappable-keys,
+  _absent: [hi-res-scroll, lowres-scroll-mode, onboard_profiles, report_rate, report_rate_extended, pointer_speed, speed-change, backlight, backlight_level,
+    backlight_duration_hands_out, backlight_duration_hands_in, backlight_duration_powered, backlight-timed, led_control, led_zone_, fn-swap, persistent-remappable-keys,
     disable-keyboard-keys, crown-smooth, divert-crown, divert-gkeys, m-key-leds, mr-key-led, multiplatform, gesture2-gestures, gesture2-divert, gesture2-params,
     sidetone, equalizer, adc_power_management]
   _battery: 4100
-  _dpi-sliding: 16
+  _dpi-sliding: 0x10
   _modelId: B03400000000
   _sensitive: {divert-keys: true, dpi: true, hires-scroll-mode: false, hires-smooth-invert: false, hires-smooth-resolution: false, reprogrammable-keys: false,
     scroll-ratchet: false, thumb-scroll-invert: true}
@@ -50,27 +49,27 @@
   _unitId: 9A21C3A7
   _wpid: B034
   change-host: null
-  divert-keys: {82: 0, 83: 0, 86: 0, 195: 1, 196: 0}
-  dpi: 1600
+  divert-keys: {0x52: 0x0, 0x53: 0x0, 0x56: 0x0, 0xc3: 0x1, 0xc4: 0x0}
+  dpi: 0x640
   hires-scroll-mode: false
   hires-smooth-invert: false
   hires-smooth-resolution: false
-  reprogrammable-keys: {80: 80, 81: 81, 82: 82, 83: 83, 86: 86, 195: 195, 196: 196}
-  scroll-ratchet: 2
-  smart-shift: 10
+  reprogrammable-keys: {0x50: 0x50, 0x51: 0x51, 0x52: 0x52, 0x53: 0x53, 0x56: 0x56, 0xc3: 0xc3, 0xc4: 0xc4}
+  scroll-ratchet: 0x2
+  smart-shift: 0xa
   thumb-scroll-invert: true
   thumb-scroll-mode: false
 - _NAME: Unknown device B034
   _sensitive: {hires-scroll-mode: ignore, hires-smooth-invert: ignore, hires-smooth-resolution: ignore}
   change-host: null
-  divert-keys: {82: 0, 83: 0, 86: 0, 195: 0, 196: 0}
-  dpi: 1600
+  divert-keys: {0x52: 0x0, 0x53: 0x0, 0x56: 0x0, 0xc3: 0x0, 0xc4: 0x0}
+  dpi: 0x640
   hires-scroll-mode: false
   hires-smooth-invert: false
   hires-smooth-resolution: false
-  reprogrammable-keys: {80: 80, 81: 81, 82: 82, 83: 83, 86: 86, 195: 195, 196: 196}
-  scroll-ratchet: 2
-  smart-shift: 10
+  reprogrammable-keys: {0x50: 0x50, 0x51: 0x51, 0x52: 0x52, 0x53: 0x53, 0x56: 0x56, 0xc3: 0xc3, 0xc4: 0xc4}
+  scroll-ratchet: 0x2
+  smart-shift: 0xa
   thumb-scroll-invert: false
   thumb-scroll-mode: false
 - _NAME: Wireless Mouse MX Anywhere 2
@@ -78,9 +77,9 @@
   _sensitive: {hires-scroll-mode: ignore, hires-smooth-invert: ignore, hires-smooth-resolution: ignore}
   _unitId: 8E924DD6
   change-host: null
-  divert-keys: {82: 0, 83: 0, 86: 0, 91: 0, 93: 0}
-  dpi: 1000
+  divert-keys: {0x52: 0x0, 0x53: 0x0, 0x56: 0x0, 0x5b: 0x0, 0x5d: 0x0}
+  dpi: 0x3e8
   hires-scroll-mode: false
   hires-smooth-invert: false
   hires-smooth-resolution: false
-  reprogrammable-keys: {80: 80, 81: 81, 82: 82, 83: 83, 86: 86, 91: 91, 93: 93}
+  reprogrammable-keys: {0x50: 0x50, 0x51: 0x51, 0x52: 0x52, 0x53: 0x53, 0x56: 0x56, 0x5b: 0x5b, 0x5d: 0x5d}
