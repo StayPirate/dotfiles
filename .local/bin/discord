@@ -1,2 +1,1 @@
-#!/usr/bin/env bash
-chromium --user-data-dir=$HOME/.config/chromium/SUSE --app=https://discord.com/channels/@me &
+../share/flatpak/exports/bin/com.discordapp.Discord

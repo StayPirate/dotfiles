@@ -359,6 +359,12 @@ include "$(uname -n).conf"
     }
     exec 'is-internet-ready && telegram-desktop'
 
+    # Discord
+    for_window [ app_id="com.discordapp.Discord" ] {
+        move workspace $ws_chill
+    }
+    exec 'is-internet-ready && discord'
+
     for_window [ instance="spotify" ] {
         move workspace $ws_chill
         resize set 62 ppt 100 ppt
@@ -398,10 +404,6 @@ include "$(uname -n).conf"
     }
     # Google Translator
     for_window [ app_id="chrome-translate.google.com__-Default" ] {
-        shortcuts_inhibitor disable
-    }
-    # Discord
-    for_window [ app_id="chrome-discord.com__channels_@me-Default" ] {
         shortcuts_inhibitor disable
     }
     for_window [ title="^meet.opensuse.org is sharing your screen.$" ] {
