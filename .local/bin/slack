@@ -1,1 +1,2 @@
-../share/flatpak/exports/bin/com.slack.Slack
+#!/bin/sh
+exec /usr/bin/flatpak run --branch=stable --arch=x86_64 com.slack.Slack --ozone-platform-hint=auto --enable-features=WaylandWindowDecorations --enable-features=WebRTCPipeWireCapturer "$@"
