@@ -4,7 +4,7 @@
     thumb-scroll-mode, onboard_profiles, report_rate, report_rate_extended, pointer_speed, dpi, speed-change, backlight_level, backlight_duration_hands_out,
     backlight_duration_hands_in, backlight_duration_powered, backlight-timed, led_control, led_zone_, reprogrammable-keys, persistent-remappable-keys, crown-smooth,
     divert-crown, divert-gkeys, m-key-leds, mr-key-led, gesture2-gestures, gesture2-divert, gesture2-params, sidetone, equalizer, adc_power_management]
-  _battery: 4100
+  _battery: 0x1004
   _modelId: B36700000000
   _sensitive: {backlight: true, change-host: false, divert-keys: true, fn-swap: false, multiplatform: false}
   _serial: D67C0E58
@@ -19,6 +19,11 @@
   fn-swap: true
   multiplatform: 0x0
 - _NAME: MX Master 3 Wireless Mouse
+  _absent: [hi-res-scroll, lowres-scroll-mode, onboard_profiles, report_rate, report_rate_extended, pointer_speed, speed-change, backlight, backlight_level,
+    backlight_duration_hands_out, backlight_duration_hands_in, backlight_duration_powered, backlight-timed, led_control, led_zone_, fn-swap, persistent-remappable-keys,
+    disable-keyboard-keys, crown-smooth, divert-crown, divert-gkeys, m-key-leds, mr-key-led, multiplatform, gesture2-gestures, gesture2-divert, gesture2-params,
+    sidetone, equalizer, adc_power_management]
+  _battery: 4096
   _modelId: B02340820000
   _sensitive: {divert-keys: true, dpi: true, reprogrammable-keys: false, smart-shift: true}
   _serial: 2E660772
@@ -40,7 +45,7 @@
     backlight_duration_hands_out, backlight_duration_hands_in, backlight_duration_powered, backlight-timed, led_control, led_zone_, fn-swap, persistent-remappable-keys,
     disable-keyboard-keys, crown-smooth, divert-crown, divert-gkeys, m-key-leds, mr-key-led, multiplatform, gesture2-gestures, gesture2-divert, gesture2-params,
     sidetone, equalizer, adc_power_management]
-  _battery: 4100
+  _battery: 0x1004
   _dpi-sliding: 0x10
   _modelId: B03400000000
   _sensitive: {divert-keys: true, dpi: true, hires-scroll-mode: false, hires-smooth-invert: false, hires-smooth-resolution: false, reprogrammable-keys: false,
