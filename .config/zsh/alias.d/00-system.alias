@@ -63,3 +63,6 @@ type dua 2>&1 >/dev/null && alias du="dua"
 # Check what is tainting your kernel
 # https://www.kernel.org/doc/html/latest/admin-guide/tainted-kernels.html
 alias what-taint='for i in $(seq 18); do echo $(($i-1)) $(($(cat /proc/sys/kernel/tainted)>>($i-1)&1)); done; echo "Compare at https://www.kernel.org/doc/html/latest/admin-guide/tainted-kernels.html#table-for-decoding-tainted-state"'
+
+# Extend the digest calculation (e.g. md5sum, sha256sum, etc.) to NTML
+alias ntlmsum='f(){ echo -n "${1}" | iconv -f UTF-8 -t UTF-16LE | openssl dgst -r -md4 -hex | cut -c -32 };f'
