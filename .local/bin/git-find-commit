@@ -15,7 +15,7 @@ related_commits() {
   # Sometimes when kernel matinarers move commits the commit message is wrapped by 50 chars
   # hence I only search for a substring of the full subject, wrapped by space and by 50 width
   subject_wrapped_50=$(echo "$subject" | fold -sw 50 | head -n 1 | rev | cut -c 2- | rev)
-  git log --all -F --grep="$1" --grep="$subject_wrapped_50" --format=%h
+  git log --no-merges --all -F --grep="$1" --grep="$subject_wrapped_50" --format=%h
 }
 
 gfc() {
