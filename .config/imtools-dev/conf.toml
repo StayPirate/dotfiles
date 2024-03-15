@@ -1,0 +1,490 @@
+###############################################################################
+# General settings                                                            #
+###############################################################################
+[general]
+
+# enable or disable logs. Defaults to false
+log.enable = false
+
+# log level. One of: 'info', 'debug', 'warning', 'error', 'critical'.
+# Defaults to 'info'
+log.level = 'info'
+
+# log directory. A path. Path expansion ('~' and '~user') and variables
+# expansion (in the form `$var` and `${var}`) are supported. If the directory
+# doesn't exist will be created. Log files will be named 'imtools-<pid>.log'.
+# Defaults to '/tmp/imtools_logs/'
+# log.directory = /tmp/
+
+# use keyring for looking up credentials for services. If true, the username
+# field must be set, and the other fields value will be used for service
+# lookup. Defaults to false.
+keyring = true
+
+# max simultaneous workers to use. If not specified, a value based on the
+# number of CPUs in the system will be used.
+workers = 10
+
+# enable paginated output with less. Defaults to true
+paging = true
+
+# enable colored output. Defaults to true.
+colors = true
+
+# data directory. A path. Path expansion ('~' and '~user') and variables
+# expansion (in the form `$var` and `${var}`) are supported. If the directory
+# doesn't exist will be created.
+# Defaults to '${XDG_DATA_HOME}/imtools'
+# data.directory =
+
+# cache directory. A path. Path expansion ('~' and '~user') and variables
+# expansion (in the form `$var` and `${var}`) are supported. If the directory
+# doesn't exist will be created.
+# Defaults to '${XDG_CACHE_HOME}/imtools'
+cache.directory = '~/SUSE/cache'
+
+# cache freshness. Number of seconds for which a cache element is considered
+# "fresh".
+# Can be a number or a string in the form '<number><unit>'. Available units:
+# - s: seconds
+# - m: minutes
+# - h: hours
+# - d: days
+# - w: weeks
+# If unit is omitted the number is interpreted as seconds. Defaults to '1d'.
+cache.freshness = '1d'
+
+# automatically run maintenance (update repositories, prune caches, etc.) when
+# needed. Defaults to false.
+maintenance.enable = true
+
+# maintenance update interval. Number of seconds before maintenance is run.
+# Can be a number or a string in the form '<number><unit>'. Available units:
+# - s: seconds
+# - m: minutes
+# - h: hours
+# - d: days
+# - w: weeks
+# If unit is omitted the number is interpreted as seconds. Defaults to '1d'.
+maintenance.interval = '1d'
+
+# osc command. Must refer to a command on $PATH. Shell aliases are not
+# supported. Defaults to 'osc'
+tools.osc = 'osc'
+
+
+###############################################################################
+# Services settings                                                           #
+###############################################################################
+# Web services definitions.
+# SMASH, SMELT, IBS and OBS are required. PackageServer is optional, but
+# required if used in the `search` command.
+
+# SMASH
+[[services]]
+# service name, mandatory. Will be used for internal service
+# lookup (case-insensitive).
+name = 'SMASH'
+
+# API URL, mandatory. If a scheme (e.g. https://) is not specified, 'https://'
+# will be automatically prepended
+api = 'smash.suse.de'
+
+# host URL. If a scheme (e.g. https://) is not specified, 'https://' will be
+# automatically prepended
+host = 'smash.suse.de'
+
+# username. Mandatory if general.keyring is true, as it will be used for
+# SecretService lookup
+username = 'crazybyte'
+
+# API token. If general.keyring is true, this value will be used for
+# SecretService lookup
+token = 'smash-token'
+
+# SMELT
+[[services]]
+# service name, mandatory. Will be used for internal service
+# lookup (case-insensitive).
+name = 'SMELT'
+
+# API URL, mandatory. If a scheme (e.g. https://) is not specified, 'https://'
+# will be automatically prepended
+api = 'smelt.suse.de'
+
+# Package Server
+[[services]]
+# service name, mandatory. Will be used for internal service
+# lookup (case-insensitive).
+name = 'PackageServer'
+
+# API URL, mandatory. If a scheme (e.g. https://) is not specified, 'https://'
+# will be automatically prepended
+api = 'http://sec-gsonnu.suse.de:5000'
+
+# OBS
+[[services]]
+# service name, mandatory. Will be used for internal service
+# lookup (case-insensitive).
+name = 'OBS'
+
+# API URL, mandatory. If a scheme (e.g. https://) is not specified, 'https://'
+# will be automatically prepended
+api = 'api.opensuse.org'
+
+# only include these projects in results. Glob patterns (*) can be used.
+# Defaults to empty list.
+projects.include = [
+    'openSUSE:Factory',
+    'openSUSE:Backports:SLE-15-SP4',
+    'openSUSE:Backports:SLE-15-SP5'
+]
+
+# exclude these projects from results. Matching rules are the same as the
+# 'project.include' section. Defaults to empty list.
+projects.exclude = [
+    '*:Rings:*',
+    '*:Staging:*',
+    '*:RISCV',
+    '*:SLECandidates',
+    '*:ToTest',
+    '*:ARM',
+    '*:zSystems',
+    '*:PowerPC'
+]
+
+# IBS
+[[services]]
+# service name, mandatory. Will be used for internal service
+# lookup (case-insensitive).
+name = 'IBS'
+
+# API URL, mandatory. If a scheme (e.g. https://) is not specified, 'https://'
+# will be automatically prepended
+api = 'api.suse.de'
+
+# only include these projects in results. Glob patterns (*) can be used.
+# Defaults to empty list.
+projects.include = [
+    'SUSE:*',
+    'NON_Public:*'
+]
+
+# exclude these projects from results. Matching rules are the same as the
+# 'project.include' section. Defaults to empty list.
+projects.exclude = [
+    'SUSE:Factory:Head',
+    'SUSE:Carwos:1:*',
+    'SUSE:Carwos:2:*',
+    'SUSE:Maintenance:*',
+    'SUSE:Updates:*',
+    '*:Staging:*',
+    '*:Rings:*',
+    '*:MOVED_OLDPROJECT',
+    '*:Test',
+    '*:BCI',
+    '*:CR',
+    '*:ToTest'
+]
+
+
+###############################################################################
+# Repositories settings                                                       #
+###############################################################################
+# Repository definition, available to use for commands. Both 'git' and
+# 'obs'/'ibs' type repository are supported.
+# Repositories management could be done either by the application (if
+# 'general.maintenance.enable' is set to true) or by the user.
+# If repositories are managed by the application:
+#   * if a repository doesn't already exist it will be checked out. If branches
+#     are specified those branches will be also checked out.
+#   * If a repository already exists, it will be updated and specified branches
+#     will be checked out or pruned if the one in the repository differs from
+#     the ones in the configuration file.
+#
+# If the 'branches' field is not specified only the main repository branch is
+# used.
+# Note that the application doesn't change the content of any repository, but
+# only changes the local copy. So is not advisable to manually change contents
+# for managed repositories.
+#
+# 'kernel-source' and 'kernel-patches' repositories are mandatory.
+
+
+# SUSE Channels repository
+[[repositories]]
+# repository name, mandatory. Will be used for internal repository
+# lookup (case-insensitive).
+name = 'channels'
+
+# repository type, mandatory. One of 'git', 'ibs', 'obs' (case-insensitive).
+type = 'ibs'
+
+# repository unique identifier, mandatory. Used in 'checkout' operation.
+id = 'SUSE:Channels'
+
+# repository directory. A path. Path expansion ('~' and '~user') and variables
+# expansion (in the form `$var` and `${var}`) are supported. If the directory
+# doesn't exist will be created.
+directory = '~/repos/channels'
+
+
+# SUSE unpacked kernel repository
+[[repositories]]
+# repository name, mandatory. Will be used for internal repository
+# lookup (case-insensitive).
+name = 'kernel-source'
+
+# repository type, mandatory. One of 'git', 'ibs', 'obs' (case-insensitive).
+type = 'git'
+
+# repository unique identifier, mandatory. Used in 'checkout' operation.
+id = 'git://kerncvs.suse.de/kernel.git'
+
+# repository directory. A path. Path expansion ('~' and '~user') and variables
+# expansion (in the form `$var` and `${var}`) are supported. If the directory
+# doesn't exist will be created.
+directory = '~/repos/kernel'
+
+# repository branches to process. Defaults to empty list.
+branches = [
+    # regular branches
+    'SLE12-SP5',
+    'SLE15-SP5',
+    'SLE15-SP6',
+    'ALP-current',
+    'stable',
+    # LTSS branches
+    'SLE11-SP4-LTSS',
+    'SLE12-SP2-LTSS',
+    'SLE12-SP3-LTSS',
+    'SLE12-SP3-TD',
+    'SLE15-SP1-LTSS',
+    'SLE15-SP2-LTSS',
+    'SLE15-SP3-LTSS',
+    'SLE15-SP4-LTSS',
+    # CVE branches
+    'cve/linux-3.0',
+    'cve/linux-4.4',
+    'cve/linux-4.12',
+    'cve/linux-5.3',
+    'cve/linux-5.14'
+]
+
+
+# SUSE packed kernel repository
+[[repositories]]
+# repository name, mandatory. Will be used for internal repository
+# lookup (case-insensitive).
+name = 'kernel-patches'
+
+# repository type, mandatory. One of 'git', 'ibs', 'obs' (case-insensitive).
+type = 'git'
+
+# repository unique identifier, mandatory. Used in 'checkout' operation.
+id = 'git://kerncvs.suse.de/kernel-source.git'
+
+# repository directory. A path. Path expansion ('~' and '~user') and variables
+# expansion (in the form `$var` and `${var}`) are supported. If the directory
+# doesn't exist will be created.
+directory = '~/repos/kernel-source'
+
+# repository branches to process. Defaults to empty list.
+branches = [
+    # regular branches
+    'SLE12-SP5',
+    'SLE15-SP5',
+    'SLE15-SP6',
+    'ALP-current',
+    'stable',
+    # LTSS branches
+    'SLE11-SP4-LTSS',
+    'SLE12-SP2-LTSS',
+    'SLE12-SP3-LTSS',
+    'SLE12-SP3-TD',
+    'SLE15-SP1-LTSS',
+    'SLE15-SP2-LTSS',
+    'SLE15-SP3-LTSS',
+    'SLE15-SP4-LTSS',
+    # CVE branches
+    'cve/linux-3.0',
+    'cve/linux-4.4',
+    'cve/linux-4.12',
+    'cve/linux-5.3',
+    'cve/linux-5.14'
+]
+
+###############################################################################
+# Commands settings                                                           #
+###############################################################################
+
+# 'checkout' command settings
+[commands.checkout]
+
+# default build service to use. Defaults to 'ibs'.
+build_service = 'ibs'
+
+
+# 'extract' command settings
+[commands.extract]
+
+# tar command. Must refer to a command on $PATH. Shell aliases are not
+# supported. Defaults to 'tar'.
+tar = 'tar'
+
+# unzip command. Must refer to a command on $PATH. Shell aliases are not
+# supported. Defaults to 'unzip'.
+unzip = 'unzip'
+
+# cpio command. Must refer to a command on $PATH. Shell aliases are not
+# supported. Defaults to 'cpio'.
+cpio = 'cpio'
+
+# quilt command. Must refer to a command on $PATH. Shell aliases are not
+# supported. Defaults to 'quilt'.
+quilt = 'quilt'
+
+# phar command. Must refer to a command on $PATH. Shell aliases are not
+# supported. Defaults to 'phar'.
+phar = 'phar'
+
+
+# 'grep' command settings
+[commands.grep]
+# groups all similar matches into one. If false print every match.
+# Defaults to true.
+group.enable = true
+
+# display match information in a list instead of a table in group mode.
+# Defaults to true.
+group.list = true
+
+# show full path in group mode. If false, only show relative path to source
+# directory, Defaults to false.
+group.full_path = false
+
+# ignore trailing whitespace when comparing two matches in group mode.
+# Defaults to true.
+group.whitespace.ignore = true
+
+
+# 'search' command settings
+[commands.search]
+# Enable strict matching or not. Can be overridden with command-line switches.
+# Defaults to false.
+strict = false
+
+# Do not apply any filter to search results. Setting it to true will show
+# all results from 'ibs' or 'obs' providers, without filtering the projects
+# specified in the 'projects.include' and 'projects.exclude' sections of the
+# IBS or OBS service definition. Can be overridden with command-line switches.
+# Defaults to false.
+full = false
+
+# columns to show. Can be overridden with command-line switches.
+# Defaults to ['codestream', 'matches'].
+columns = ['codestream', 'matches']
+
+# providers to enable. Can be overridden with command-line switches.
+# Defaults to ['ibs', 'obs'].
+providers = ['ibs', 'obs', 'package-server']
+
+# use a column separator when printing results. Defaults to true.
+separator.column = false
+
+# use a row separator when printing results. Defaults to true.
+separator.row = false
+
+# highlight match in results. Defaults to true.
+match.highlight = true
+
+
+# 'revisit' command settings
+[commands.revisit]
+# verbose mode
+verbose = false
+
+# resolve policy
+policy = 'strict'
+
+# category to use as default in `auto` mode (-a flag)
+auto.category = 'security'
+
+# issue state to use in `auto` mode (-a flag)
+auto.state = 'revisit'
+
+# filter to use in `auto` mode (-a flag)
+auto.filter = 'bnc#'
+
+[commands.revisit.dependencies]
+'kernel-azure' = 'kernel-source'
+'kernel-debug' = 'kernel-source'
+'kernel-default' = 'kernel-source'
+'kernel-default-base' = 'kernel-source'
+'kernel-docs' = 'kernel-source'
+'kernel-ec2' = 'kernel-source'
+'kernel-obs-build' = 'kernel-source'
+'kernel-preempt' = 'kernel-source'
+'kernel-rt' = 'kernel-source'
+'kernel-rt_debug' = 'kernel-source'
+'kernel-source-azure' = 'kernel-source'
+'kernel-source-rt' = 'kernel-source'
+'kernel-syms' = 'kernel-source'
+'kernel-syms-azure' = 'kernel-source'
+'kernel-syms-rt' = 'kernel-source'
+'SUSE:Carwos:1/kernel-source-rt' = 'SUSE:SLE-15-SP2:Update/kernel-source'
+'*:Products:SLERT:Update/kernel-source-rt' = '*/kernel-source'
+'*:Products:SLERT:Update/kernel-rt' = '*/kernel-source'
+'*:Products:SLERT:Update/kernel-rt_debug' = '*/kernel-source'
+'*:Products:SLERT:Update/kernel-syms-rt' = '*/kernel-source'
+'SUSE:SLE-12:Update/ruby' = 'SUSE:SLE-12:Update/ruby2.1'
+'SUSE:SLE-15:Update/ruby' = 'SUSE:SLE-15:Update/ruby2.5'
+
+
+# 'container' command settings
+[commands.container]
+# container manager. Must refer to a command on $PATH. Shell aliases are not
+# supported. Defaults to 'podman'.
+manager = 'podman'
+
+# container image repository. will be added to container
+# name: {repository}/{container_name}. Can be overridden per container
+# in container definition.
+repository = 'security'
+
+# container home directory. Defaults to '/root'. Can be overridden per
+# container in container definition
+home = '/root'
+
+# container shell. Defaults to '/bin/bash'. Can be overridden per
+## container in container definition
+shell = '/bin/bash'
+
+# containers to use.
+# A container definition contain the following fields:
+#  * image: container image [MANDATORY]
+#  * alias: custom container alias, must be unique [OPTIONAL]
+#  * scc: use SCC credentials defined in main 'scc' field [OPTIONAL]
+#  * repository: use this repository instead of the one in the main
+#                'repository' field [OPTIONAL]
+#  * home: use this home directory instead of the one in the main 'home'
+#          field [OPTIONAL]
+#  * shell: use this shell instead of the one in the main 'shell'
+#    field [OPTIONAL]
+#  * volumes: mount this volumes in addition to the ones specified in the
+#             main 'volumes' field [OPTIONAL]
+list = []
+
+# container common volumes
+# volumes to mount in every container. In the form <source> = <destination>.
+# <source> should refer to an existing path on the system, otherwise it will be
+# ignored. Path expansion ('~' and '~user') and variables expansion (in the
+# form `$var` and `${var}`) are supported.
+# [commands.container.volumes]
+# '<src>' = '<dst>'
+
+
+#  SCC credentials to use. Same format as 'commands.container.volumes' field
+[commands.container.scc]
+'~/SUSE/secrets/SCCcredentials' = '/etc/zypp/credentials.d/SCCcredentials'
+'~/SUSE/secrets/SUSEConnect' = '/etc/SUSEConnect'

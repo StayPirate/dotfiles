@@ -1,0 +1,28 @@
+general.code.style = 'monokai'
+
+[general.colors.messages]
+warning = '#ffff00'
+error = '#ff0000'
+
+[grep.colors]
+header = '#ff5555'
+line = '#00aa00'
+separator = '#00aaaa'
+filename = '#aa00aa'
+verbose.property = '#00aaaa'
+
+[grep.colors.group]
+project = '#1265fb'
+separator = '#178afb'
+package = '#1eb0fc'
+version = '#89b1fc'
+source = '#00aaaa'
+source_separator = '#13845f'
+
+[search]
+column_separator = false
+row_separator = false
+highlight_match = true
+
+[search.colors]
+match = '#ff5555'
