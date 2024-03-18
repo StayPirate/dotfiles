@@ -23,10 +23,10 @@ keyring = true
 
 # max simultaneous workers to use. If not specified, a value based on the
 # number of CPUs in the system will be used.
-workers = 10
+workers = 2
 
 # enable paginated output with less. Defaults to true
-paging = true
+paging = false
 
 # enable colored output. Defaults to true.
 colors = true
