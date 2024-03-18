@@ -41,7 +41,7 @@ window#waybar {
 #cpu,
 #temperature.cpu,
 #battery,
-#upower.boseqc35,
+#upower,
 #disk,
 #temperature.disk,
 #network,
@@ -145,7 +145,7 @@ window#waybar {
 
 /* Battery idicator is green when in a full capacity status */
 #battery.full,
-#upower.boseqc35 {
+#upower {
 	color: #3b9900;
 }
 /* Normal battery idicator between good and warning capacity status */
@@ -159,7 +159,7 @@ window#waybar {
     }
 }
 #battery.charging.good,
-#upower.boseqc35.charging {
+#upower.charging {
     animation-name: blink-charging;
     animation-duration: 2s;
     animation-timing-function: linear;
@@ -173,7 +173,7 @@ window#waybar {
     }
 }
 #battery.warning:not(.charging),
-#upower.boseqc35.discharging {
+#upower.discharging {
     animation-name: blink-warning;
     animation-duration: 1s;
     animation-timing-function: linear;
@@ -187,7 +187,7 @@ window#waybar {
     }
 }
 #battery.critical:not(.charging),
-#upower.boseqc35.critical:not(.charging) {
+#upower.critical:not(.charging) {
     animation-name: blink-critical;
     animation-duration: 0.5s;
     animation-timing-function: linear;
@@ -295,7 +295,7 @@ window#waybar {
 #custom-spotify,
 #memory,
 #battery,
-#upower.boseqc35,
+#upower,
 #custom-notification,
 #custom-power,
 #custom-reboot,

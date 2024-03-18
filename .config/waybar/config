@@ -22,12 +22,10 @@
 		"custom/left-arrow-light",
 		"custom/left-arrow-dark",
 		"battery",
-		//"upower#boseqc35",
+		"upower#boseqc35",
 		"custom/left-arrow-light",
 		"custom/left-arrow-dark",
 		"group/group-audio",
-		//"pulseaudio",
-		//"pulseaudio/slider",
 		"custom/left-arrow-light",
 		"custom/left-arrow-dark",
 		"bluetooth",
@@ -86,7 +84,7 @@
 		"drawer": {
 			"transition-duration": 500,
 			"children-class": "",
-			"transition-left-to-right": true
+			"transition-left-to-right": false
 		},
 		"modules": [
 			"pulseaudio",
@@ -163,10 +161,11 @@
 	},
 	"upower#boseqc35": {
 		"native-path": "/org/bluez/hci0/dev_04_52_C7_7E_67_82",
-		"icon-size": 20,
+		"show-icon": false,
 		"hide-if-empty": true,
-		"tooltip": true,
-		"tooltip-spacing": 20
+		"format": " {percentage}",
+		"format-alt": " {percentage}",
+		"tooltip": true
 	},
 	"network#wifi": {
         "interface": "wlp*",
@@ -238,7 +237,7 @@
 		"drawer": {
 			"transition-duration": 500,
 			"children-class": "",
-			"transition-left-to-right": true
+			"transition-left-to-right": false
 		},
 		"modules": [
 			"custom/power", // First element is the "group leader" and won't ever be hidden
