@@ -41,7 +41,7 @@ colors = true
 # expansion (in the form `$var` and `${var}`) are supported. If the directory
 # doesn't exist will be created.
 # Defaults to '${XDG_CACHE_HOME}/imtools'
-cache.directory = '~/SUSE/cache'
+cache.directory = '~/.cache/SUSE'
 
 # cache freshness. Number of seconds for which a cache element is considered
 # "fresh".
@@ -56,7 +56,7 @@ cache.freshness = '1d'
 
 # automatically run maintenance (update repositories, prune caches, etc.) when
 # needed. Defaults to false.
-maintenance.enable = true
+maintenance.enable = false
 
 # maintenance update interval. Number of seconds before maintenance is run.
 # Can be a number or a string in the form '<number><unit>'. Available units:
@@ -233,7 +233,7 @@ directory = '~/.local/share/SUSE/SUSE:Channels'
 [[repositories]]
 # repository name, mandatory. Will be used for internal repository
 # lookup (case-insensitive).
-name = 'kernel-source'
+name = 'kernel'
 
 # repository type, mandatory. One of 'git', 'ibs', 'obs' (case-insensitive).
 type = 'git'
@@ -276,7 +276,7 @@ branches = [
 [[repositories]]
 # repository name, mandatory. Will be used for internal repository
 # lookup (case-insensitive).
-name = 'kernel-patches'
+name = 'kernel-source'
 
 # repository type, mandatory. One of 'git', 'ibs', 'obs' (case-insensitive).
 type = 'git'
