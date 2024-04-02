@@ -9,9 +9,11 @@ application/pdf=org.chromium.Chromium.desktop
 image/png=org.chromium.Chromium.desktop
 video/x-matroska=io.github.celluloid_player.Celluloid.desktop
 video/mp4=io.github.celluloid_player.Celluloid.desktop
+video/mpeg=io.github.celluloid_player.Celluloid.desktop
 
 [Added Associations]
 application/pdf=org.chromium.Chromium.desktop;
 image/png=org.chromium.Chromium.desktop;
 video/x-matroska=io.github.celluloid_player.Celluloid.desktop
 video/mp4=io.github.celluloid_player.Celluloid.desktop;
+video/mpeg=io.github.celluloid_player.Celluloid.desktop;
