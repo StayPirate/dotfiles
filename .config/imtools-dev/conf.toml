@@ -226,7 +226,7 @@ id = 'SUSE:Channels'
 # repository directory. A path. Path expansion ('~' and '~user') and variables
 # expansion (in the form `$var` and `${var}`) are supported. If the directory
 # doesn't exist will be created.
-directory = '~/repos/channels'
+directory = '~/.local/share/SUSE/SUSE:Channels'
 
 
 # SUSE unpacked kernel repository
@@ -244,7 +244,7 @@ id = 'git://kerncvs.suse.de/kernel.git'
 # repository directory. A path. Path expansion ('~' and '~user') and variables
 # expansion (in the form `$var` and `${var}`) are supported. If the directory
 # doesn't exist will be created.
-directory = '~/repos/kernel'
+directory = '~/.local/share/SUSE/kernel'
 
 # repository branches to process. Defaults to empty list.
 branches = [
@@ -287,7 +287,7 @@ id = 'git://kerncvs.suse.de/kernel-source.git'
 # repository directory. A path. Path expansion ('~' and '~user') and variables
 # expansion (in the form `$var` and `${var}`) are supported. If the directory
 # doesn't exist will be created.
-directory = '~/repos/kernel-source'
+directory = '~/.local/share/SUSE/kernel-source'
 
 # repository branches to process. Defaults to empty list.
 branches = [
