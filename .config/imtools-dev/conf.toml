@@ -233,7 +233,7 @@ directory = '~/.local/share/SUSE/SUSE:Channels'
 [[repositories]]
 # repository name, mandatory. Will be used for internal repository
 # lookup (case-insensitive).
-name = 'kernel'
+name = 'kernel-sources'
 
 # repository type, mandatory. One of 'git', 'ibs', 'obs' (case-insensitive).
 type = 'git'
@@ -276,7 +276,7 @@ branches = [
 [[repositories]]
 # repository name, mandatory. Will be used for internal repository
 # lookup (case-insensitive).
-name = 'kernel-source'
+name = 'kernel-patches'
 
 # repository type, mandatory. One of 'git', 'ibs', 'obs' (case-insensitive).
 type = 'git'
