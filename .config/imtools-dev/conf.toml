@@ -126,6 +126,14 @@ api = 'http://sec-gsonnu.suse.de:5000'
 [[services]]
 # service name, mandatory. Will be used for internal service
 # lookup (case-insensitive).
+name = 'Mitre'
+
+# API URL, mandatory. If a scheme (e.g. https://) is not specified, 'https://'
+# will be automatically prepended
+api = 'cveawg.mitre.org'
+[[services]]
+# service name, mandatory. Will be used for internal service
+# lookup (case-insensitive).
 name = 'OBS'
 
 # API URL, mandatory. If a scheme (e.g. https://) is not specified, 'https://'
