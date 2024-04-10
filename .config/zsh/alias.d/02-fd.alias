@@ -1,0 +1,4 @@
+### fd is a modern replacement for find
+# https://github.com/sharkdp/fd
+
+type fd > /dev/null 2>&1 && alias find='fd'
