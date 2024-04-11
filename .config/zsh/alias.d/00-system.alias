@@ -5,7 +5,7 @@
 # Create a temporary folder and cd into it
 alias mkcd="cd \$(mktemp -d -t tmp-XXXXXX -p ${XDG_RUNTIME_DIR:-/tmp})"
 # Remove previously created temporary folders
-alias mkclean='find ${XDG_RUNTIME_DIR:-/tmp} -maxdepth 1 -mindepth 1 -type d -regextype egrep -regex ".*/tmp-[0-9A-Za-z]{6}$" -exec rm -rf {} \;'
+alias mkclean='command find ${XDG_RUNTIME_DIR:-/tmp} -maxdepth 1 -mindepth 1 -type d -regextype egrep -regex ".*/tmp-[0-9A-Za-z]{6}$" -exec rm -rf {} \;'
 
 # Confirm before overwriting something
 alias cp="cp -i"
