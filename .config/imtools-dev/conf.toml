@@ -395,7 +395,8 @@ columns = ['codestream', 'matches']
 
 # providers to enable. Can be overridden with command-line switches.
 # Defaults to ['ibs', 'obs'].
-providers = ['ibs', 'obs', 'packageserver']
+#providers = ['ibs', 'obs', 'packageserver']
+providers = ['packageserver']
 
 # use a column separator when printing results. Defaults to true.
 separator.column = false
