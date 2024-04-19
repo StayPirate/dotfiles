@@ -56,7 +56,7 @@ cache.freshness = '1d'
 
 # automatically run maintenance (update repositories, prune caches, etc.) when
 # needed. Defaults to false.
-maintenance.enable = false
+maintenance.enable = true
 
 # maintenance update interval. Number of seconds before maintenance is run.
 # Can be a number or a string in the form '<number><unit>'. Available units:
@@ -264,19 +264,20 @@ branches = [
     'stable',
     # LTSS branches
     'SLE11-SP4-LTSS',
-    'SLE12-SP2-LTSS',
     'SLE12-SP3-LTSS',
     'SLE12-SP3-TD',
-    'SLE15-SP1-LTSS',
     'SLE15-SP2-LTSS',
     'SLE15-SP3-LTSS',
     'SLE15-SP4-LTSS',
+    # reactive supported branches
+    'SLE15-LTSS',
+    'SLE12-SP2-LTSS',
+    'SLE12-SP4-LTSS',
+    'SLE15-SP1-LTSS',
     # CVE branches
-    'cve/linux-3.0',
-    'cve/linux-4.4',
-    'cve/linux-4.12',
-    'cve/linux-5.3',
-    'cve/linux-5.14'
+    'cve/linux-4.4-LTSS',
+    'cve/linux-5.3-LTSS',
+    'cve/linux-5.14-LTSS'
 ]
 
 
@@ -307,19 +308,20 @@ branches = [
     'stable',
     # LTSS branches
     'SLE11-SP4-LTSS',
-    'SLE12-SP2-LTSS',
     'SLE12-SP3-LTSS',
     'SLE12-SP3-TD',
-    'SLE15-SP1-LTSS',
     'SLE15-SP2-LTSS',
     'SLE15-SP3-LTSS',
     'SLE15-SP4-LTSS',
+    # reactive supported branches
+    'SLE15-LTSS',
+    'SLE12-SP2-LTSS',
+    'SLE12-SP4-LTSS',
+    'SLE15-SP1-LTSS',
     # CVE branches
-    'cve/linux-3.0',
-    'cve/linux-4.4',
-    'cve/linux-4.12',
-    'cve/linux-5.3',
-    'cve/linux-5.14'
+    'cve/linux-4.4-LTSS',
+    'cve/linux-5.3-LTSS',
+    'cve/linux-5.14-LTSS'
 ]
 
 ###############################################################################
@@ -506,21 +508,22 @@ log.compress = true
 
 # OBS Project - kernel branches map
 [commands.khelper.project.map]
-'SUSE:ALP:Source:Standard:1.0' = ['ALP-current']
+'SUSE:ALP:Source:Standard:1.0' = ['ALP-current', 'SLE15-SP6']
 'SUSE:SLE-11-SP4:Update' = ['SLE11-SP4-LTSS']
-'SUSE:SLE-12-SP2:Update' = ['cve/linux-4.4-LTSS', 'SLE12-SP2-LTSS']
-'SUSE:SLE-12-SP3:Update' = ['cve/linux-4.4-LTSS', 'SLE12-SP3-LTSS']
-'SUSE:SLE-12-SP3:Update:Products:Teradata:Update' = ['cve/linux-4.4-LTSS', 'SLE12-SP3-TD']
+'SUSE:SLE-12-SP2:Update' = ['SLE12-SP2-LTSS', 'cve/linux-4.4-LTSS']
+'SUSE:SLE-12-SP3:Update' = ['SLE12-SP3-LTSS', 'cve/linux-4.4-LTSS']
+'SUSE:SLE-12-SP3:Update:Products:Teradata:Update' = ['SLE12-SP3-TD', 'cve/linux-4.4-LTSS']
 'SUSE:SLE-12-SP4:Update' = ['SLE12-SP4-LTSS']
 'SUSE:SLE-12-SP5:Update' = ['SLE12-SP5']
 'SUSE:SLE-15:Update' = ['SLE15-LTSS']
 'SUSE:SLE-15-SP1:Update' = ['SLE15-SP1-LTSS']
-'SUSE:SLE-15-SP2:Update' = ['cve/linux-5.3-LTSS', 'SLE15-SP2-LTSS']
-'SUSE:SLE-15-SP3:Update' = ['cve/linux-5.3-LTSS', 'SLE15-SP3-LTSS']
-'SUSE:Carwos:1' = ['cve/linux-5.3-LTSS', 'SLE15-SP2-LTSS']
-'SUSE:SLE-15-SP4:Update' = ['cve/linux-5.14-LTSS', 'SLE15-SP4-LTSS']
-'SUSE:SLE-15-SP5:Update' = ['cve/linux-5.14-LTSS', 'SLE15-SP5']
+'SUSE:SLE-15-SP2:Update' = ['SLE15-SP2-LTSS', 'cve/linux-5.3-LTSS']
+'SUSE:SLE-15-SP3:Update' = ['SLE15-SP3-LTSS', 'cve/linux-5.3-LTSS']
+'SUSE:Carwos:1' = ['SLE15-SP2-LTSS', 'cve/linux-5.3-LTSS']
+'SUSE:SLE-15-SP4:Update' = ['SLE15-SP4-LTSS', 'cve/linux-5.14-LTSS']
+'SUSE:SLE-15-SP5:Update' = ['SLE15-SP5', 'cve/linux-5.14-LTSS']
+'SUSE:SLE-15-SP6:Update' = ['SLE15-SP6']
 'SUSE:SLE-12-SP5:Update:Products:SLERT:Update' = ['SLE12-SP5']
-'SUSE:SLE-15-SP3:Update:Products:SLERT:Update' = ['cve/linux-5.3-LTSS', 'SLE15-SP3-LTSS']
-'SUSE:SLE-15-SP4:Update:Products:SLERT:Update' = ['cve/linux-5.14-LTSS', 'SLE15-SP4-LTSS']
+'SUSE:SLE-15-SP3:Update:Products:SLERT:Update' = ['SLE15-SP3-LTSS', 'cve/linux-5.3-LTSS']
+'SUSE:SLE-15-SP4:Update:Products:SLERT:Update' = ['SLE15-SP4-LTSS', 'cve/linux-5.14-LTSS']
 
