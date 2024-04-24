@@ -8,13 +8,13 @@ log.enable = false
 
 # log level. One of: 'info', 'debug', 'warning', 'error', 'critical'.
 # Defaults to 'info'
-log.level = 'info'
+log.level = 'error'
 
 # log directory. A path. Path expansion ('~' and '~user') and variables
 # expansion (in the form `$var` and `${var}`) are supported. If the directory
 # doesn't exist will be created. Log files will be named 'imtools-<pid>.log'.
 # Defaults to '/tmp/imtools_logs/'
-# log.directory = /tmp/
+log.directory = '.local/share/imtools-dev/logs'
 
 # use keyring for looking up credentials for services. If true, the username
 # field must be set, and the other fields value will be used for service
@@ -23,7 +23,7 @@ keyring = true
 
 # max simultaneous workers to use. If not specified, a value based on the
 # number of CPUs in the system will be used.
-workers = 2
+workers = 25
 
 # enable paginated output with less. Defaults to true
 paging = false
@@ -72,28 +72,13 @@ maintenance.interval = '1d'
 # supported. Defaults to 'osc'
 tools.osc = 'osc'
 
-
 ###############################################################################
-# Services settings                                                           #
+# Credentials settings                                                           #
 ###############################################################################
-# Web services definitions.
-# SMASH, SMELT, IBS and OBS are required. PackageServer is optional, but
-# required if used in the `search` command.
+# Credentials definition.
 
 # SMASH
-[[services]]
-# service name, mandatory. Will be used for internal service
-# lookup (case-insensitive).
-name = 'SMASH'
-
-# API URL, mandatory. If a scheme (e.g. https://) is not specified, 'https://'
-# will be automatically prepended
-api = 'smash.suse.de'
-
-# host URL. If a scheme (e.g. https://) is not specified, 'https://' will be
-# automatically prepended
-host = 'smash.suse.de'
-
+[credentials.smash]
 # username. Mandatory if general.keyring is true, as it will be used for
 # SecretService lookup
 username = 'crazybyte'
@@ -102,227 +87,16 @@ username = 'crazybyte'
 # SecretService lookup
 token = 'smash-token'
 
-# SMELT
-[[services]]
-# service name, mandatory. Will be used for internal service
-# lookup (case-insensitive).
-name = 'SMELT'
-
-# API URL, mandatory. If a scheme (e.g. https://) is not specified, 'https://'
-# will be automatically prepended
-api = 'smelt.suse.de'
-
-# Package Server
-[[services]]
-# service name, mandatory. Will be used for internal service
-# lookup (case-insensitive).
-name = 'PackageServer'
-
-# API URL, mandatory. If a scheme (e.g. https://) is not specified, 'https://'
-# will be automatically prepended
-api = 'http://sec-gsonnu.suse.de:5000'
-
-# OBS
-[[services]]
-# service name, mandatory. Will be used for internal service
-# lookup (case-insensitive).
-name = 'Mitre'
-
-# API URL, mandatory. If a scheme (e.g. https://) is not specified, 'https://'
-# will be automatically prepended
-api = 'cveawg.mitre.org'
-[[services]]
-# service name, mandatory. Will be used for internal service
-# lookup (case-insensitive).
-name = 'OBS'
-
-# API URL, mandatory. If a scheme (e.g. https://) is not specified, 'https://'
-# will be automatically prepended
-api = 'api.opensuse.org'
-
-# only include these projects in results. Glob patterns (*) can be used.
-# Defaults to empty list.
-projects.include = [
-    'openSUSE:Factory',
-    'openSUSE:Backports:SLE-15-SP4',
-    'openSUSE:Backports:SLE-15-SP5'
-]
-
-# exclude these projects from results. Matching rules are the same as the
-# 'project.include' section. Defaults to empty list.
-projects.exclude = [
-    '*:Rings:*',
-    '*:Staging:*',
-    '*:RISCV',
-    '*:SLECandidates',
-    '*:ToTest',
-    '*:ARM',
-    '*:zSystems',
-    '*:PowerPC'
-]
-
-# IBS
-[[services]]
-# service name, mandatory. Will be used for internal service
-# lookup (case-insensitive).
-name = 'IBS'
-
-# API URL, mandatory. If a scheme (e.g. https://) is not specified, 'https://'
-# will be automatically prepended
-api = 'api.suse.de'
-
-# only include these projects in results. Glob patterns (*) can be used.
-# Defaults to empty list.
-projects.include = [
-    'SUSE:*',
-    'NON_Public:*'
-]
-
-# exclude these projects from results. Matching rules are the same as the
-# 'project.include' section. Defaults to empty list.
-projects.exclude = [
-    'SUSE:Factory:Head',
-    'SUSE:Carwos:1:*',
-    'SUSE:Carwos:2:*',
-    'SUSE:Maintenance:*',
-    'SUSE:Updates:*',
-    '*:Staging:*',
-    '*:Rings:*',
-    '*:MOVED_OLDPROJECT',
-    '*:Test',
-    '*:BCI',
-    '*:CR',
-    '*:ToTest'
-]
-
-
 ###############################################################################
 # Repositories settings                                                       #
 ###############################################################################
-# Repository definition, available to use for commands. Both 'git' and
-# 'obs'/'ibs' type repository are supported.
-# Repositories management could be done either by the application (if
-# 'general.maintenance.enable' is set to true) or by the user.
-# If repositories are managed by the application:
-#   * if a repository doesn't already exist it will be checked out. If branches
-#     are specified those branches will be also checked out.
-#   * If a repository already exists, it will be updated and specified branches
-#     will be checked out or pruned if the one in the repository differs from
-#     the ones in the configuration file.
-#
-# If the 'branches' field is not specified only the main repository branch is
-# used.
-# Note that the application doesn't change the content of any repository, but
-# only changes the local copy. So is not advisable to manually change contents
-# for managed repositories.
-#
-# 'kernel-source' and 'kernel-patches' repositories are mandatory.
-
-
-# SUSE Channels repository
-[[repositories]]
-# repository name, mandatory. Will be used for internal repository
-# lookup (case-insensitive).
-name = 'channels'
-
-# repository type, mandatory. One of 'git', 'ibs', 'obs' (case-insensitive).
-type = 'ibs'
-
-# repository unique identifier, mandatory. Used in 'checkout' operation.
-id = 'SUSE:Channels'
-
-# repository directory. A path. Path expansion ('~' and '~user') and variables
-# expansion (in the form `$var` and `${var}`) are supported. If the directory
-# doesn't exist will be created.
-directory = '~/.local/share/SUSE/SUSE:Channels'
-
+[repositories]
 
 # SUSE unpacked kernel repository
-[[repositories]]
-# repository name, mandatory. Will be used for internal repository
-# lookup (case-insensitive).
-name = 'kernel-sources'
-
-# repository type, mandatory. One of 'git', 'ibs', 'obs' (case-insensitive).
-type = 'git'
-
-# repository unique identifier, mandatory. Used in 'checkout' operation.
-id = 'git://kerncvs.suse.de/kernel.git'
-
-# repository directory. A path. Path expansion ('~' and '~user') and variables
-# expansion (in the form `$var` and `${var}`) are supported. If the directory
-# doesn't exist will be created.
-directory = '~/.local/share/SUSE/kernel'
-
-# repository branches to process. Defaults to empty list.
-branches = [
-    # regular branches
-    'SLE12-SP5',
-    'SLE15-SP5',
-    'SLE15-SP6',
-    'ALP-current',
-    'stable',
-    # LTSS branches
-    'SLE11-SP4-LTSS',
-    'SLE12-SP3-LTSS',
-    'SLE12-SP3-TD',
-    'SLE15-SP2-LTSS',
-    'SLE15-SP3-LTSS',
-    'SLE15-SP4-LTSS',
-    # reactive supported branches
-    'SLE15-LTSS',
-    'SLE12-SP2-LTSS',
-    'SLE12-SP4-LTSS',
-    'SLE15-SP1-LTSS',
-    # CVE branches
-    'cve/linux-4.4-LTSS',
-    'cve/linux-5.3-LTSS',
-    'cve/linux-5.14-LTSS'
-]
-
+kernel-sources = '~/.local/share/SUSE/kernel'
 
 # SUSE packed kernel repository
-[[repositories]]
-# repository name, mandatory. Will be used for internal repository
-# lookup (case-insensitive).
-name = 'kernel-patches'
-
-# repository type, mandatory. One of 'git', 'ibs', 'obs' (case-insensitive).
-type = 'git'
-
-# repository unique identifier, mandatory. Used in 'checkout' operation.
-id = 'git://kerncvs.suse.de/kernel-source.git'
-
-# repository directory. A path. Path expansion ('~' and '~user') and variables
-# expansion (in the form `$var` and `${var}`) are supported. If the directory
-# doesn't exist will be created.
-directory = '~/.local/share/SUSE/kernel-source'
-
-# repository branches to process. Defaults to empty list.
-branches = [
-    # regular branches
-    'SLE12-SP5',
-    'SLE15-SP5',
-    'SLE15-SP6',
-    'ALP-current',
-    'stable',
-    # LTSS branches
-    'SLE11-SP4-LTSS',
-    'SLE12-SP3-LTSS',
-    'SLE12-SP3-TD',
-    'SLE15-SP2-LTSS',
-    'SLE15-SP3-LTSS',
-    'SLE15-SP4-LTSS',
-    # reactive supported branches
-    'SLE15-LTSS',
-    'SLE12-SP2-LTSS',
-    'SLE12-SP4-LTSS',
-    'SLE15-SP1-LTSS',
-    # CVE branches
-    'cve/linux-4.4-LTSS',
-    'cve/linux-5.3-LTSS',
-    'cve/linux-5.14-LTSS'
-]
+kernel-patches = '~/.local/share/SUSE/kernel-source'
 
 ###############################################################################
 # Commands settings                                                           #
@@ -333,7 +107,6 @@ branches = [
 
 # default build service to use. Defaults to 'ibs'.
 build_service = 'ibs'
-
 
 # 'extract' command settings
 [commands.extract]
@@ -358,7 +131,6 @@ quilt = 'quilt'
 # supported. Defaults to 'phar'.
 phar = 'phar'
 
-
 # 'grep' command settings
 [commands.grep]
 # groups all similar matches into one. If false print every match.
@@ -376,7 +148,6 @@ group.full_path = false
 # ignore trailing whitespace when comparing two matches in group mode.
 # Defaults to true.
 group.whitespace.ignore = true
-
 
 # 'search' command settings
 [commands.search]
@@ -409,9 +180,8 @@ separator.row = false
 # highlight match in results. Defaults to true.
 match.highlight = true
 
-
-# 'revisit' command settings
-[commands.revisit]
+# 'clean' command settings
+[commands.clean]
 # verbose mode
 verbose = false
 
@@ -426,31 +196,6 @@ auto.state = 'revisit'
 
 # filter to use in `auto` mode (-a flag)
 auto.filter = 'bnc#'
-
-[commands.revisit.dependencies]
-'kernel-azure' = 'kernel-source'
-'kernel-debug' = 'kernel-source'
-'kernel-default' = 'kernel-source'
-'kernel-default-base' = 'kernel-source'
-'kernel-docs' = 'kernel-source'
-'kernel-ec2' = 'kernel-source'
-'kernel-obs-build' = 'kernel-source'
-'kernel-preempt' = 'kernel-source'
-'kernel-rt' = 'kernel-source'
-'kernel-rt_debug' = 'kernel-source'
-'kernel-source-azure' = 'kernel-source'
-'kernel-source-rt' = 'kernel-source'
-'kernel-syms' = 'kernel-source'
-'kernel-syms-azure' = 'kernel-source'
-'kernel-syms-rt' = 'kernel-source'
-'SUSE:Carwos:1/kernel-source-rt' = 'SUSE:SLE-15-SP2:Update/kernel-source'
-'*:Products:SLERT:Update/kernel-source-rt' = '*/kernel-source'
-'*:Products:SLERT:Update/kernel-rt' = '*/kernel-source'
-'*:Products:SLERT:Update/kernel-rt_debug' = '*/kernel-source'
-'*:Products:SLERT:Update/kernel-syms-rt' = '*/kernel-source'
-'SUSE:SLE-12:Update/ruby' = 'SUSE:SLE-12:Update/ruby2.1'
-'SUSE:SLE-15:Update/ruby' = 'SUSE:SLE-15:Update/ruby2.5'
-
 
 # 'container' command settings
 [commands.container]
@@ -484,6 +229,37 @@ shell = '/bin/bash'
 #    field [OPTIONAL]
 #  * volumes: mount this volumes in addition to the ones specified in the
 #             main 'volumes' field [OPTIONAL]
+#list = [
+#    # openSUSE Leap 15.4
+#    { image = 'leap:15.4', alias = 'leap154' },
+#    # openSUSE Leap 15.5
+#    { image = 'leap:15.5', alias = 'leap155' },
+#    # openSUSE Leap 15.6
+#    { image = 'leap:15.6', alias = 'leap156' },
+#    # openSUSE Tumbleweed
+#    { image = 'tumbleweed', alias = 'tw' },
+#    # SLE 12 SP3
+#    { image = 'sle:12.3', alias = 'sle123', scc = true },
+#    # SLE 12 SP4
+#    { image = 'sle:12.4', alias = 'sle124', scc = true },
+#    # SLE 12 SP5
+#    { image = 'sle:12.5', alias = 'sle125', scc = true },
+#    # SLE 15
+#    { image = 'sle:15.0', alias = 'sle150', scc = true },
+#    # SLE 15 SP1
+#    { image = 'sle:15.1', alias = 'sle151', scc = true },
+#    # SLE 15 SP1
+#    { image = 'sle:15.2', alias = 'sle152', scc = true },
+#    # SLE 15 SP2
+#    { image = 'sle:15.3', alias = 'sle153', scc = true },
+#    # SLE 15 SP3
+#    { image = 'sle:15.4', alias = 'sle154', scc = true },
+#    # SLE 15 SP4
+#    { image = 'sle:15.5', alias = 'sle155', scc = true },
+#    # SLE 15 SP6
+#    { image = 'sle:15.6', alias = 'sle156', scc = true }
+#]
+
 list = []
 
 # container common volumes
@@ -494,36 +270,14 @@ list = []
 # [commands.container.volumes]
 # '<src>' = '<dst>'
 
-
 #  SCC credentials to use. Same format as 'commands.container.volumes' field
 [commands.container.scc]
-'~/SUSE/secrets/SCCcredentials' = '/etc/zypp/credentials.d/SCCcredentials'
-'~/SUSE/secrets/SUSEConnect' = '/etc/SUSEConnect'
+'~/.config/SUSE/secrets/SCCcredentials' = '/etc/zypp/credentials.d/SCCcredentials'
+'~/.config/SUSE/secrets/SUSEConnect' = '/etc/SUSEConnect'
 
 # 'khelper' command settings
 [commands.khelper]
 
 # compresses the log generated by `git log` to take less space. Defaults to true
 log.compress = true
-
-# OBS Project - kernel branches map
-[commands.khelper.project.map]
-'SUSE:ALP:Source:Standard:1.0' = ['ALP-current', 'SLE15-SP6']
-'SUSE:SLE-11-SP4:Update' = ['SLE11-SP4-LTSS']
-'SUSE:SLE-12-SP2:Update' = ['SLE12-SP2-LTSS', 'cve/linux-4.4-LTSS']
-'SUSE:SLE-12-SP3:Update' = ['SLE12-SP3-LTSS', 'cve/linux-4.4-LTSS']
-'SUSE:SLE-12-SP3:Update:Products:Teradata:Update' = ['SLE12-SP3-TD', 'cve/linux-4.4-LTSS']
-'SUSE:SLE-12-SP4:Update' = ['SLE12-SP4-LTSS']
-'SUSE:SLE-12-SP5:Update' = ['SLE12-SP5']
-'SUSE:SLE-15:Update' = ['SLE15-LTSS']
-'SUSE:SLE-15-SP1:Update' = ['SLE15-SP1-LTSS']
-'SUSE:SLE-15-SP2:Update' = ['SLE15-SP2-LTSS', 'cve/linux-5.3-LTSS']
-'SUSE:SLE-15-SP3:Update' = ['SLE15-SP3-LTSS', 'cve/linux-5.3-LTSS']
-'SUSE:Carwos:1' = ['SLE15-SP2-LTSS', 'cve/linux-5.3-LTSS']
-'SUSE:SLE-15-SP4:Update' = ['SLE15-SP4-LTSS', 'cve/linux-5.14-LTSS']
-'SUSE:SLE-15-SP5:Update' = ['SLE15-SP5', 'cve/linux-5.14-LTSS']
-'SUSE:SLE-15-SP6:Update' = ['SLE15-SP6']
-'SUSE:SLE-12-SP5:Update:Products:SLERT:Update' = ['SLE12-SP5']
-'SUSE:SLE-15-SP3:Update:Products:SLERT:Update' = ['SLE15-SP3-LTSS', 'cve/linux-5.3-LTSS']
-'SUSE:SLE-15-SP4:Update:Products:SLERT:Update' = ['SLE15-SP4-LTSS', 'cve/linux-5.14-LTSS']
 
