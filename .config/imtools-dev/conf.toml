@@ -4,17 +4,17 @@
 [general]
 
 # enable or disable logs. Defaults to false
-log.enable = false
+log.enable = true
 
 # log level. One of: 'info', 'debug', 'warning', 'error', 'critical'.
 # Defaults to 'info'
-log.level = 'error'
+log.level = 'debug'
 
 # log directory. A path. Path expansion ('~' and '~user') and variables
 # expansion (in the form `$var` and `${var}`) are supported. If the directory
 # doesn't exist will be created. Log files will be named 'imtools-<pid>.log'.
 # Defaults to '/tmp/imtools_logs/'
-log.directory = '.local/share/imtools-dev/logs'
+log.directory = '~/.local/share/imtools-dev/logs'
 
 # use keyring for looking up credentials for services. If true, the username
 # field must be set, and the other fields value will be used for service
@@ -87,26 +87,45 @@ username = 'crazybyte'
 # SecretService lookup
 token = 'smash-token'
 
+# IBS
+[credentials.ibs]
+# username. Mandatory if general.keyring is true, as it will be used for
+# SecretService lookup
+username = 'crazybyte'
+
+# SSH Key file
+key = '~/.ssh/crazybyte_at_SUSE-EandI.pub'
+
+# OBS
+[credentials.obs]
+# username. Mandatory if general.keyring is true, as it will be used for
+# SecretService lookup
+username = 'crazybyte'
+
+# API token. If general.keyring is true, this value will be used for
+# SecretService lookup
+password = 'api.opensuse.org'
+
 ###############################################################################
 # Repositories settings                                                       #
 ###############################################################################
 [repositories]
+# kernel repositories to use. Available values: 'kernel-sources', 'kernel-branches', 'kernel-history'.
+# Default: 'kernel-sources', 'kernel-patches'
+# kernel = ['kernel-sources', 'kernel-patches']
+kernel = ['kernel-sources']
+
+[repositories.path]
 
 # SUSE unpacked kernel repository
 kernel-sources = '~/.local/share/SUSE/kernel'
 
 # SUSE packed kernel repository
-kernel-patches = '~/.local/share/SUSE/kernel-source'
+# kernel-patches = '~/.local/share/SUSE/kernel-source'
 
 ###############################################################################
 # Commands settings                                                           #
 ###############################################################################
-
-# 'checkout' command settings
-[commands.checkout]
-
-# default build service to use. Defaults to 'ibs'.
-build_service = 'ibs'
 
 # 'extract' command settings
 [commands.extract]
