@@ -66,3 +66,8 @@ alias what-taint='for i in $(seq 18); do echo $(($i-1)) $(($(cat /proc/sys/kerne
 
 # Extend the digest calculation (e.g. md5sum, sha256sum, etc.) to NTML
 alias ntlmsum='f(){ echo -n "${1}" | iconv -f UTF-8 -t UTF-16LE | openssl dgst -r -md4 -hex | cut -c -32 };f'
+
+# Avoid to use ssh-key loaded in the ssh-agent and directly ask for password.
+# This is useful for server where I don't have ssh-key configured yet, but the ssh server blocks
+# me to input the password due to too many failed attempts automaticaly performed by the ssh-agent
+alias sshp='ssh -o PreferredAuthentications=password'
