@@ -182,8 +182,8 @@ strict = false
 full = false
 
 # columns to show. Can be overridden with command-line switches.
-# Defaults to ['codestream', 'matches'].
-columns = ['codestream', 'matches']
+# Defaults to ['software', 'matches'].
+columns = ['software', 'matches']
 
 # providers to enable. Can be overridden with command-line switches.
 # Defaults to ['ibs', 'obs'].
