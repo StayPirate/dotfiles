@@ -14,7 +14,7 @@ type gem >/dev/null && {
 
 # $ZDOTDIR is specified in $HOME/.zprofile
 typeset -U PATH path
-path=("${XDG_CONFIG_HOME}/pyenv/pyenv/bin" "${HOME}/.local/bin" "${XDG_CONFIG_HOME}/tmux/powerline/scripts" "$path[@]" "$GEM_PATH" "${HOME}/.local/share/flatpak/exports/bin")
+path=("${XDG_CONFIG_HOME}/pyenv/pyenv/bin" "${HOME}/.local/bin" "${XDG_CONFIG_HOME}/tmux/powerline/scripts" "$path[@]" "$GEM_PATH" "${HOME}/.local/share/flatpak/exports/bin" "${HOME}/.local/bin/repos/managesieve")
 export PATH
 
 typeset -U FPATH fpath

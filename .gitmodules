@@ -72,3 +72,7 @@
 	path = .local/bin/repos/pwndbg
 	url = https://github.com/pwndbg/pwndbg.git
 	branch = dev
+[submodule "managesieve"]
+	path = .local/bin/repos/managesieve
+	url = https://gitlab.com/htgoebel/managesieve.git
+	branch = main
