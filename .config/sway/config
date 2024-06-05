@@ -170,6 +170,7 @@ focus_follows_mouse no
     bindsym Insert exec ~/.config/waybar/modules/rotate_sinks
     bindsym XF86MonBrightnessDown exec 'busctl --user -- call rs.wl-gammarelay / rs.wl.gammarelay UpdateBrightness d -0.2'
     bindsym XF86MonBrightnessUp exec 'busctl --user call rs.wl-gammarelay / rs.wl.gammarelay UpdateBrightness d 0.2'
+    # When press the play button, start spotify if it's closed.
     bindsym --locked XF86AudioPlay exec playerctl play-pause
     bindsym --locked Alt+Down exec playerctl play-pause
     bindsym --locked XF86AudioNext exec playerctl next
@@ -279,7 +280,6 @@ include "$(uname -n).conf"
         move workspace $ws_chill
         fullscreen disable
     }
-    exec 'is-internet-ready && youtube-music'
     for_window [ app_id="firefox" title="Enter name of file to save to" ] {
         floating enable
         sticky enable
@@ -370,7 +370,7 @@ include "$(uname -n).conf"
         resize set 62 ppt 100 ppt
         #move left
     }
-    #exec 'is-internet-ready && spotify'
+    exec 'is-internet-ready && spotify'
 
     for_window [ app_id="code-oss" title=" - Code - OSS$" ] {
         move workspace $ws_code
