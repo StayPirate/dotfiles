@@ -71,3 +71,4 @@ alias ntlmsum='f(){ echo -n "${1}" | iconv -f UTF-8 -t UTF-16LE | openssl dgst -
 # This is useful for server where I don't have ssh-key configured yet, but the ssh server blocks
 # me to input the password due to too many failed attempts automaticaly performed by the ssh-agent
 alias sshp='ssh -o PreferredAuthentications=password'
+alias scpp='scp -o PreferredAuthentications=password'
