@@ -122,7 +122,8 @@
 	},
 	"cpu": {
 		"interval": 5,
-		"format": "<b></b> {usage:2}%"
+		"format": "<b></b> {usage:2}%",
+		"on-click": "alacritty -e htop"
 	},
 	"temperature#cpu": {
 		"hwmon-path": [ "/sys/class/hwmon/hwmon6/temp1_input", "/sys/class/hwmon/hwmon8/temp1_input" ],
@@ -212,7 +213,8 @@
 		// "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
 		"tooltip-format-connected": "{num_connections} connected\n{device_enumerate}",
 		// "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
-		"tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_battery_percentage}%"
+		"tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_battery_percentage}%",
+		"on-click": "alacritty -e bluetoothctl"
 	},
 
 	"custom/notification": {
