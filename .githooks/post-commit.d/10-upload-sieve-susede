@@ -39,7 +39,7 @@ main() {
 
     # Push all the *.sieve files in this repo to the managesieve server
     find $(git rev-parse --show-toplevel) -type f -name "*.sieve" -printf "put %p %f\n" | sort -nr | \
-    sieveshell --user $(get_user) \
+    sieveshell --authname $(get_user) \
                --passwd $(get_pass) \
                --use-tls \
                --port $(get_managesieve_port) \
@@ -47,7 +47,7 @@ main() {
 
     # Check if 00-Init is active, otherwise activate it
     if ! echo "list" | sieveshell \
-        --user $(get_user) \
+        --authname $(get_user) \
         --passwd $(get_pass) \
         --use-tls \
         --port $(get_managesieve_port) \
@@ -57,7 +57,7 @@ main() {
             # Activate 00-Init.sieve
             echo >&2 "[*] Activating 00-Init.sieve"
             echo "activate 00-Init.sieve" | \
-            sieveshell --user $(get_user) \
+            sieveshell --authname $(get_user) \
                     --passwd $(get_pass) \
                     --use-tls \
                     --port $(get_managesieve_port) \
