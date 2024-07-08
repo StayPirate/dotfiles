@@ -365,7 +365,7 @@ include "$(uname -n).conf"
     }
     exec 'is-internet-ready && discord'
 
-    for_window [ instance="spotify" ] {
+    for_window [ title="Spotify Premium" ] {
         move workspace $ws_chill
         resize set 62 ppt 100 ppt
         #move left

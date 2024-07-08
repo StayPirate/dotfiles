@@ -1,1 +1,2 @@
-../share/flatpak/exports/bin/com.spotify.Client
+#!/bin/sh
+exec /usr/bin/flatpak run --branch=stable --arch=x86_64 com.spotify.Client --ozone-platform-hint=auto --enable-features=WaylandWindowDecorations --enable-features=WebRTCPipeWireCapturer "$@"
