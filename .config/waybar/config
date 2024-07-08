@@ -361,7 +361,8 @@
  		"restart-interval": 1,
  		"return-type": "json",
  		"exec": "~/.config/waybar/modules/spotify",
-		"escape": true
+		"escape": true,
+		"on-click": "swaymsg '[ title=\"Spotify Premium\" ] focus'"
 	},
 	"tray": {
 		"icon-size": 18
