@@ -6,42 +6,42 @@ alias decompress='extract_phar_inplace() {
                   old_IFS=$IFS; IFS=''
 
                   # Extract data.tar.gz from gemfile which will be processed later on this script 
-                  find . -type f -regextype posix-extended -regex ".*\.gem" |
+                  command find . -type f -regextype posix-extended -regex ".*\.gem" |
                     awk -F ": " "/^[^#]/{print $1}" |
-                    grep -v "\.osc" |
+                    command grep -v "\.osc" |
                       while read -r gemfile; do
                         echo $gemfile
                         tar --force-local -xf "$gemfile" -C $(dirname "$gemfile");
                       done
 
                   # Extract PHP Archive (.phar files)
-                  find . -type f -regextype posix-extended -regex ".*\.phar" |
+                  command find . -type f -regextype posix-extended -regex ".*\.phar" |
                     awk -F ": " "/^[^#]/{print $1}" |
-                    grep -v "\.osc" |
+                    command grep -v "\.osc" |
                     while read -r pharfile; do
                       echo $pharfile
                       extract_phar_inplace "$pharfile"
                     done
 
                   # Extract obscpio archives (.obscpio files)
-                  find . -type f -regextype posix-extended -regex ".*\.obscpio" |
+                  command find . -type f -regextype posix-extended -regex ".*\.obscpio" |
                     awk -F ": " "/^[^#]/{print $1}" |
-                    grep -v "\.osc" |
+                    command grep -v "\.osc" |
                     while read -r obsfile; do
                       echo $obsfile
                       cpio --quiet --extract --preserve-modification-time --make-directories --directory $(dirname "$obsfile") -- < "$obsfile"
                     done
 
                   # Extract any compressed archive in its same folder
-                  find . -type f -regextype posix-extended -regex ".*\.(tar\.|tgz|zip|whl).*" |
+                  command find . -type f -regextype posix-extended -regex ".*\.(tar\.|tgz|zip|whl).*" |
                     awk -F ": " "/^[^#]/{print $1}" |
                     # Skip .osc folder
-                    grep -v "\.osc" |
+                    command grep -v "\.osc" |
                     # Skip similar-name non archive files
-                    grep -Ev ".*\.(asc|sig|sha)$" |
+                    command grep -Ev ".*\.(asc|sig|sha)$" |
                       while read -r line; do
                         echo $line
-                        if echo $line | grep -qE ".*\.(zip|whl)$"; then
+                        if echo $line | command grep -qE ".*\.(zip|whl)$"; then
                           unzip -q "$line" -d $(dirname "$line");
                         else
                           tar --force-local -xf "$line" -C $(dirname "$line");
