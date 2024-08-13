@@ -103,3 +103,4 @@ export MINICOM="-m -c on"
 # FZF
 # https://github.com/junegunn/fzf/blob/master/README.md
 export FZF_DEFAULT_OPTS='--tmux 90%,80%'
+export FZF_CTRL_T_OPTS="--walker file,dir,hidden"
