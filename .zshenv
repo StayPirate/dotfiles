@@ -99,3 +99,7 @@ lsmod 2>/dev/null | grep -i nvidia 2>&1 >/dev/null && {
 
 # minicom: enable colors and metakey
 export MINICOM="-m -c on"
+
+# FZF
+# https://github.com/junegunn/fzf/blob/master/README.md
+export FZF_DEFAULT_OPTS='--tmux 90%,80%'
