@@ -383,11 +383,11 @@ include "$(uname -n).conf"
     exec code-oss
     exec alacritty --class "code-oss-zsh" --working-directory ~/Workspace -e tmux new-session -A -s devel
 
-    for_window [ app_id="^Slack$" ] {
+    for_window [ app_id="^com.slack.Slack$" ] {
         move workspace $ws_chat
         #move left
     }
-    for_window [ app_id="^chromium-browser.*\.config\\/chromium\\/SUSE.*" ] {
+    for_window [ app_id="^chromium-browser$" ] {
         # Starting from Chromium 103.0.5060.53, the 'Win' key is blocked in kiosk (app) mode.
         # The following command makes the compositor to not pass-through the keystroke to the client.
         shortcuts_inhibitor disable
