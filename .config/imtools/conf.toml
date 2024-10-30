@@ -106,6 +106,16 @@ username = 'crazybyte'
 # SecretService lookup
 password = 'api.opensuse.org'
 
+# SUSE Bugzilla
+[credentials.bugzilla]
+# username. Mandatory if general.keyring is true, as it will be used for
+# SecretService lookup
+username = 'crazybyte'
+
+# API token. If general.keyring is true, this value will be used for
+# SecretService lookup
+token = 'bugzilla-token'
+
 ###############################################################################
 # Repositories settings                                                       #
 ###############################################################################
