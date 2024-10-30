@@ -396,7 +396,7 @@
 		// Run every 5m
 		"interval": 300,
 		// Run flatpak to start the update on-click
-		"on-click": "alacritty --class flatpack-updates -e tmux new-session -A -s updates 'flatpak update; read'",
+		"on-click": "alacritty --class flatpack-updates -e tmux new-session -A -s updates 'flatpak update && flatpak uninstall --unused; read'",
 		// Number of updates
 		"exec": "flatpak update | \\grep -E \"^ ?[0-9]{1,2}\\.\" | wc -l",
 		// Only run if there is at least one update available.
