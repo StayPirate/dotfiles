@@ -104,3 +104,6 @@ export MINICOM="-m -c on"
 # https://github.com/junegunn/fzf/blob/master/README.md
 export FZF_DEFAULT_OPTS='--tmux 90%,80%'
 export FZF_CTRL_T_OPTS="--walker file,dir,hidden"
+
+# Podman docker socket compatibility
+export DOCKER_HOST=unix:///run/user/1000/podman/podman.sock
