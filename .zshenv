@@ -105,5 +105,9 @@ export MINICOM="-m -c on"
 export FZF_DEFAULT_OPTS='--tmux 90%,80%'
 export FZF_CTRL_T_OPTS="--walker file,dir,hidden"
 
+# Orca-Slicer
+# Requested since version 2.2.0
+export SSL_CERT_FILE="/etc/ssl/certs/ca-certificates.crt"
+
 # Podman docker socket compatibility
 export DOCKER_HOST=unix:///run/user/1000/podman/podman.sock
