@@ -6,7 +6,7 @@ After=keepassxc.service
 [Service]
 # Wait until Sway is started or the process won't appear in the systray
 ExecStartPre=/bin/bash -c '(while ! ps -C sway 2>/dev/null; do echo "Wait for Sway to be started..."; sleep 5; done)'
-ExecStart=/bin/bash -c 'if ! ps -C nextcloud >/dev/null 2&>1; then ${HOME}/.local/bin/nextcloud; fi'
+ExecStart=/bin/bash -c 'if ! ps -C nextcloud >/dev/null 2>&1; then ${HOME}/.local/bin/nextcloud; fi'
 ExecStop=/usr/bin/flatpak kill com.nextcloud.desktopclient.nextcloud
 Restart=on-failure
 RestartSec=1
