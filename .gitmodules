@@ -45,11 +45,6 @@
 	url = https://github.com/pyenv/pyenv-virtualenv.git
 	branch = master
 	shallow = true
-### NODEJS VIRTUALENV ###
-[submodule "nvm"]
-	path = .local/bin/repos/nvm
-	url = https://github.com/nvm-sh/nvm.git
-	branch = master
 ### UTILITIES ###
 [submodule "secbox"]
 	path = .local/bin/repos/secbox

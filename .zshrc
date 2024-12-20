@@ -124,15 +124,6 @@ if (( ${+terminfo[smkx]} && ${+terminfo[rmkx]} )); then
 fi
 ######
 
-### NVM - NODEJS VIRTUALENV ###
-# https://github.com/nvm-sh/nvm
-# zsh completion: https://github.com/nvm-sh/nvm/blob/a284af9228a62656e32eacfb0928faaeee8a124d/bash_completion#L83-L97
-source $HOME/.local/bin/repos/nvm/nvm.sh
-# zsh virtualenv autoload: https://github.com/nvm-sh/nvm#zsh
-# I customized it a little bit to better keep the correct version while changing folders
-autoload -Uz load-nvmrc
-######
-
 ### ZSH STYLE ###
 # Do menu-driven completion.
 zstyle ':completion:*' menu select
@@ -151,7 +142,7 @@ done
 ### Hook Functions ###
 # http://zsh.sourceforge.net/Doc/Release/Functions.html#Hook-Functions
 # Executed whenever the current working directory is changed.
-chpwd() { load-nvmrc }
+# chpwd() { add_command_here }
 ######
 
 ### FZF ###
