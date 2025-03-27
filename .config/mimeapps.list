@@ -12,6 +12,7 @@ video/mp4=io.github.celluloid_player.Celluloid.desktop
 video/mpeg=io.github.celluloid_player.Celluloid.desktop
 image/jpeg=org.chromium.Chromium.desktop
 video/quicktime=io.github.celluloid_player.Celluloid.desktop
+video/x-ms-wmv=io.github.celluloid_player.Celluloid.desktop
 
 [Added Associations]
 application/pdf=org.chromium.Chromium.desktop;
@@ -21,3 +22,4 @@ video/mp4=io.github.celluloid_player.Celluloid.desktop;
 video/mpeg=io.github.celluloid_player.Celluloid.desktop;
 image/jpeg=org.chromium.Chromium.desktop;
 video/quicktime=io.github.celluloid_player.Celluloid.desktop;
+video/x-ms-wmv=io.github.celluloid_player.Celluloid.desktop;
