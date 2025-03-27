@@ -624,4 +624,4 @@ exec battery-notifications
 
 # Start streamdeck from its venv.
 # It requires that a venv named 'streamdeck-ui' is created first
-exec PYENV_VERSION=streamdeck-ui streamdeck -n 2>/dev/null
+exec streamdeck -n
