@@ -1,7 +1,7 @@
 [user]
 	name = Gianluca Gabrielli
 	email = gianluca.gabrielli@suse.com
-	signingkey = 78CA2FAA
+	signingkey = DE01581E98684413
 [filter "lfs"]
 	smudge = git-lfs smudge --skip -- %f
 	process = git-lfs filter-process --skip
