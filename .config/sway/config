@@ -65,27 +65,6 @@ set $lock_machine "loginctl lock-session"
 
 bindsym $mod+l exec $lock_machine
 
-### Idle configuration
-#
-# * After 300s execute loginctl lock-session to inform other running
-#   programs that the pc is going to be locked (eg. KeePassXC will lock open databases).
-#   At the same time, swayidle `lock` handler will be triggered and swaylock is started.
-# * After 305s turn off the screen.
-# * As soon as any input device triggers, turn on the screen. Swaylock will be asking
-#   for the user's password.
-# * `lock` is the event-handler for logind session locked event. I set logind.conf to lock
-#   the session all the time that the laptop's lid is closed. This way swayidle starts
-#   swaylock and as soon as the lid is reopened the user's password is asked.
-exec swayidle -w \
-         timeout 300 $lock_machine \
-         timeout 305 'swaymsg "output * dpms off"' \
-              resume 'swaymsg "output * dpms on"' \
-         lock swaylock
-#
-# This will lock your screen and keyrings after 300 seconds of inactivity, then
-# turn off your displays after another 305 seconds, and turn your screens back on
-# when resumed.
-
 # Inhibit idle if any window is set fullscreen
 for_window [class=".*"] inhibit_idle fullscreen
 for_window [app_id=".*"] inhibit_idle fullscreen
