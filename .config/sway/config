@@ -226,30 +226,30 @@ focus_follows_mouse no
     # Set workspaces' name
     set $ws_web     "1:web"
     set $ws_mail    "2:mail"
-    set $ws_chat    "3:chat"
+    set $ws_work    "3:work"
     set $ws_code    "4:code"
-    set $ws_chill   "5:chill"
-    set $ws6        "6:6"
+    set $ws_chat    "5:chat"
+    set $ws_music   "6:music"
     set $ws7        "7:7"
     set $ws8        "8:8"
     set $ws_kali    "9:kali"
     # Switch to workspace
     bindsym $mod+1 workspace $ws_web
     bindsym $mod+2 workspace $ws_mail
-    bindsym $mod+3 workspace $ws_chat
+    bindsym $mod+3 workspace $ws_work
     bindsym $mod+4 workspace $ws_code
-    bindsym $mod+5 workspace $ws_chill
-    bindsym $mod+6 workspace $ws6
+    bindsym $mod+5 workspace $ws_chat
+    bindsym $mod+6 workspace $ws_music
     bindsym $mod+7 workspace $ws7
     bindsym $mod+8 workspace $ws8
     bindsym $mod+9 workspace $ws_kali
     # Move focused container to workspace
     bindsym $mod+Shift+1 move container to workspace $ws_web
     bindsym $mod+Shift+2 move container to workspace $ws_mail
-    bindsym $mod+Shift+3 move container to workspace $ws_chat
+    bindsym $mod+Shift+3 move container to workspace $ws_work
     bindsym $mod+Shift+4 move container to workspace $ws_code
-    bindsym $mod+Shift+5 move container to workspace $ws_chill
-    bindsym $mod+Shift+6 move container to workspace $ws6
+    bindsym $mod+Shift+5 move container to workspace $ws_chat
+    bindsym $mod+Shift+6 move container to workspace $ws_music
     bindsym $mod+Shift+7 move container to workspace $ws7
     bindsym $mod+Shift+8 move container to workspace $ws8
     bindsym $mod+Shift+9 move container to workspace $ws_kali
@@ -277,7 +277,7 @@ include "$(uname -n).conf"
 
     # Youtube Music (Kiosk Mode)
     for_window [ app_id="firefox" title="YouTube Music — Mozilla Firefox" ] {
-        move workspace $ws_chill
+        move workspace $ws_music
         fullscreen disable
     }
     for_window [ app_id="firefox" title="Enter name of file to save to" ] {
@@ -349,11 +349,11 @@ include "$(uname -n).conf"
     exec 'is-internet-ready && thunderbird'
 
     for_window [ app_id="org.telegram.desktop" title="Media viewer" ] {
-        move workspace $ws_chill
+        move workspace $ws_chat
         floating enable
     }
     for_window [ app_id="org.telegram.desktop" ] {
-        move workspace $ws_chill
+        move workspace $ws_chat
         resize set 38 ppt 100 ppt
         #move right
     }
@@ -361,13 +361,20 @@ include "$(uname -n).conf"
 
     # Discord
     for_window [ app_id="com.discordapp.Discord" ] {
-        move workspace $ws_chill
+        move workspace $ws_chat
     }
     exec 'is-internet-ready && discord'
 
+    for_window [ app_id="chrome-web.whatsapp.com__-Default" ] {
+        move workspace $ws_chat
+        #resize set 62 ppt 100 ppt
+        #move left
+    }
+    exec 'is-internet-ready && whatsapp'
+
     for_window [ title="Spotify Premium" ] {
-        move workspace $ws_chill
-        resize set 62 ppt 100 ppt
+        move workspace $ws_music
+        #resize set 62 ppt 100 ppt
         #move left
     }
     exec 'is-internet-ready && spotify'
@@ -384,14 +391,14 @@ include "$(uname -n).conf"
     exec alacritty --class "code-oss-zsh" --working-directory ~/Workspace -e tmux new-session -A -s devel
 
     for_window [ app_id="^com.slack.Slack$" ] {
-        move workspace $ws_chat
+        move workspace $ws_work
         #move left
     }
     for_window [ app_id="^chromium-browser$" ] {
         # Starting from Chromium 103.0.5060.53, the 'Win' key is blocked in kiosk (app) mode.
         # The following command makes the compositor to not pass-through the keystroke to the client.
         shortcuts_inhibitor disable
-        move workspace $ws_chat
+        move workspace $ws_work
         #move right
     }
     # Whatsapp application
@@ -413,7 +420,7 @@ include "$(uname -n).conf"
     # Element
     for_window [ app_id="chrome-app.element.io__-Default" ] {
         shortcuts_inhibitor disable
-        move workspace $ws_chat
+        move workspace $ws_work
     }
 
     # mpv

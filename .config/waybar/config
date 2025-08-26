@@ -62,9 +62,10 @@
 		"format-icons": {
 			"1:web": " ",
 			"2:mail": " ",
-			"3:chat": " ",
+			"3:work": " ",
 			"4:code": " ﬏",
-			"5:chill": " ",
+			"5:chat": " ",
+			"6:music": " ",
 			"9:kali": " <span size='x-large'></span>",
 			//"urgent": " ",
 			//"focused": " ",
@@ -73,9 +74,10 @@
 		"persistent-workspaces": {
 			"1:web": [],
 			"2:mail": [],
-			"3:chat": [],
+			"3:work": [],
 			"4:code": [],
-			"5:chill": []
+			"5:chat": [],
+			"6:music": []
 		}
 	},
 
