@@ -72,3 +72,7 @@ alias ntlmsum='f(){ echo -n "${1}" | iconv -f UTF-8 -t UTF-16LE | openssl dgst -
 # me to input the password due to too many failed attempts automaticaly performed by the ssh-agent
 alias sshp='ssh -o PreferredAuthentications=password'
 alias scpp='scp -o PreferredAuthentications=password'
+
+# Youtube downloader set to best video and best audio
+# Ensure the following packages are installed in Archlinux: yt-dlp yt-dlp-ejs deno
+alias yt='f(){yt-dlp -F "${1}"; echo; yt-dlp --remote-components ejs:npm -f "bv+ba/b" --merge-output-format mkv "${1}"};f'
