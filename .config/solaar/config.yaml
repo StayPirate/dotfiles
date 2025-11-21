@@ -1,4 +1,4 @@
-- 1.1.14
+- 1.1.16
 - _NAME: MX Mechanical Mini
   _absent: [hi-res-scroll, lowres-scroll-mode, hires-smooth-invert, hires-smooth-resolution, hires-scroll-mode, scroll-ratchet, smart-shift, thumb-scroll-invert,
     thumb-scroll-mode, onboard_profiles, report_rate, report_rate_extended, pointer_speed, dpi, dpi_extended, speed-change, backlight_level, backlight_duration_hands_out,
@@ -11,7 +11,7 @@
   _serial: D67C0E58
   _unitId: D67C0E58
   _wpid: B367
-  backlight: true
+  backlight: 0
   change-host: null
   disable-keyboard-keys: {1: false, 4: false, 8: false, 16: false}
   divert-keys: {212: 0, 226: 0, 227: 0, 231: 0, 232: 0, 233: 0, 259: 1, 264: 1, 266: 1, 267: 0, 268: 0, 269: 0, 270: 0, 271: 0, 272: 0, 273: 0, 274: 0,
@@ -73,12 +73,6 @@
   thumb-scroll-invert: false
   thumb-scroll-mode: false
 - _NAME: Wireless Mouse MX Anywhere 2
-  _absent: [hi-res-scroll, lowres-scroll-mode, scroll-ratchet, smart-shift, thumb-scroll-invert, thumb-scroll-mode, onboard_profiles, report_rate, report_rate_extended,
-    pointer_speed, dpi_extended, speed-change, backlight, backlight_level, backlight_duration_hands_out, backlight_duration_hands_in, backlight_duration_powered,
-    backlight-timed, led_control, led_zone_, rgb_control, rgb_zone_, brightness_control, per-key-lighting, fn-swap, persistent-remappable-keys, disable-keyboard-keys,
-    crown-smooth, divert-crown, divert-gkeys, m-key-leds, mr-key-led, multiplatform, gesture2-gestures, gesture2-divert, gesture2-params, sidetone, equalizer,
-    adc_power_management]
-  _battery: 4096
   _modelId: B013404A0000
   _sensitive: {hires-scroll-mode: ignore, hires-smooth-invert: ignore, hires-smooth-resolution: ignore}
   _unitId: 8E924DD6
@@ -95,3 +89,16 @@
   _wpid: '1017'
   side-scroll: true
   smooth-scroll: false
+- _NAME: Wireless Touch Keyboard K400 Plus
+  _modelId: 404D00000000
+  _sensitive: {hires-scroll-mode: ignore, hires-smooth-invert: ignore, hires-smooth-resolution: ignore}
+  _serial: 7660D77C
+  _unitId: 864F274F
+  _wpid: 404D
+  disable-keyboard-keys: {1: false, 4: false, 8: false, 16: false}
+  divert-keys: {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 8: 0, 34: 0, 40: 0, 62: 0, 64: 0, 79: 0, 84: 0, 110: 0, 145: 0, 149: 0, 183: 0, 184: 0}
+  fn-swap: true
+  gesture2-divert: {1: false, 2: false, 10: false, 44: false, 64: false, 65: false, 67: false, 84: false, 85: false, 100: false}
+  gesture2-gestures: {1: true, 2: true, 10: true, 30: true, 34: false, 42: true, 43: true, 45: false, 64: false, 65: false, 67: false, 84: true}
+  gesture2-params:
+    4: {scale: 256}
