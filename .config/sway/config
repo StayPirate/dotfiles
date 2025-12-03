@@ -254,6 +254,13 @@ include "$(uname -n).conf"
         mark "toggle_KeePassXC"
     }
 
+    # GTK Calclulator
+    # https://flathub.org/en/apps/io.github.Qalculate
+    for_window [ app_id="qalculate-gtk" ] {
+        floating enable
+        move position center
+    }
+
     # Youtube Music (Kiosk Mode)
     for_window [ app_id="firefox" title="YouTube Music — Mozilla Firefox" ] {
         move workspace $ws_music
