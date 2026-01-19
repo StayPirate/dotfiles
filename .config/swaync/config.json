@@ -8,6 +8,7 @@
   "control-center-margin-bottom": 17,
   "control-center-margin-right": 17,
   "control-center-margin-left": 0,
+  "cssPriority" : "user",
   "timeout": 10,
   "timeout-low": 10,
   "timeout-critical": 0,
