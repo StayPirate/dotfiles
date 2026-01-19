@@ -23,8 +23,8 @@ forecast_type = "Daily" # Hourly or Daily
 
 # weather icons
 weather_icons = {
-    "sunnyDay": "滛",
-    "clearNight": "望",
+    "sunnyDay": "滛",
+    "clearNight": "望",
     "cloudyFoggyDay": "",
     "cloudyFoggyNight": "",
     "rainyDay": "",
