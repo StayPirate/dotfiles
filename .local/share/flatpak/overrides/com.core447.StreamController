@@ -1,0 +1,2 @@
+[Context]
+filesystems=!home;xdg-download:ro;/home/crazybyte/.local/share/StreamController;

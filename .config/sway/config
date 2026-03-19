@@ -475,7 +475,7 @@ include "$(uname -n).conf"
     }
 
     # Streamdeck
-    for_window [ title="Stream Deck UI" ] {
+    for_window [ app_id="com.core447.StreamController" ] {
         floating enable
         move position center
     }
@@ -615,6 +615,5 @@ exec solaar-battery mechanical
 # Battery notification daemon
 exec battery-notifications
 
-# Start streamdeck from its venv.
-# It requires that a venv named 'streamdeck-ui' is created first
-exec streamdeck -n
+# Start streamcontroller
+exec streamcontroller -b
