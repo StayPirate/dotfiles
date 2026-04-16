@@ -1,0 +1,27 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "default_agent": "plan",
+  "plugin": ["opencode-gemini-auth@latest"],
+  "provider": {
+    "google": {
+      "options": {
+        "projectId": "suse-gemini-code-assist"
+      }
+    },
+    "ollama": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Ollama (SUSE)",
+      "options": {
+        "baseURL": "http://coding.op-prg2-gpu-1-ingress.op.suse.org/v1"
+      },
+      "models": {
+        "qwen2.5-coder:7b": { "name": "qwen2.5-coder:7b" },
+        "qwen3:14b": { "name": "qwen3:14b" },
+        "qwen3-coder:30b": { "name": "qwen3-coder:30b" },
+        "gpt-oss:20b": { "name": "gpt-oss:20b" },
+        "qwen3:8b-ctx-16k": { "name": "qwen3:8b-ctx-16k" },
+        "qwen3:14b-128k": { "name": "qwen3:14b-128k" }
+      }
+    }
+  }
+}
