@@ -16,12 +16,24 @@
         "baseURL": "http://coding.op-prg2-gpu-1-ingress.op.suse.org/v1"
       },
       "models": {
-        "qwen2.5-coder:7b": { "name": "qwen2.5-coder:7b" },
-        "qwen3:14b": { "name": "qwen3:14b" },
-        "qwen3-coder:30b": { "name": "qwen3-coder:30b" },
-        "gpt-oss:20b": { "name": "gpt-oss:20b" },
-        "qwen3:8b-ctx-16k": { "name": "qwen3:8b-ctx-16k" },
-        "qwen3:14b-128k": { "name": "qwen3:14b-128k" }
+	"default:latest": { "name": "default:latest" },
+	"gemma4:31b": { "name": "gemma4:31b" },
+	"gemma4:e2b": { "name": "gemma4:e2b" },
+	"mistral:7b": { "name": "mistral:7b" },
+	"olmo-3:32b": { "name": "olmo-3:32b" },
+	"qwen2.5-coder:7b": { "name": "qwen2.5-coder:7b" },
+	"qwen2.5-coder:7b-128k": { "name": "qwen2.5-coder:7b-128k" },
+	"qwen2.5-coder:latest": { "name": "qwen2.5-coder:latest" },
+	"qwen3:8b": { "name": "qwen3:8b" },
+	"qwen3:8b-40k": { "name": "qwen3:8b-40k" },
+	"qwen3:14b": { "name": "qwen3:14b" },
+	"qwen3:14b-40k": { "name": "qwen3:14b-40k" },
+	"qwen3:30b": { "name": "qwen3:30b" },
+	"qwen3:30b-256k": { "name": "qwen3:30b-256k" },
+	"qwen3-coder:30b": { "name": "qwen3-coder:30b" },
+	"qwen3-coder:30b-128k": { "name": "qwen3-coder:30b-128k" },
+	"qwen3-coder:latest": { "name": "qwen3-coder:latest" },
+	"qwen3.6:35b": { "name": "qwen3.6:35b" }
       }
     }
   }
