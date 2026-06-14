@@ -73,7 +73,7 @@ export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
 # ssh-agent
 # This var is also specified in .config/environment.d/10-ssh-agent.conf
 # as it is required by .config/systemd/user/ssh-agent.service
-export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh-agent.socket"
 
 # LS and EXA time format
 export TIME_STYLE="+%d-%m-%Y %H:%M:%S %z"
@@ -111,3 +111,6 @@ export SSL_CERT_FILE="/etc/ssl/certs/ca-certificates.crt"
 export GOOGLE_CLOUD_PROJECT=vertex-ai-206179
 export GOOGLE_APPLICATION_CREDENTIALS=~/.config/gcloud/application_default_credentials.json
 export VERTEX_LOCATION=global
+
+# Ripgrep
+export RIPGREP_CONFIG_PATH="${HOME}/.rgrc"
