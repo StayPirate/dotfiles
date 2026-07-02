@@ -1,1 +1,2 @@
 alias g=git
+alias oc='mpv >/dev/null 2>&1 --no-video "https://www.youtube.com/shorts/x0nKj_EduF4" & opencode'
