@@ -34,18 +34,6 @@
 	path = .config/zsh/plugins/fzf
 	url = https://github.com/junegunn/fzf.git
 	branch = master
-### PYTHON PYENV ###
-[submodule "pyenv"]
-	path = .config/pyenv/pyenv
-	url = https://github.com/pyenv/pyenv.git
-	branch = master
-	shallow = true
-[submodule "pyenv-virtualenv"]
-	path = .config/pyenv/pyenv-virtualenv
-	url = https://github.com/pyenv/pyenv-virtualenv.git
-	branch = master
-	shallow = true
-### UTILITIES ###
 [submodule "secbox"]
 	path = .local/bin/repos/secbox
 	url = https://github.com/StayPirate/secbox.git

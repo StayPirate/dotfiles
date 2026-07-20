@@ -14,7 +14,7 @@ type gem >/dev/null && {
 
 # $ZDOTDIR is specified in $HOME/.zprofile
 typeset -U PATH path
-path=("${XDG_CONFIG_HOME}/pyenv/pyenv/bin" "${HOME}/.local/bin" "${XDG_CONFIG_HOME}/tmux/powerline/scripts" "$path[@]" "$GEM_PATH" "${HOME}/.local/share/flatpak/exports/bin" "${HOME}/.local/bin/repos/managesieve")
+path=("${HOME}/.local/bin" "${XDG_CONFIG_HOME}/tmux/powerline/scripts" "$path[@]" "$GEM_PATH" "${HOME}/.local/share/flatpak/exports/bin" "${HOME}/.local/bin/repos/managesieve")
 export PATH
 
 typeset -U FPATH fpath
@@ -52,14 +52,6 @@ typeset -aTU PYTHONPATH pythonpath
 pythonpath=("${XDG_CONFIG_HOME}/tmux/powerline" "${HOME}/.local/bin/repos/asciinema")
 export PYTHONPATH
 export POWERLINE_CONFIG_COMMAND="${XDG_CONFIG_HOME}/tmux/powerline/scripts/powerline-config"
-
-# Pyenv
-# https://github.com/pyenv/pyenv#environment-variables
-# https://github.com/pyenv/pyenv-virtualenv#special-environment-variables
-export PYENV_ROOT="${XDG_CONFIG_HOME}/pyenv"
-export PYTHON_BUILD_ARIA2_OPTS="-x 10 -k 1M"
-export PYENV_VIRTUALENV_CACHE_PATH="${XDG_CACHE_HOME}/pyenv-virtualenv"
-eval "$(pyenv init --path)"
 
 # Sway
 export XDG_CURRENT_DESKTOP=sway

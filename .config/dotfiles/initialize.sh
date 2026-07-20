@@ -16,13 +16,6 @@ dotfiles-private() { git --git-dir="${HOME}/.config/dotfiles/private" --work-tre
 export -f dotfiles
 export -f dotfiles-private
 
-# Enabling pyenv-virtualenv plugin in pyenv
-# it needs to be done here as the `${HOME}/.config/pyenv/pyenv/plugins` folder is created only after the pyenv submodule
-# was initialized. Hence, I cannot simply add the symbolic link to my dotfiles.
-if [[ -d "${HOME}/.config/pyenv/pyenv/plugins" && ! -L "${HOME}/.config/pyenv/pyenv/plugins/pyenv-virtualenv" ]]; then
-    ln -s "${HOME}/.config/pyenv/pyenv-virtualenv" "${HOME}/.config/pyenv/pyenv/plugins"
-fi
-
 # Ask the user which submodules enable (if there are any disabled)
 # List disabled submodules
 IFS=$'\n'
