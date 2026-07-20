@@ -106,3 +106,6 @@ export VERTEX_LOCATION=global
 
 # Ripgrep
 export RIPGREP_CONFIG_PATH="${HOME}/.rgrc"
+
+# Podman (docker socket) rootless mode
+export DOCKER_HOST=unix://${XDG_RUNTIME_DIR}/podman/podman.sock
