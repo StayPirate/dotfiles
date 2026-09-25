@@ -16,6 +16,7 @@ video/x-ms-wmv=io.github.celluloid_player.Celluloid.desktop
 text/x-python=com.visualstudio.code-oss.desktop
 x-scheme-handler/opencode=opencode-desktop-handler.desktop
 x-scheme-handler/claude-cli=claude-code-url-handler.desktop
+image/svg+xml=org.chromium.Chromium.desktop
 
 [Added Associations]
 application/pdf=org.chromium.Chromium.desktop;
@@ -27,3 +28,4 @@ image/jpeg=org.chromium.Chromium.desktop;
 video/quicktime=io.github.celluloid_player.Celluloid.desktop;
 video/x-ms-wmv=io.github.celluloid_player.Celluloid.desktop;
 text/x-python=com.visualstudio.code-oss.desktop;
+image/svg+xml=org.chromium.Chromium.desktop;
