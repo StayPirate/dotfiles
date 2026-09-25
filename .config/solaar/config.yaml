@@ -1,23 +1,39 @@
-- 1.1.19
+- 1.1.20
 - _NAME: MX Mechanical Mini
-  _absent: [hi-res-scroll, lowres-scroll-mode, hires-smooth-invert, hires-smooth-resolution, hires-scroll-mode, scroll-ratchet, scroll-ratchet-torque, smart-shift,
-    thumb-scroll-invert, thumb-scroll-mode, onboard_profiles, report_rate, report_rate_extended, pointer_speed, dpi, dpi_extended, speed-change, backlight_level,
-    backlight_duration_hands_out, backlight_duration_hands_in, backlight_duration_powered, backlight-timed, led_control, led_zone_, rgb_control, rgb_zone_,
-    brightness_control, per-key-lighting, reprogrammable-keys, persistent-remappable-keys, force-sensing, crown-smooth, divert-crown, divert-gkeys, m-key-leds,
-    mr-key-led, gesture2-gestures, gesture2-divert, gesture2-params, haptic-level, haptic-play, sidetone, equalizer, adc_power_management]
+  _absent: [scroll-ratchet, scroll-ratchet-torque, smart-shift, thumb-scroll-invert, thumb-scroll-mode, onboard_profiles, report_rate, report_rate_extended,
+    pointer_speed, dpi, dpi_extended, speed-change, backlight-timed, led_control, led_zone_, brightness_control, persistent-remappable-keys, divert-gkeys,
+    m-key-leds, mr-key-led, analog-button-tuning, haptic-level, haptic-play, sidetone, equalizer, headset-eco-mode, headset-do-not-disturb, headset-mic-mute,
+    headset-mic-snr, headset-ai-nr, headset-sidetone, headset-mic-gain, headset-mix-balance, headset-auto-sleep, headset-onboard-eq, headset-eq-active-preset,
+    headset-advanced-eq, headset_led_control, headset-onboard-effect, headset_per_zone_lighting, headset-signature-startup, headset-signature-shutdown,
+    headset-signature-passive, logivoice-nr-state, logivoice-ng-state, logivoice-comp-state, logivoice-deesser-state, logivoice-depopper-state, logivoice-limiter-state,
+    logivoice-hpf-state, adc_power_management, rgb_startup_animation, rgb_shutdown_animation, rgb_control, rgb_zone_, per-key-lighting, gesture2-gestures,
+    gesture2-divert, gesture2-params, headset-ai-nr-level, backlight_level, backlight_duration_hands_out, backlight_duration_hands_in, backlight_duration_powered,
+    reprogrammable-keys]
   _battery: 4100
+  _config_cookie: [12, 237]
   _modelId: B36700000000
-  _sensitive: {backlight: true, change-host: false, divert-keys: true, fn-swap: false, multiplatform: false}
+  _sensitive: {backlight: true, change-host: false, divert-keys: true, fn-swap: true, multiplatform: false}
   _serial: D67C0E58
   _unitId: D67C0E58
   _wpid: B367
   backlight: 0
   change-host: null
+  crown-smooth: false
   disable-keyboard-keys: {1: false, 4: false, 8: false, 16: false}
+  divert-crown: false
   divert-keys: {212: 0, 226: 0, 227: 0, 231: 0, 232: 0, 233: 0, 259: 1, 264: 1, 266: 1, 267: 0, 268: 0, 269: 0, 270: 0, 271: 0, 272: 0, 273: 0, 274: 0,
     277: 0, 279: 0, 280: 0, 281: 0, 282: 0, 283: 0, 284: 1, 286: 0, 316: 0, 321: 0}
   fn-swap: true
+  force-sensing: {0: 0, 1: 256}
+  hi-res-scroll: false
+  hires-scroll-mode: true
+  hires-smooth-invert: true
+  hires-smooth-resolution: false
+  lowres-scroll-mode: false
   multiplatform: 0
+  rgb_idle_effect: !LEDEffectSetting {ID: 128, intensity: 50}
+  rgb_idle_timeout: 60
+  rgb_sleep_timeout: 300
 - _NAME: MX Master 3 Wireless Mouse
   _modelId: B02340820000
   _sensitive: {divert-keys: true, dpi: true, reprogrammable-keys: false, smart-shift: true}
@@ -36,12 +52,16 @@
   thumb-scroll-invert: false
   thumb-scroll-mode: false
 - _NAME: MX Master 3S
-  _absent: [hi-res-scroll, lowres-scroll-mode, scroll-ratchet-torque, onboard_profiles, report_rate, report_rate_extended, pointer_speed, dpi_extended,
-    speed-change, backlight, backlight_level, backlight_duration_hands_out, backlight_duration_hands_in, backlight_duration_powered, backlight-timed, led_control,
-    led_zone_, rgb_control, rgb_zone_, brightness_control, per-key-lighting, fn-swap, persistent-remappable-keys, disable-keyboard-keys, force-sensing,
-    crown-smooth, divert-crown, divert-gkeys, m-key-leds, mr-key-led, multiplatform, gesture2-gestures, gesture2-divert, gesture2-params, haptic-level,
-    haptic-play, sidetone, equalizer, adc_power_management]
+  _absent: [scroll-ratchet-torque, pointer_speed, dpi_extended, speed-change, backlight-timed, led_control, led_zone_, rgb_control, brightness_control,
+    fn-swap, persistent-remappable-keys, force-sensing, crown-smooth, divert-gkeys, mr-key-led, multiplatform, gesture2-gestures, gesture2-divert, gesture2-params,
+    analog-button-tuning, haptic-level, haptic-play, sidetone, equalizer, adc_power_management, headset-eco-mode, headset-do-not-disturb, headset-mic-mute,
+    headset-mic-snr, headset-ai-nr, headset-ai-nr-level, headset-sidetone, headset-mic-gain, headset-mix-balance, headset-auto-sleep, headset-onboard-eq,
+    headset-eq-active-preset, headset-advanced-eq, headset_led_control, headset-onboard-effect, headset_per_zone_lighting, headset-signature-startup, headset-signature-shutdown,
+    headset-signature-passive, logivoice-nr-state, logivoice-ng-state, logivoice-comp-state, logivoice-deesser-state, logivoice-depopper-state, logivoice-limiter-state,
+    logivoice-hpf-state, per-key-lighting, report_rate, report_rate_extended, onboard_profiles, backlight_level, backlight_duration_hands_out, backlight_duration_hands_in,
+    backlight_duration_powered, rgb_zone_, rgb_startup_animation, rgb_shutdown_animation]
   _battery: 4100
+  _config_cookie: [12, 238]
   _dpi-sliding: 16
   _modelId: B03400000000
   _sensitive: {divert-keys: true, dpi: true, hires-scroll-mode: false, hires-smooth-invert: false, hires-smooth-resolution: false, reprogrammable-keys: false,
@@ -49,13 +69,22 @@
   _serial: 9A21C3A7
   _unitId: 9A21C3A7
   _wpid: B034
+  backlight: 0
   change-host: null
+  disable-keyboard-keys: {8: false}
+  divert-crown: false
   divert-keys: {82: 0, 83: 0, 86: 0, 195: 1, 196: 0}
   dpi: 1600
+  hi-res-scroll: false
   hires-scroll-mode: false
   hires-smooth-invert: false
   hires-smooth-resolution: false
+  lowres-scroll-mode: false
+  m-key-leds: {1: false, 2: false, 4: false, 8: false, 16: false, 32: false, 64: false, 128: false}
   reprogrammable-keys: {80: 80, 81: 81, 82: 82, 83: 83, 86: 86, 195: 195, 196: 196}
+  rgb_idle_effect: !LEDEffectSetting {ID: 128, intensity: 50}
+  rgb_idle_timeout: 60
+  rgb_sleep_timeout: 300
   scroll-ratchet: 2
   smart-shift: 10
   thumb-scroll-invert: true
@@ -91,6 +120,18 @@
   side-scroll: true
   smooth-scroll: false
 - _NAME: Wireless Touch Keyboard K400 Plus
+  _absent: [hi-res-scroll, lowres-scroll-mode, hires-smooth-invert, hires-smooth-resolution, hires-scroll-mode, scroll-ratchet, scroll-ratchet-torque, smart-shift,
+    thumb-scroll-invert, thumb-scroll-mode, onboard_profiles, report_rate, report_rate_extended, pointer_speed, dpi, dpi_extended, speed-change, backlight,
+    backlight_level, backlight_duration_hands_out, backlight_duration_hands_in, backlight_duration_powered, backlight-timed, led_control, led_zone_, rgb_control,
+    rgb_zone_, per-key-lighting, brightness_control, rgb_idle_effect, rgb_idle_timeout, rgb_sleep_timeout, rgb_startup_animation, rgb_shutdown_animation,
+    reprogrammable-keys, persistent-remappable-keys, force-sensing, crown-smooth, divert-crown, divert-gkeys, m-key-leds, mr-key-led, multiplatform, change-host,
+    analog-button-tuning, haptic-level, haptic-play, sidetone, equalizer, adc_power_management, headset-eco-mode, headset-do-not-disturb, headset-mic-mute,
+    headset-mic-snr, headset-ai-nr, headset-ai-nr-level, headset-sidetone, headset-mic-gain, headset-mix-balance, headset-auto-sleep, headset-onboard-eq,
+    headset-eq-active-preset, headset-advanced-eq, headset_led_control, headset-onboard-effect, headset_per_zone_lighting, headset-signature-startup, headset-signature-shutdown,
+    headset-signature-passive, logivoice-nr-state, logivoice-ng-state, logivoice-comp-state, logivoice-deesser-state, logivoice-depopper-state, logivoice-limiter-state,
+    logivoice-hpf-state]
+  _battery: 4096
+  _config_cookie: [5, 167]
   _modelId: 404D00000000
   _sensitive: {hires-scroll-mode: ignore, hires-smooth-invert: ignore, hires-smooth-resolution: ignore}
   _serial: 7660D77C
