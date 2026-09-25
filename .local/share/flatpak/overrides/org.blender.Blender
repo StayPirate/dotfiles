@@ -1,2 +1,2 @@
 [Context]
-filesystems=xdg-download;!host;
+filesystems=xdg-download;!host;/home/crazybyte/Workspace;
