@@ -107,5 +107,5 @@ export VERTEX_LOCATION=global
 # Ripgrep
 export RIPGREP_CONFIG_PATH="${HOME}/.rgrc"
 
-# Podman (docker socket) rootless mode
-export DOCKER_HOST=unix://${XDG_RUNTIME_DIR}/podman/podman.sock
+# Extend shell timeout for opencode to 5m (default 120s)
+export OPENCODE_EXPERIMENTAL_BASH_DEFAULT_TIMEOUT_MS=300000
