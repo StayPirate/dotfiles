@@ -64,7 +64,7 @@ export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
 
 # ssh-agent
 # This var is also specified in .config/environment.d/10-ssh-agent.conf
-# as it is required by .config/systemd/user/ssh-agent.service
+# as it is required by systemd user unit ssh-agent.socket
 export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh-agent.socket"
 
 # LS and EXA time format
