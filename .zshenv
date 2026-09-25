@@ -70,7 +70,7 @@ export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh-agent.socket"
 # LS and EXA time format
 export TIME_STYLE="+%d-%m-%Y %H:%M:%S %z"
 
-# Only for workstations mounting an NVIDIA GPU.
+# Only for workstations where the primary display GPU uses the NVIDIA driver.
 #
 # Switch to vulkan renderer to fix the flickering issue with nvidia and
 # wayland compositors. It requires vulkan-validation-layers [0] and the following
@@ -80,10 +80,33 @@ export TIME_STYLE="+%d-%m-%Y %H:%M:%S %z"
 #
 # [0] https://archlinux.org/packages/extra/x86_64/vulkan-validation-layers
 # [1] https://github.com/crispyricepc/sway-nvidia/blob/main/wlroots-env-nvidia.sh
-lsmod 2>/dev/null | grep -i nvidia 2>&1 >/dev/null && {
-    export WLR_RENDERER=vulkan
-    export WLR_NO_HARDWARE_CURSORS=1
-    export XWAYLAND_NO_GLAMOR=1
+() {
+    local dev
+    # Check if the primary boot VGA device uses the nvidia driver
+    for dev in /sys/bus/pci/devices/*(N); do
+        if [[ -f "$dev/boot_vga" && "$(< "$dev/boot_vga")" == "1" ]]; then
+            if [[ "$(readlink "$dev/driver" 2>/dev/null)" =~ nvidia ]]; then
+                export WLR_RENDERER=vulkan
+                export WLR_NO_HARDWARE_CURSORS=1
+                export XWAYLAND_NO_GLAMOR=1
+            fi
+            return
+        fi
+    done
+
+    # Fallback: check if an active connected display is on an nvidia card
+    local status
+    for status in /sys/class/drm/card[0-9]-*/status(N); do
+        if [[ "$(< "$status")" == "connected" ]]; then
+            local card_dev="/sys/class/drm/${${status:t}%%-*}/device"
+            if [[ "$(readlink "$card_dev/driver" 2>/dev/null)" =~ nvidia ]]; then
+                export WLR_RENDERER=vulkan
+                export WLR_NO_HARDWARE_CURSORS=1
+                export XWAYLAND_NO_GLAMOR=1
+            fi
+            return
+        fi
+    done
 }
 
 # minicom: enable colors and metakey
