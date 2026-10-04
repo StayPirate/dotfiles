@@ -108,6 +108,24 @@
         "projectId": "suse-gemini-code-assist"
       }
     },
+    "google-vertex": {
+      "options": {
+        "project": "vertex-ai-206179",
+        "location": "global",
+        "googleAuthOptions": {
+          "keyFilename": "/home/crazybyte/.config/gcloud/application_default_credentials.json"
+        }
+      }
+    },
+    "google-vertex-anthropic": {
+      "options": {
+        "project": "vertex-ai-206179",
+        "location": "global",
+        "googleAuthOptions": {
+          "keyFilename": "/home/crazybyte/.config/gcloud/application_default_credentials.json"
+        }
+      }
+    },
     "ollama-suse-ws": {
       "npm": "@ai-sdk/openai-compatible",
       "name": "Ollama SUSE WS",
