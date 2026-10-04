@@ -121,14 +121,9 @@ export FZF_CTRL_T_OPTS="--walker file,dir,hidden"
 # Requested since version 2.2.0
 export SSL_CERT_FILE="/etc/ssl/certs/ca-certificates.crt"
 
-# OpenCode
-# Access to Claude Code via Google Vertex AI
-export GOOGLE_CLOUD_PROJECT=vertex-ai-206179
-export GOOGLE_APPLICATION_CREDENTIALS=~/.config/gcloud/application_default_credentials.json
-export VERTEX_LOCATION=global
-
 # Ripgrep
 export RIPGREP_CONFIG_PATH="${HOME}/.rgrc"
 
+# OpenCode
 # Extend shell timeout for opencode to 5m (default 120s)
 export OPENCODE_EXPERIMENTAL_BASH_DEFAULT_TIMEOUT_MS=300000
