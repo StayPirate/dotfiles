@@ -1,0 +1,11 @@
+[Unit]
+Description=Mute audio at night
+
+[Timer]
+Unit=audio_mute_night.service
+OnCalendar=*-*-* 01:00:00
+AccuracySec=1s
+Persistent=false
+
+[Install]
+WantedBy=timers.target

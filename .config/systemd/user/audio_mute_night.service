@@ -1,0 +1,6 @@
+[Unit]
+Description=Mute audio at night
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ 1
